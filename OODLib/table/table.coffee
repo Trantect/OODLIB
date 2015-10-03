@@ -13,7 +13,7 @@ app.controller 'envCtrl', ['$scope', ($scope) ->
 
 app.directive 'ctable', () ->
   restrict: 'E'
-  templateUrl: '../table.html'
+  templateUrl: 'build/table/table.html'
   scope:
     storage: '=info'
 

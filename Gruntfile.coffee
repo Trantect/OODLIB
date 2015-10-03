@@ -3,7 +3,7 @@ module.exports = (grunt)->
 
     watch:
       scripts:
-        files: ['OODLib/*.coffee']
+        files: ['OODLib/**/*.coffee']
         tasks: ['default']
       options:
         spawn: false
@@ -18,18 +18,27 @@ module.exports = (grunt)->
           {
             expand: true,
             cwd: 'OODLib',
-            src: ['*.coffee'],
+            src: ['**/*.coffee'],
             dest: './build',
             ext: '.js'
           }
         ]
 
+    copy:
+      dev:
+        expand:true
+        cwd:'OODLib/'
+        src:['**/*','!**/*.coffee']
+        dest:'build/'
+
+
   
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-copy'
 
-  grunt.registerTask "default", ["clean:dev","coffee:dev"]
+  grunt.registerTask "default", ["clean:dev","coffee:dev","copy:dev"]
   grunt.registerTask "cleanBuild", ["clean:dev"]
 
   

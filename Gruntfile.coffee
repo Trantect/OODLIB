@@ -3,7 +3,7 @@ module.exports = (grunt)->
 
     watch:
       scripts:
-        files: ['OODLib/**/*.coffee']
+        files: ['lib/**/*.coffee']
         tasks: ['default']
       options:
         spawn: false
@@ -17,7 +17,7 @@ module.exports = (grunt)->
         files: [
           {
             expand: true,
-            cwd: 'OODLib',
+            cwd: 'lib',
             src: ['**/*.coffee'],
             dest: './build',
             ext: '.js'
@@ -27,7 +27,7 @@ module.exports = (grunt)->
     copy:
       dev:
         expand:true
-        cwd:'OODLib/'
+        cwd:'lib/'
         src:['**/*','!**/*.coffee']
         dest:'build/'
 

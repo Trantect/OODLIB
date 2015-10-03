@@ -3,11 +3,8 @@
         <th>Title</th>
         <th>price</th>
     </tr>
-    <tr ng-repeat-start="book in books">
-        <td><td-obj td-value="{{book}}" attr="title" ng-click="showDetail(book)"></td-obj></td>
-        <td><td-obj td-value="{{book}}" attr="price" ></td-obj></td>
-    </tr>
-    <tr ng-repeat-end class="trHidden" ng-class="{'trShow':showId == book.id}">
-        <td><td-obj td-value="{{book}}" attr="desc"></td-obj></td>
+    <tr ng-repeat="book in storage">
+        <td>{{book.title}}</td>
+        <td>{{book.price}}</td>
     </tr>
 </table>

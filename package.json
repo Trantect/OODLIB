@@ -1,0 +1,21 @@
+{
+  "name": "oodlib",
+  "version": "0.0.0",
+  "description": "Object-oriented design for angularjs",
+  "main": "app.js",
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-coffee": "0.13.0",
+    "grunt-contrib-watch": "0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "grey:mario56/tableOBJ.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

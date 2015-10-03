@@ -8,6 +8,6 @@
 # Step2
 
 ``
-  python -m simpleHttpServer
+  python -m SimpleHTTPServer
 ``
 

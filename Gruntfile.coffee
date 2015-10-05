@@ -3,27 +3,29 @@ module.exports = (grunt)->
 
     watch:
       scripts:
-        files: ['lib/**/*.coffee', 'lib/**/*.jade']
+        files: ['lib/**/*.coffee', 'lib/**/*.jade', './index.coffee']
         tasks: ['default']
       options:
         spawn: false
         debounceDelay: 550
 
     clean:
-      dev: ['build']
+      dev: ['build', './index.js']
 
     coffee:
-      dev:
+      lib:
         files: [
           {
             expand: true,
-            cwd: 'lib',
+            cwd: 'lib'
             src: ['**/*.coffee'],
             dest: './build',
             ext: '.js'
           }
         ]
-
+      app:
+        files:
+          'index.js': 'index.coffee'
     jade:
       dev:
         options:
@@ -46,7 +48,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jade'
 
-  grunt.registerTask "default", ["clean:dev", "jade:dev", "coffee:dev","copy:dev"]
+  grunt.registerTask "default", ["clean:dev", "jade:dev", "coffee:lib", "coffee:app", "copy:dev"]
   grunt.registerTask "cleanBuild", ["clean:dev"]
 
   

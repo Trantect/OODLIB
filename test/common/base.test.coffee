@@ -51,4 +51,5 @@ describe 'base lib test', () ->
         attr()
 
       directiveReg.register(app,name,config)
+      expect(app.name).to.equal(name)
       done()

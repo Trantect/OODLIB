@@ -40,13 +40,19 @@ module.exports = (grunt)->
         src: ['**/*','!**/*.coffee']
         dest:'build/'
 
+    mochaTest:
+      dev:
+        options:
+          reporter: 'spec',
+          require: 'coffee-script/register'
+        src: ['test/**/*.coffee']
 
-  
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jade'
+  grunt.loadNpmTasks 'grunt-mocha-test'
 
   grunt.registerTask "default", ["clean:dev", "jade:dev", "coffee:lib", "coffee:app", "copy:dev"]
   grunt.registerTask "cleanBuild", ["clean:dev"]

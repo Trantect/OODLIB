@@ -3,7 +3,7 @@ module.exports = (grunt)->
 
     watch:
       scripts:
-        files: ['lib/**/*.coffee']
+        files: ['lib/**/*.coffee', 'lib/**/*.jade']
         tasks: ['default']
       options:
         spawn: false
@@ -24,11 +24,18 @@ module.exports = (grunt)->
           }
         ]
 
+    jade:
+      dev:
+        options:
+          pretty: true
+        files:
+          "lib/table/table.html": ["lib/table/table.jade"]
+  
     copy:
       dev:
-        expand:true
-        cwd:'lib/'
-        src:['**/*','!**/*.coffee']
+        expand: true
+        cwd: 'lib/'
+        src: ['**/*','!**/*.coffee']
         dest:'build/'
 
 
@@ -37,8 +44,9 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-copy'
+  grunt.loadNpmTasks 'grunt-contrib-jade'
 
-  grunt.registerTask "default", ["clean:dev","coffee:dev","copy:dev"]
+  grunt.registerTask "default", ["clean:dev", "jade:dev", "coffee:dev","copy:dev"]
   grunt.registerTask "cleanBuild", ["clean:dev"]
 
   

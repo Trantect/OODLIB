@@ -1,0 +1,12 @@
+table.table
+  tr(ng-init="titles=storage[0]")
+    th(ng-repeat="(t,v) in titles") {{t}}
+  tr(ng-repeat="item in storage")
+    td(ng-repeat="(k,v) in item")
+      span(ng-bind='v')
+    td.over
+      .pull-right(style="width:150px")
+        button.btn.btn-default.btn-icon.group_btn
+          i.fa.fa-trash-o
+        button.btn.btn-default.btn-icon
+          i.fa.fa-edit

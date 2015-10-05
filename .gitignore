@@ -2,3 +2,5 @@ bower_components/
 .idea/
 build/
 node_modules/
+index.js
+lib/**/*.html

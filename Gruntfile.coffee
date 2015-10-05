@@ -2,15 +2,15 @@ module.exports = (grunt)->
   grunt.initConfig
 
     watch:
-      scripts:
-        files: ['lib/**/*.coffee', 'lib/**/*.jade', './index.coffee']
-        tasks: ['default']
-      options:
-        spawn: false
-        debounceDelay: 550
-
+      lib:
+        files: ['lib/**/*.coffee', 'lib/**/*.jade']
+        tasks: ['libBuild']
+      app:
+        files: ['./index.coffee']
+        tasks: ['appBuild']
     clean:
-      dev: ['build', './index.js']
+      lib: ['build', 'libdocs']
+      app: ['index.js']
 
     coffee:
       lib:
@@ -27,28 +27,38 @@ module.exports = (grunt)->
         files:
           'index.js': 'index.coffee'
     jade:
-      dev:
+      lib:
         options:
           pretty: true
         files:
           "lib/table/table.html": ["lib/table/table.jade"]
   
     copy:
-      dev:
+      lib:
         expand: true
         cwd: 'lib/'
         src: ['**/*','!**/*.coffee']
         dest:'build/'
 
-
+    docco:
+      lib:
+        src: ['lib/**/*.coffee'],
+        options:
+          output: 'libdocs/'
+ 
   
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jade'
+  grunt.loadNpmTasks 'grunt-docco'
 
-  grunt.registerTask "default", ["clean:dev", "jade:dev", "coffee:lib", "coffee:app", "copy:dev"]
+
+  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'docco:lib']
+  grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
+
+  grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
 
   

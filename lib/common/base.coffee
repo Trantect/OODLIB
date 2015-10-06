@@ -59,10 +59,8 @@ class Directive
       templateUrl: 'build/directive/default.html'
       scope: {}
     _.extend @config, config
-    console.log @config
     @move 'options', 'events'
     @handlers = @initHandlers()
-    #@updateEvents()
 
   move: () ->
     _.each arguments, (key) =>

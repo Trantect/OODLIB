@@ -40,6 +40,13 @@ module.exports = (grunt)->
         src: ['**/*','!**/*.coffee']
         dest:'build/'
 
+    mochaTest:
+      dev:
+        options:
+          reporter: 'spec',
+          require: 'coffee-script/register'
+        src: ['test/**/*.coffee']
+
     docco:
       lib:
         src: ['lib/**/*.coffee'],
@@ -52,13 +59,14 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jade'
+  grunt.loadNpmTasks 'grunt-mocha-test'
   grunt.loadNpmTasks 'grunt-docco'
 
 
   grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'docco:lib']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
-
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
+  grunt.registerTask "test", ["mochaTest:dev"]
 
   

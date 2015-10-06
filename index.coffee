@@ -5,10 +5,12 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     userName: 'prince'
     email: 'prince@trantect.com'
     phone: '12345678'
+    age:'22'
   ,
     userName: 'Steven Jobs'
     email: 'steven.jobs@trantect.com'
     phone: '13579872'
+    age:'24'
   ]
 ]
 

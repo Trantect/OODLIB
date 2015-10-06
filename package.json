@@ -4,13 +4,22 @@
   "description": "Object-oriented design for angularjs",
   "main": "app.js",
   "devDependencies": {
+    "chai": "^3.3.0",
+    "coffee-script": "^1.10.0",
     "grunt": "0.4.5",
     "grunt-contrib-clean": "0.6.0",
     "grunt-contrib-coffee": "0.13.0",
     "grunt-contrib-copy": "^0.8.1",
-    "grunt-contrib-watch": "0.6.1",
     "grunt-contrib-jade": "0.15.0",
-    "grunt-docco": "0.4.0"
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-docco": "0.4.0",
+    "grunt-mocha-test": "^0.12.7",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.10",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "0.1.4",
+    "mocha": "^2.3.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,5 +29,8 @@
     "url": "grey:mario56/tableOBJ.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
 }

@@ -6,6 +6,16 @@
 ``
 
 # Step2
+``
+  npm install
+``
+
+# Step3
+``
+  grunt
+``
+
+# Step4
 
 ``
   python -m SimpleHTTPServer

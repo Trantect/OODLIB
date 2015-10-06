@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.js',
       'bower_components/underscore/underscore-min.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'build/common/base.js',
       'build/table/table.js',
 

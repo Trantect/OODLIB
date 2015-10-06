@@ -1,4 +1,4 @@
-describe('Test controller accountListCtl', function() {
+describe('Test table directive', function() {
 
     it("karma test", function() {
 

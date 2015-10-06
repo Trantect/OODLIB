@@ -1,16 +1,43 @@
 lib = angular.module "OODLib", []
 
-ctableConfig =
-  restrict: 'E'
+   
+tableConfig =
   templateUrl: 'build/table/table.html'
   scope:
     storage: '=info'
-  link: (scope, element, attr) ->
-    events =
-      'click': () ->
-        alert 'click event fired'
-    EventRegister.register element, events
+  events:
+    tr:
+      'click': 'displayDetail'
+      'mouseover': 'displayOptionButtons'
+    th:
+      'click': 'sorting'
+  options:
+    caption: 'admin'
+    pagination: false
+
+d = new Directive tableConfig
+DirectiveSchool.register lib, 'ctable', d
+   
 
 
-Directive.register lib, 'ctable', ctableConfig
+class Table
+  constructor: (@data) ->
+    @fileds = _.keys @data[0]
+    @sort = _.mapObject @data[0], (_f) ->
+      _.identity
+    @numPerPage = 10
+    @numPages = @data.length / @numPerPage
+    @currentPage = 1
+    @getCurrentData()
+
+  getCurrentData: () ->
+    @from = (@currentPage-1) * @numPerPage
+    @to = @from + @numPerPage - 1
+    @currentData = @data[@from..@to]
+
+
+
+    
+
+    
 

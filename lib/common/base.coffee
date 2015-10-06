@@ -20,10 +20,9 @@
 # ---
 #
 class EventRegister
-  @register: (ele, events) ->
-    _.each events, (value, key) ->
-      ele.on key, value
-
+  @register: (root, selector, behaviors) ->
+    _.each behaviors, (handler, action) ->
+      root.on action, selector, handler
 
 #
 # __ClassName: Directive__
@@ -48,10 +47,57 @@ class EventRegister
 #   ```
 # ---
 #
-class Directive
-  @register: (app, directiveName, config) ->
+class DirectiveSchool
+  @register: (app, directiveName, directive) ->
     app.directive directiveName, () ->
-      config
+      directive.params()
+
+class Directive
+  constructor: (config) ->
+    @config =
+      restrict: 'E'
+      templateUrl: 'build/directive/default.html'
+      scope: {}
+    _.extend @config, config
+    console.log @config
+    @move 'options', 'events'
+    @handlers = @initHandlers()
+    @updateEvents()
+
+  move: () ->
+    _.each arguments, (key) =>
+      @[key] = @config[key]
+      delete @config[key]
+
+  updateEvents: () ->
+    @events = _.mapObject @events, (_behaviors, _selector) =>
+      _.mapObject _behaviors, (_handler, _action) =>
+        @handlers[_handler]
+        
+  initHandlers: () ->
+    _item = {}
+    _.each @events, (_behaviors, _selector) ->
+      _handlers = _.values _behaviors
+      _.each _handlers, (_handler) ->
+        _item[_handler] = () ->
+          console.log "fire #{_handler} action"
+    _item
+
+  registerEvents = (root, events) ->
+    _.each events, (_behaviors, _selector) ->
+      EventRegister.register root, _selector, _behaviors
+
+  params: () ->
+    @dParams = {}
+    _.extend @dParams, @config
+    @dParams['link'] = (scope, element, attr) =>
+      _.extend scope, @options
+      registerEvents element, @events
+      
+    @dParams
+
+
 
 this.EventRegister = EventRegister
+this.DirectiveSchool = DirectiveSchool
 this.Directive = Directive

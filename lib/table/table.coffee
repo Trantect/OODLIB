@@ -1,6 +1,28 @@
 lib = angular.module "OODLib", []
 
-   
+class Table
+  constructor: (data) ->
+    @updateTable data
+    @
+
+  updateTable: (data) ->
+    @data = data
+    @fileds = _.keys @data[0]||[]
+    @sort = _.mapObject @data[0]||{}, (_f) ->
+      _.identity
+    @numPerPage = 10
+    @numPages = Math.ceil @data.length / @numPerPage
+    @currentPage = 1
+    @pageRange = if @numPages == 0 then [] else [1..@numPages]
+    @getCurrentData()
+
+  getCurrentData: () ->
+    @from = (@currentPage-1) * @numPerPage
+    @to = @from + @numPerPage - 1
+    @currentData = @data[@from..@to]
+
+
+  
 tableConfig =
   templateUrl: 'build/table/table.html'
   scope:
@@ -11,29 +33,12 @@ tableConfig =
       'mouseover': 'displayOptionButtons'
     th:
       'click': 'sorting'
-  options:
-    caption: 'admin'
-    pagination: false
 
-d = new Directive tableConfig
+d = new Directive tableConfig, Table
 DirectiveSchool.register lib, 'ctable', d
-   
-
-
-class Table
-  constructor: (@data) ->
-    @fileds = _.keys @data[0]
-    @sort = _.mapObject @data[0], (_f) ->
-      _.identity
-    @numPerPage = 10
-    @numPages = @data.length / @numPerPage
-    @currentPage = 1
-    @getCurrentData()
-
-  getCurrentData: () ->
-    @from = (@currentPage-1) * @numPerPage
-    @to = @from + @numPerPage - 1
-    @currentData = @data[@from..@to]
+d.handlers['displayDetail'] = () ->
+  console.log "hello world"
+ 
 
 
 

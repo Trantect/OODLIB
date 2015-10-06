@@ -53,7 +53,7 @@ class DirectiveSchool
       directive.params()
 
 class Directive
-  constructor: (config) ->
+  constructor: (config, @model) ->
     @config =
       restrict: 'E'
       templateUrl: 'build/directive/default.html'
@@ -62,18 +62,13 @@ class Directive
     console.log @config
     @move 'options', 'events'
     @handlers = @initHandlers()
-    @updateEvents()
+    #@updateEvents()
 
   move: () ->
     _.each arguments, (key) =>
       @[key] = @config[key]
       delete @config[key]
 
-  updateEvents: () ->
-    @events = _.mapObject @events, (_behaviors, _selector) =>
-      _.mapObject _behaviors, (_handler, _action) =>
-        @handlers[_handler]
-        
   initHandlers: () ->
     _item = {}
     _.each @events, (_behaviors, _selector) ->
@@ -83,17 +78,20 @@ class Directive
           console.log "fire #{_handler} action"
     _item
 
-  registerEvents = (root, events) ->
-    _.each events, (_behaviors, _selector) ->
-      EventRegister.register root, _selector, _behaviors
+  registerEvents: (root, events) ->
+    _.each events, (_behaviors, _selector) =>
+      _.each _behaviors, (_handler, _action) =>
+        root.on _action, _selector, @handlers[_handler]
 
   params: () ->
     @dParams = {}
     _.extend @dParams, @config
     @dParams['link'] = (scope, element, attr) =>
-      _.extend scope, @options
-      registerEvents element, @events
-      
+      _.extend scope, {options: @options}
+      _.extend scope, {model: new @model scope.storage}
+      @registerEvents element, @events
+      scope.$watch 'storage', () ->
+        scope.model.updateTable scope.storage
     @dParams
 
 

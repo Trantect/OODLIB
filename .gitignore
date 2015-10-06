@@ -3,5 +3,5 @@ bower_components/
 build/
 node_modules/
 index.js
-lib/**/*.html
+lib/*/*.html
 libdocs

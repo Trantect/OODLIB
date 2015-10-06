@@ -87,11 +87,10 @@ class Directive
     @dParams = {}
     _.extend @dParams, @config
     @dParams['link'] = (scope, element, attr) =>
+      @scope = scope
       _.extend scope, {options: @options}
       _.extend scope, {model: new @model scope.storage}
       @registerEvents element, @events
-      scope.$watch 'storage', () ->
-        scope.model.updateTable scope.storage
     @dParams
 
 

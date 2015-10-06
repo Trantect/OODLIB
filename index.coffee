@@ -12,5 +12,7 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     phone: '13579872'
     age:'24'
   ]
+
+  $scope.accounts[0].age =78
 ]
 

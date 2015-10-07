@@ -1,5 +1,3 @@
-lib = angular.module "OODLib", []
-
 class Table
   constructor: (data) ->
     @updateTable data
@@ -26,40 +24,14 @@ class Table
     @getCurrentData()
 
 
-  
-tableConfig =
-  templateUrl: 'build/table/table.html'
-  scope:
-    storage: '=info'
-  events:
-    tr:
-      'click': 'displayDetail'
-      'mouseover': 'displayOptionButtons'
-    th:
-      'click': 'sorting'
+class TableDirective extends Directive
+  constructor: (config) ->
+    config = config ? {}
+    tableConfig =
+      templateUrl: 'build/table/table.html'
+      scope:
+        storage: '=info'
+    _.extend config, tableConfig
+    super config, Table
 
-d = new Directive tableConfig, Table
-DirectiveSchool.register lib, 'ctable', d
-d.handlers['displayDetail'] = () ->
-  table = d.scope.model
-  table.setCurrentPage 2
-  d.scope.storage = table.currentData
-  d.scope.$apply()
-  d.scope.storage = [
-    company: 'trantect'
-    age: '3'
-  ,
-    company: 'shanbay'
-    age: '2'
-  ]
-  d.scope.$apply()
-  console.log table.data
-  console.log "hello world"
- 
-
-
-
-    
-
-    
-
+this.TableDirective = TableDirective

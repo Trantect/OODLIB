@@ -53,10 +53,11 @@ class DirectiveSchool
       directive.params()
 
 class Directive
-  constructor: (config, @model) ->
+  constructor: (config, model) ->
+    @model = model or () ->
     @config =
       restrict: 'E'
-      templateUrl: 'build/directive/default.html'
+      templateUrl: ''
       scope: {}
     _.extend @config, config
     @move 'options', 'events'

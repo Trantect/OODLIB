@@ -21,7 +21,6 @@ DirectiveSchool.register OOD, 'ctable', d
 
 d.setHandler 'getDataByPage', (element, model, scope, event) ->
   model.setCurrentPage event.currentTarget.id
-  scope.$apply()
 
 
 app = angular.module 'app', ['OODLib']

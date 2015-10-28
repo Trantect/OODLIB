@@ -83,6 +83,7 @@ class Directive
     _.each ui.config, (_p) ->
       root.on _p.action, _p.selector, (event) ->
         ui.handlers[_p.handlerName] root, scope.model, scope, event
+        scope.$apply()
 
   ###
   Initialize link function of angular directive

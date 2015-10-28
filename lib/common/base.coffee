@@ -1,99 +1,122 @@
-#
-# __ClassName: EventRegister__
-#
-# ---
-#
-# __Static Method__
-#
-# register(Dom, DomEvents)  
-# * Register `DomEvents` on `Dom` element
-# * eg:
-#   ```
-#   button = $ 'button';
-#
-#   events =
-#     click: () ->
-#       console.log 'click'
-#
-#   EventRegister.register button, events
-#   ```
-# ---
-#
-class EventRegister
-  @register: (root, selector, behaviors) ->
-    _.each behaviors, (handler, action) ->
-      root.on action, selector, handler
+###
+To define a model
+@author Phoenix Grey
+###
+class Model
+  ###
+  Construct a model
+  ###
+  constructor: (@data) ->
 
-#
-# __ClassName: Directive__
-#
-# ---
-#
-# __Static Method__
-#
-# register(app, directiveName, directiveConfig)  
-# * Register a directive called `directiveName` by config `directiveConfig` on `app`
-# * eg:
-#   ```
-#   app = angular.module 'app', []
-#
-#   name = 'ctable'
-#
-#   config =
-#     restrict: 'E'
-#     template: 'directive.html'
-#
-#   Directive.register app, name, config
-#   ```
-# ---
-#
-class DirectiveSchool
-  @register: (app, directiveName, directive) ->
-    app.directive directiveName, () ->
-      directive.params()
+###
+ To define user interaction 
+ @author Phoenix Grey
+###
+class UI
+  ###
+  Construct a User interaction service
+  @param config [Array<Dict>] user interaction configuration 
+  @example (create a UI instance)
+    config = [
+      selector: 'tr'
+      action: 'click'
+      handlerName: 'displayDetails'
+    ,
+      selector: 'tr'
+      action: 'mouseover'
+      handlerName: 'displayOptionButtons'
+    new UI config 
+  ###
+  constructor: (config) ->
+    @config = config ? {}
+    @initHandler()
 
+  ###
+  Initialize the default handlers according to config
+  @private
+  ###
+  initHandler: () ->
+    @handlers = {}
+    _.each @config, (_c) =>
+      @handlers[_c.handlerName] = (element, model, scope, event) ->
+        console.log 'default ', _c.handlerName, ' handler'
+
+  ###
+  Set handler function
+  @param handlerName [String] handler name defined in config
+  @param fn [Function]
+  ###
+  setHandler: (handlerName, fn) ->
+    if _.has @handlers, handlerName
+      @handlers[handlerName] = fn
+    else
+      throw Error 'No events has defined for your handler'
+###
+To define a directive
+@author Phoenix Grey
+###
 class Directive
-  constructor: (config, model) ->
-    @model = model or () ->
-    @config =
+  ###
+  Construct a directive by config, model, and events
+  @param params [dict] The parameters of angular directive
+  @param model [subclass of Model] The model the directive used to manipulate data 
+  @param events [subclass of Events] The user interaction with directives 
+  ###
+  constructor: (params, modelKlass, ui) ->
+    @modelKlass = modelKlass or Model
+    @params =
       restrict: 'E'
       templateUrl: ''
       scope: {}
-    _.extend @config, config
-    @move 'options', 'events'
-    @handlers = @initHandlers()
+    _.extend @params, params
+    @ui = ui or new UI()
+    @initLink()
 
-  move: () ->
-    _.each arguments, (key) =>
-      @[key] = @config[key]
-      delete @config[key]
+  ###
+  Register user interaction
+  @param root [JQuery.dom] an html dom element
+  @param ui [UI] ui service to be bind with root
+  @param scope [angular.scope]
+  @private
+  ###
+  registerUI: (root, ui, scope) ->
+    _.each ui.config, (_p) ->
+      root.on _p.action, _p.selector, (event) ->
+        ui.handlers[_p.handlerName] root, scope.model, scope, event
 
-  initHandlers: () ->
-    _item = {}
-    _.each @events, (_behaviors, _selector) ->
-      _handlers = _.values _behaviors
-      _.each _handlers, (_handler) ->
-        _item[_handler] = () ->
-          console.log "fire #{_handler} action"
-    _item
-
-  registerEvents: (root, events) ->
-    _.each events, (_behaviors, _selector) =>
-      _.each _behaviors, (_handler, _action) =>
-        root.on _action, _selector, @handlers[_handler]
-
-  params: () ->
-    @dParams = {}
-    _.extend @dParams, @config
-    @dParams['link'] = (scope, element, attr) =>
+  ###
+  Initialize link function of angular directive
+  @private
+  ###
+  initLink: () ->
+    @params['link'] = (scope, element, attr) =>
       @scope = scope
-      _.extend scope, {options: @options}
-      _.extend scope, {model: new @model scope.storage}
-      @registerEvents element, @events
-    @dParams
+      _.extend scope, {model: new @modelKlass scope.storage}
+      @registerUI element, @ui, scope
+
+  ###
+  Set handler function
+  ###
+  setHandler: (handlerName, fn) ->
+    @ui.setHandler handlerName, fn
+
+###
+To register directives in app
+@author Phoenix Grey
+###
+class DirectiveSchool
+  ###
+  @param app [angular.module] The angular module the directive is registered to
+  @param directiveName [string] The directive name
+  @param directive [angular.directive] The directive to be registered
+  @static
+  ###
+  @register: (app, directiveName, directive) ->
+    app.directive directiveName, () ->
+      directive.params
 
 
-
-this.EventRegister = EventRegister
+this.UI = UI
+this.Model = Model
 this.DirectiveSchool = DirectiveSchool
 this.Directive = Directive

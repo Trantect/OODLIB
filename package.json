@@ -12,14 +12,15 @@
     "grunt-contrib-copy": "^0.8.1",
     "grunt-contrib-jade": "0.15.0",
     "grunt-contrib-watch": "0.6.1",
-    "grunt-docco": "0.4.0",
     "grunt-mocha-test": "^0.12.7",
+    "grunt-shell": "1.1.2",
     "jasmine-core": "^2.3.4",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "0.1.4",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "codo": "2.0.11"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

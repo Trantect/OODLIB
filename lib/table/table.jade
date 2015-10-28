@@ -1,7 +1,8 @@
 table.table
-  tr(ng-init="titles=storage[0]")
-    th(ng-repeat="(t,v) in titles") {{t}}
-  tr(ng-repeat="item in storage")
+  tr
+    th(ng-repeat="t in model.fields") 
+      {{t}}
+  tr(ng-repeat="item in model.currentData")
     td(ng-repeat="(k,v) in item")
       span(ng-bind='v')
     td.over(ng-show="pagination")
@@ -11,8 +12,8 @@ table.table
         button.btn.btn-default.btn-icon
           i.fa.fa-edit
 
-ul
-  li(ng-repeat="i in model.pageRange")
-    i
+ul(id="pagination")
+  li(ng-repeat="i in model.pageRange" id="{{i}}")
+    {{i}}
 p(ng-bind="model.currentPage")
 

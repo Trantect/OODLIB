@@ -9,7 +9,7 @@ module.exports = (grunt)->
         files: ['./index.coffee']
         tasks: ['appBuild']
     clean:
-      lib: ['build', 'libdocs']
+      lib: ['build', 'apidoc']
       app: ['index.js']
 
     coffee:
@@ -37,7 +37,7 @@ module.exports = (grunt)->
       lib:
         expand: true
         cwd: 'lib/'
-        src: ['**/*','!**/*.coffee']
+        src: ['**/*','!**/*.coffee', '!**/*.jade']
         dest:'build/'
 
     mochaTest:
@@ -47,12 +47,9 @@ module.exports = (grunt)->
           require: 'coffee-script/register'
         src: ['test/**/*.coffee']
 
-    docco:
-      lib:
-        src: ['lib/**/*.coffee'],
-        options:
-          output: 'libdocs/'
- 
+    shell:
+      apidoc:
+        command: './node_modules/.bin/codo'
   
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -60,10 +57,11 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jade'
   grunt.loadNpmTasks 'grunt-mocha-test'
-  grunt.loadNpmTasks 'grunt-docco'
+  grunt.loadNpmTasks 'grunt-shell'
 
 
-  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'docco:lib']
+
+  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'shell:apidoc']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]

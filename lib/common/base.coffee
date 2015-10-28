@@ -110,7 +110,6 @@ class DirectiveSchool
   @param app [angular.module] The angular module the directive is registered to
   @param directiveName [string] The directive name
   @param directive [angular.directive] The directive to be registered
-  @static
   ###
   @register: (app, directiveName, directive) ->
     app.directive directiveName, () ->

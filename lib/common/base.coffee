@@ -25,6 +25,8 @@ class UI
       selector: 'tr'
       action: 'mouseover'
       handlerName: 'displayOptionButtons'
+    ]
+
     new UI config 
   ###
   constructor: (config) ->

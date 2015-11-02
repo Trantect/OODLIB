@@ -1,4 +1,3 @@
-
 describe "UI Test", () ->
   it "Create UI instance without arguments", (done) ->
     ui = new UI

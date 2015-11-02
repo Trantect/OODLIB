@@ -50,6 +50,8 @@ module.exports = (grunt)->
     shell:
       apidoc:
         command: './node_modules/.bin/codo'
+      karma:
+        command: './karmarun.sh'
   
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -65,6 +67,6 @@ module.exports = (grunt)->
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
-  grunt.registerTask "test", ["mochaTest:dev"]
+  grunt.registerTask "test", ["shell:karma"]
 
   

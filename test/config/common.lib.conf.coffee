@@ -1,6 +1,3 @@
-# Karma configuration
-# Generated on Wed Oct 28 2015 17:28:48 GMT+0800 (CST)
-
 module.exports = (config) ->
   config.set
 
@@ -15,11 +12,9 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
-      'bower_components/underscore/underscore-min.js',
-      'lib/common/base.coffee',
-      'test/common/model.test.coffee',
-      'test/common/ui.test.coffee',
-      'test/common/directive.test.coffee'
+      'bower_components/angular/angular.min.js',
+      'lib/common/lib.coffee',
+      'test/common/lib.test.coffee'
     ]
 
 
@@ -32,32 +27,18 @@ module.exports = (config) ->
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '**/common/*.coffee': ['coffee']
-      'lib/common/base.coffee': ['coverage']
     }
 
     plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
-      'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coffee-preprocessor'
     ]
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['coverage', 'progress']
-
-
-    coverageReporter:
-      reporters: [
-        type: 'json',
-        dir: 'report/coverage/',
-        ###
-        subdir: (browser) ->
-          browser.toLowerCase().split(/[ /-]/)[0]
-        ###
-        file: 'cov-common-base.json'
-      ]
+    reporters: ['progress']
 
 
     # web server port

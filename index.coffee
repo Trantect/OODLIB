@@ -22,6 +22,9 @@ DirectiveSchool.register OOD, 'ctable', d
 d.setHandler 'getDataByPage', (element, model, scope, event) ->
   model.setCurrentPage event.currentTarget.id
 
+f = new FooterDirective()
+DirectiveSchool.register OOD, 'cfooter', f
+
 
 app = angular.module 'app', ['OODLib']
 
@@ -60,6 +63,14 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     season: 'winter'
     price: '10'
   ]
+
+  $scope.company =
+    name: '启明星辰'
+    version: '10.0.13980.1'
+    status: 'alpha'
+    year: '2015'
+    website: 'http://alpha.nj.trantect.com/'
+    websiteName: '云子可信官网'
 
 ]
 

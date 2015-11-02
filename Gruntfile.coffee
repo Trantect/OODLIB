@@ -32,7 +32,7 @@ module.exports = (grunt)->
           pretty: true
         files:
           "lib/table/table.html": ["lib/table/table.jade"]
-  
+          "lib/footer/footer.html": ["lib/footer/footer.jade"]
     copy:
       lib:
         expand: true

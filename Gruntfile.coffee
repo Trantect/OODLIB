@@ -10,6 +10,7 @@ module.exports = (grunt)->
         tasks: ['appBuild']
     clean:
       lib: ['build', 'apidoc']
+      test: ['report']
       app: ['index.js']
 
     coffee:
@@ -52,6 +53,8 @@ module.exports = (grunt)->
         command: './node_modules/.bin/codo'
       karma:
         command: './karmarun.sh'
+      coverage:
+        command: 'python karmaReport.py'
   
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -67,6 +70,6 @@ module.exports = (grunt)->
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
-  grunt.registerTask "test", ["shell:karma"]
+  grunt.registerTask "test", ["clean:test", "shell:karma", "shell:coverage"]
 
   

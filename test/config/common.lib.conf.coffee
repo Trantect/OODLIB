@@ -12,7 +12,11 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
+      'bower_components/underscore/underscore-min.js',
       'bower_components/angular/angular.min.js',
+      'lib/common/base.coffee',
+      'lib/table/table.coffee',
+      'lib/footer/footer.coffee',
       'lib/common/lib.coffee',
       'test/common/lib.test.coffee'
     ]
@@ -26,7 +30,7 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/common/*.coffee': ['coffee']
+      '**/*/*.coffee': ['coffee']
       'lib/common/lib.coffee': ['coverage']
     }
 

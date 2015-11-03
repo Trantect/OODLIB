@@ -1,4 +1,3 @@
-
 ###
 To define a model
 @author Phoenix Grey
@@ -72,7 +71,9 @@ class Directive
       templateUrl: ''
       scope:
         storage: "=info"
-    scope = _.extend @params.scope, params.scope
+    scope = @params.scope
+    if params and params.scope
+      scope = _.extend @params.scope, params.scope
     _.extend @params, params
     @params.scope = scope
     @ui = ui or new UI()

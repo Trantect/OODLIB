@@ -7,7 +7,8 @@ describe "Directive Test", () ->
     params =
       restrict: 'E'
       templateUrl: ''
-      scope: {}
+      scope:
+        storage: "=info"
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
 

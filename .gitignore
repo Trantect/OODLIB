@@ -4,6 +4,7 @@ build/
 node_modules/
 index.js
 lib/table/*.html
+lib/footer/*.html
 libdocs
 apidoc
 report

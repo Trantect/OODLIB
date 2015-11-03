@@ -52,11 +52,12 @@ module.exports = (config) ->
       reporters: [
         type: 'json',
         dir: 'report/coverage/',
-        ###
         subdir: (browser) ->
           browser.toLowerCase().split(/[ /-]/)[0]
-        ###
-        file: 'cov-common-base.json'
+        ,
+        file: 'coverage-common-base.json'
+      ,
+        type: 'text-summary'
       ]
 
 

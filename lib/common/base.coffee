@@ -9,8 +9,8 @@ class Model
   constructor: (@data) ->
 
 ###
- To define user interaction 
- @author Phoenix Grey
+To define user interaction 
+@author Phoenix Grey
 ###
 class UI
   ###

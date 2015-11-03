@@ -27,18 +27,32 @@ module.exports = (config) ->
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '**/common/*.coffee': ['coffee']
+      'lib/common/lib.coffee': ['coverage']
     }
 
     plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
-      'karma-coffee-preprocessor'
+      'karma-coffee-preprocessor',
+      'karma-coverage'
     ]
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress']
+    reporters: ['coverage', 'progress']
+
+    coverageReporter:
+      reporters: [
+        type: 'json',
+        dir: 'report/coverage/',
+        subdir: (browser) ->
+          browser.toLowerCase().split(/[ /-]/)[0]
+        ,
+        file: 'coverage-common-lib.json'
+      ,
+        type: 'text-summary'
+      ]
 
 
     # web server port

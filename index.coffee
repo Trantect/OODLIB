@@ -1,31 +1,3 @@
-config = [
-  selector: 'tr'
-  action: 'click'
-  handlerName: 'displayDetails'
-,
-  selector: 'tr'
-  action: 'mouseover'
-  handlerName: 'displayOptionButtons'
-,
-  selector: 'th'
-  action: 'click'
-  handlerName: 'sorting'
-,
-  selector: 'ul#pagination>li'
-  action: 'click'
-  handlerName: 'getDataByPage'
-]
-
-d = new TableDirective {}, config
-DirectiveSchool.register OOD, 'ctable', d
-
-d.setHandler 'getDataByPage', (element, model, scope, event) ->
-  model.setCurrentPage event.currentTarget.id
-
-f = new FooterDirective()
-DirectiveSchool.register OOD, 'cfooter', f
-
-
 app = angular.module 'app', ['OODLib']
 
 app.controller 'appCtrl', ['$scope', ($scope) ->
@@ -46,6 +18,7 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     email: 'dash@trantect.com'
     phone: '135568126'
   ]
+  $scope.accountDetails = ['email', 'phone']
   $scope.fruits = [
     name: 'apple'
     season: 'fall'
@@ -64,6 +37,7 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     price: '10'
   ]
 
+  $scope.fruitDetails = ['season', 'price']
   $scope.company =
     name: '启明星辰'
     version: '10.0.13980.1'

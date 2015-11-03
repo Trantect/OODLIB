@@ -2,8 +2,8 @@ table.table
   tr
     th(ng-repeat="t in model.fields") 
       {{t}}
-  tr(ng-repeat="item in model.currentData")
-    td(ng-repeat="(k,v) in item")
+  tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)")
+    td(ng-repeat="(k,v) in item.columnData")
       span(ng-bind='v')
     td.over(ng-show="pagination")
       .pull-right
@@ -11,9 +11,15 @@ table.table
           i.fa.fa-trash-o
         button.btn.btn-default.btn-icon
           i.fa.fa-edit
+  tr(ng-repeat-end, ng-show="model.detailDisplayed($index)")
+    td(colspan="{{model.fields.length}}")
+      {{item.detailData}}
 
 ul(id="pagination")
-  li(ng-repeat="i in model.pageRange" id="{{i}}")
+  li(ng-repeat="i in model.pageRange" id="{{i}}", ng-click="model.setCurrentPage(i)")
     {{i}}
-p(ng-bind="model.currentPage")
+p 
+  span total
+  span(ng-bind="model.data.length")   
+  span records
 

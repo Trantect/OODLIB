@@ -8,15 +8,15 @@
 	  <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
 	  <link rel="stylesheet" type="text/css" href="./bower_components/components-font-awesome/css/font-awesome.min.css">
 	  <link rel="stylesheet" type="text/css" href="build/table/table.css">
-	  <script src="build/common/lib.js"></script>
+  </head>
+  <body ng-app="app" ng-controller="appCtrl">
+    <ctable info="accounts" d-fields="accountDetails"></ctable>
+    <ctable info="fruits" d-fields="fruitDetails"></ctable>
+    <cfooter info="company"></cfooter>
 	  <script src="build/common/base.js"></script>
 	  <script src="build/table/table.js"></script>
 	  <script src="build/footer/footer.js"></script>
+	  <script src="build/common/lib.js"></script>
 	  <script src="index.js"></script>
-  </head>
-  <body ng-app="app" ng-controller="appCtrl">
-    <ctable info="accounts"></ctable>
-    <ctable info="fruits"></ctable>
-    <cfooter info="company"></cfooter>
   </body>
 </html>

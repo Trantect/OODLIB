@@ -1,3 +1,4 @@
+
 ###
 To define a model
 @author Phoenix Grey
@@ -69,8 +70,11 @@ class Directive
     @params =
       restrict: 'E'
       templateUrl: ''
-      scope: {}
+      scope:
+        storage: "=info"
+    scope = _.extend @params.scope, params.scope
     _.extend @params, params
+    @params.scope = scope
     @ui = ui or new UI()
     @initLink()
 
@@ -87,16 +91,18 @@ class Directive
         ui.handlers[_p.handlerName] root, scope.model, scope, event
         scope.$apply()
 
+  linkFn: (scope, element, attr) ->
+    @scope = scope
+    _.extend scope, {model: new @modelKlass scope.storage}
+    @registerUI element, @ui, scope
+
   ###
   Initialize link function of angular directive
   @private
   ###
   initLink: () ->
     @params['link'] = (scope, element, attr) =>
-      @scope = scope
-      _.extend scope, {model: new @modelKlass scope.storage}
-      @registerUI element, @ui, scope
-
+      @linkFn scope, element, attr
   ###
   Set handler function
   ###

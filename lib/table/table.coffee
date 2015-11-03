@@ -1,10 +1,5 @@
-getScriptDir = () ->
-  scripts = document.getElementsByTagName("script")
-  csp = scripts[scripts.length-1].src
-  csp = csp.substring(0, csp.lastIndexOf('/') + 1)
-  csp
+directiveDir = 'build/table/'
 
-directiveDir = getScriptDir()
 
 ###
 To define a table model
@@ -24,15 +19,27 @@ class Table extends Model
   @param data [Array<Dict>] data to be displayed in table
   ###
   updateTable: (data) ->
-    @data = data
-    @fields = _.keys @data[0]||[]
-    @sort = _.mapObject @data[0]||{}, (_f) ->
-      _.identity
-    @numPerPage = 2
-    @numPages = Math.ceil @data.length / @numPerPage
-    @currentPage = 1
-    @pageRange = if @numPages == 0 then [] else [1..@numPages]
+    @rawData = data
+    @initFields()
+    @initSorting()
+
+    @setTableData()
+    @setPagination()
     @getCurrentData()
+
+  initSorting: () ->
+    @sort = _.mapObject @rawData[0]||{}, (_f) ->
+      _.identity
+
+  setPagination: (currentPage, numberPerPage) ->
+    @numPerPage = numberPerPage ? 2
+    @numPages = Math.ceil @data.length / @numPerPage
+    @currentPage = currentPage ? 1
+    @pageRange = if @numPages == 0 then [] else [1..@numPages]
+
+
+  initFields: () ->
+    @fields = @detailFields = @columnFields = _.keys @rawData[0]||[]
 
   ###
   To get data by current page
@@ -41,13 +48,38 @@ class Table extends Model
     @from = (@currentPage-1) * @numPerPage
     @to = @from + @numPerPage - 1
     @currentData = @data[@from..@to]
+    @activeIndex = -1
+
+
+  setTableData: () ->
+    @data = _.map @rawData, (d) =>
+      tmp = {}
+      tmp.columnData = _.pick d, @columnFields
+      tmp.detailData = _.pick d, @detailFields
+      tmp
 
   ###
   To set current page and update data by current page
   ###
   setCurrentPage: (page) ->
-    @currentPage = page
+    @setPagination page
     @getCurrentData()
+
+  setFields: (cFields, dFields) ->
+    @columnFields = _.intersection cFields, @fields
+    @detailFields = _.intersection dFields, @fields
+    @setTableData()
+    @getCurrentData()
+
+
+  ###
+  To verify whether displaying detail
+  ###
+  detailDisplayed: (_index) ->
+    _index == @activeIndex
+
+  toggleActive: (_index) ->
+    @activeIndex = if @activeIndex!=_index then _index else -1
 
 ###
 To define table directive
@@ -64,8 +96,16 @@ class TableDirective extends Directive
     tableParams =
       templateUrl: directiveDir + 'table.html'
       scope:
-        storage: '=info'
+        cFields: '=cFields'
+        dFields: '=dFields'
     _.extend params, tableParams
     super params, Table, new UI uiConfig
+
+  linkFn: (scope, element, attr) ->
+    super scope, element, attr
+    scope.cFields = scope.cFields ? scope.model.fields
+    scope.dFields = scope.dFields ? scope.model.fields
+    scope.model.setFields scope.cFields, scope.dFields
+
 
 this.TableDirective = TableDirective

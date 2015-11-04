@@ -29,7 +29,9 @@ class Table extends Model
 
   initSorting: () ->
     @sort = _.mapObject @rawData[0]||{}, (_f) ->
-      _.identity
+      s =
+        fn: _.identity
+        order: 0
 
   setPagination: (currentPage, numberPerPage) ->
     @numPerPage = numberPerPage ? 2
@@ -57,6 +59,26 @@ class Table extends Model
       tmp.columnData = _.pick d, @columnFields
       tmp.detailData = _.pick d, @detailFields
       tmp
+
+  resetOrder: (field) ->
+    _.each @sort, (v, k) ->
+      console.log v, k
+      if k!=field
+        v.order = 0
+  ###
+  To sort table data
+  ###
+  sortBy: (field) ->
+    currentOrder = @sort[field].order
+    order = if currentOrder==0 then -1 else -currentOrder
+    console.log "order", order
+    @rawData = _.sortBy @rawData, (d) =>
+      (@sort[field].fn d[field])
+    @rawData.reverse() if order == -1
+    @sort[field].order = order
+    @resetOrder field
+    @setTableData()
+    @getCurrentData()
 
   ###
   To set current page and update data by current page

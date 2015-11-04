@@ -1,6 +1,6 @@
 table.table
   tr
-    th(ng-repeat="t in model.columnFields") 
+    th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
       {{t}}
   tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)" ng-class="css.brief(item)")
     td(ng-repeat="(k,v) in item.columnData" class="css.td(item.columnData)")

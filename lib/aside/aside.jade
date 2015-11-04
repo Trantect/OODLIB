@@ -1,3 +1,13 @@
-div
+div.linedk
   ul
-    li(ng-repeat="")
+    li(ng-repeat="(k, v) in model.data")
+      a(ng-href="{{v.URL}}" ng-click="model.toggle(k)")
+        i.{{v.icon}}
+        {{v.name}}
+        i.{{v.arrowIcon}}
+      ul(ng-show="model.expanded(k)")
+        li(ng-repeat="subnode in v.subnodes")
+          a(ng-href="{{subnode.URL}}")
+            i.{{subnode.icon}}
+            {{subnode.name}}
+

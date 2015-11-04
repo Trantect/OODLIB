@@ -34,6 +34,7 @@ module.exports = (grunt)->
         files:
           "lib/table/table.html": ["lib/table/table.jade"]
           "lib/footer/footer.html": ["lib/footer/footer.jade"]
+          "lib/aside/aside.html": ["lib/aside/aside.jade"]
     copy:
       lib:
         expand: true
@@ -55,7 +56,7 @@ module.exports = (grunt)->
         command: './karmarun.sh'
       coverage:
         command: 'python karmaReport.py'
-  
+
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
@@ -72,4 +73,4 @@ module.exports = (grunt)->
   grunt.registerTask "cleanBuild", ["clean:dev"]
   grunt.registerTask "test", ["clean:test", "shell:karma", "shell:coverage"]
 
-  
+

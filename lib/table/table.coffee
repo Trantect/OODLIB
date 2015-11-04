@@ -84,7 +84,7 @@ class Table extends Model
   To set current page and update data by current page
   ###
   setCurrentPage: (page) ->
-    @setPagination page
+    @setPagination page, @numPerPage
     @getCurrentData()
 
   setFields: (cFields, dFields) ->
@@ -135,16 +135,17 @@ class TableDirective extends Directive
       scope:
         cFields: '=cFields'
         dFields: '=dFields'
+        numPerPage: '=numPerPage'
     _.extend params, tableParams
     super params, Table, cssKlass, new UI uiConfig
 
 
   linkFn: (scope, element, attr) ->
     super scope, element, attr
+    scope.model.setPagination 1, scope.numPerPage
     scope.cFields = scope.cFields ? scope.model.fields
     scope.dFields = scope.dFields ? scope.model.fields
     scope.model.setFields scope.cFields, scope.dFields
-
 
 this.TableDirective = TableDirective
 this.TableCssManager = TableCssManager

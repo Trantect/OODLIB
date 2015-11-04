@@ -6,7 +6,7 @@ table.table
     td(ng-repeat="(k,v) in item.columnData" class="css.td(item.columnData)")
       span(ng-bind='v' class="css.cell(k,v)")
   tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" class="css.detail(item)")
-    td(colspan="{{model.fields.length}}")
+    td(colspan="{{model.columnFields.length}}")
       {{item.detailData}}
 
 ul(id="pagination")

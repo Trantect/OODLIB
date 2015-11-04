@@ -1,17 +1,11 @@
 table.table
   tr
-    th(ng-repeat="t in model.fields") 
+    th(ng-repeat="t in model.columnFields") 
       {{t}}
-  tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)")
-    td(ng-repeat="(k,v) in item.columnData")
-      span(ng-bind='v')
-    td.over(ng-show="pagination")
-      .pull-right
-        button.btn.btn-default.btn-icon.group_btn
-          i.fa.fa-trash-o
-        button.btn.btn-default.btn-icon
-          i.fa.fa-edit
-  tr(ng-repeat-end, ng-show="model.detailDisplayed($index)")
+  tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)" ng-class="css.brief(item)")
+    td(ng-repeat="(k,v) in item.columnData" class="css.td(item.columnData)")
+      span(ng-bind='v' class="css.cell(k,v)")
+  tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" class="css.detail(item)")
     td(colspan="{{model.fields.length}}")
       {{item.detailData}}
 
@@ -22,4 +16,5 @@ p
   span total
   span(ng-bind="model.data.length")   
   span records
+
 

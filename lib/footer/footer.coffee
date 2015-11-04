@@ -1,5 +1,6 @@
 directiveDir = 'build/footer/'
 
+class FooterCssManager
 
 class Footer extends Model
   constructor: (@data) ->
@@ -11,7 +12,7 @@ class FooterDirective extends Directive
     footerParams =
       templateUrl: directiveDir + 'footer.html'
     _.extend params, footerParams
-    super params, Footer, new UI uiConfig
+    super params, Footer, FooterCssManager, new UI uiConfig
 
 
 this.FooterDirective = FooterDirective

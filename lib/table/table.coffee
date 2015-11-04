@@ -82,6 +82,20 @@ class Table extends Model
     @activeIndex = if @activeIndex!=_index then _index else -1
 
 ###
+To define table css manager
+@extend CssManager
+###
+class TableCssManager extends CssManager
+
+  @brief: (item) ->
+
+  @detail: (item) ->
+
+  @td: (item) ->
+
+  @cell: (key, value) ->
+
+###
 To define table directive
 @extend Directive
 ###
@@ -91,15 +105,17 @@ class TableDirective extends Directive
   @param params [Dict] parameters of angular directive
   @param uiConfig [Array<Dict>] configuration of ui service
   ###
-  constructor: (params, uiConfig) ->
+  constructor: (params, cssKlass, uiConfig) ->
     params = params ? {}
+    cssKlass = cssKlass ? TableCssManager
     tableParams =
       templateUrl: directiveDir + 'table.html'
       scope:
         cFields: '=cFields'
         dFields: '=dFields'
     _.extend params, tableParams
-    super params, Table, new UI uiConfig
+    super params, Table, cssKlass, new UI uiConfig
+
 
   linkFn: (scope, element, attr) ->
     super scope, element, attr
@@ -109,3 +125,4 @@ class TableDirective extends Directive
 
 
 this.TableDirective = TableDirective
+this.TableCssManager = TableCssManager

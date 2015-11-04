@@ -8,6 +8,12 @@ class Model
   ###
   constructor: (@data) ->
 
+
+###
+To define a css manager
+###
+class CssManager
+
 ###
 To define user interaction 
 @author Phoenix Grey
@@ -64,8 +70,9 @@ class Directive
   @param model [subclass of Model] The model the directive used to manipulate data 
   @param events [subclass of Events] The user interaction with directives 
   ###
-  constructor: (params, modelKlass, ui) ->
+  constructor: (params, modelKlass, cssKlass, ui) ->
     @modelKlass = modelKlass or Model
+    @cssKlass = cssKlass or CssManager
     @params =
       restrict: 'E'
       templateUrl: ''
@@ -94,7 +101,10 @@ class Directive
 
   linkFn: (scope, element, attr) ->
     @scope = scope
-    _.extend scope, {model: new @modelKlass scope.storage}
+    _.extend scope,
+      model: new @modelKlass scope.storage
+      css: @cssKlass
+
     @registerUI element, @ui, scope
 
   ###
@@ -127,5 +137,6 @@ class DirectiveSchool
 
 this.UI = UI
 this.Model = Model
+this.CssManager = CssManager
 this.DirectiveSchool = DirectiveSchool
 this.Directive = Directive

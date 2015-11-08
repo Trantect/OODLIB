@@ -15,10 +15,14 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
       'test/common/model.test.coffee',
-      #'test/common/directive.test.coffee'
+      'test/common/css.test.coffee',
+      'test/common/directive.test.coffee',
+      'test/common/directiveSchool.test.coffee'
     ]
 
 

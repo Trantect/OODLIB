@@ -12,7 +12,6 @@ class Table extends Model
   ###
   constructor: (data) ->
     @updateTable data
-    @
 
   ###
   To update table model by data

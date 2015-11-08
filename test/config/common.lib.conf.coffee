@@ -44,7 +44,7 @@ module.exports = (config) ->
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['coverage', 'progress']
+    reporters: ['progress', 'coverage']
 
     coverageReporter:
       reporters: [
@@ -56,6 +56,8 @@ module.exports = (config) ->
         file: 'coverage-common-lib.json'
       ,
         type: 'text-summary'
+      ,
+        type: 'html'
       ]
 
 

@@ -70,6 +70,6 @@ module.exports = (grunt)->
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
-  grunt.registerTask "test", ["clean:test", "shell:karma", "shell:coverage"]
+  grunt.registerTask "test", ["clean:test", "shell:karma"]
 
   

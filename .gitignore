@@ -8,3 +8,4 @@ lib/footer/*.html
 libdocs
 apidoc
 report
+coverage

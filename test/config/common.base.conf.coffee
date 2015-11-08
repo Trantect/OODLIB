@@ -18,7 +18,7 @@ module.exports = (config) ->
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
       'test/common/model.test.coffee',
-      'test/common/directive.test.coffee'
+      #'test/common/directive.test.coffee'
     ]
 
 
@@ -44,7 +44,7 @@ module.exports = (config) ->
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['coverage', 'progress']
+    reporters: ['progress', 'coverage']
 
 
     coverageReporter:
@@ -57,6 +57,8 @@ module.exports = (config) ->
         file: 'coverage-common-base.json'
       ,
         type: 'text-summary'
+      ,
+        type: 'html'
       ]
 
 

@@ -11,6 +11,7 @@ class Model
 
 ###
 To define a css manager
+@author Phoenix Grey
 ###
 class CssManager
 
@@ -66,9 +67,10 @@ To define a directive
 class Directive
   ###
   Construct a directive by config, model, and events
-  @param params [dict] The parameters of angular directive
-  @param model [subclass of Model] The model the directive used to manipulate data 
-  @param events [subclass of Events] The user interaction with directives 
+  @param params [dict] Parameters of angular directive
+  @param modelKlass [subclass of Model] Model class the directive uses to manipulate data 
+  @param cssKlass [subClass of cssManager] CssManager class the directive uses to control css
+  @param ui [subclass of Events] User interaction with directives 
   ###
   constructor: (params, modelKlass, cssKlass, ui) ->
     @modelKlass = modelKlass or Model
@@ -99,6 +101,11 @@ class Directive
         ui.handlers[_p.handlerName] root, scope.model, scope, event
         scope.$apply()
 
+  ###
+  Called when directive is initiated, which is used to
+    bind model, resgiter ui
+    be extended by sub classes
+  ###
   linkFn: (scope, element, attr) ->
     @scope = scope
     _.extend scope,
@@ -114,8 +121,9 @@ class Directive
   initLink: () ->
     @params['link'] = (scope, element, attr) =>
       @linkFn scope, element, attr
+
   ###
-  Set handler function
+  Set handler function of ui events which have been defined in ui config
   ###
   setHandler: (handlerName, fn) ->
     @ui.setHandler handlerName, fn

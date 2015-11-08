@@ -1,6 +1,7 @@
 app = angular.module 'app', ['OODLib']
 
 app.controller 'appCtrl', ['$scope', ($scope) ->
+  $scope.title = "Hardware Management"
   $scope.hardwareDetail = ['clientName', 'cpuType', 'diskSN', 'pcSN']
   $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']
   $scope.hardware = [

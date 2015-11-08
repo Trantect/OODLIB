@@ -52,6 +52,8 @@ class Table extends Model
     @currentData = @data[@from..@to]
     @activeIndex = -1
 
+  setCaption: (caption) ->
+    @caption = caption ? "Table"
 
   setTableData: () ->
     @data = _.map @rawData, (d) =>
@@ -117,6 +119,16 @@ class TableCssManager extends CssManager
 
   @cell: (key, value) ->
 
+  @pageState: (actived, i) ->
+    v = if actived==i then 'is-active'
+
+  @prevPageState: (actived) ->
+    v = if actived==1 then 'is-disabled'
+
+  @nextPageState: (actived, last) ->
+    v = if actived==last then 'is-disabled'
+
+
 ###
 To define table directive
 @extend Directive
@@ -136,6 +148,7 @@ class TableDirective extends Directive
         cFields: '=cFields'
         dFields: '=dFields'
         numPerPage: '=numPerPage'
+        caption: '=caption'
     _.extend params, tableParams
     super params, Table, cssKlass, new UI uiConfig
 
@@ -143,6 +156,8 @@ class TableDirective extends Directive
   linkFn: (scope, element, attr) ->
     super scope, element, attr
     scope.model.setPagination 1, scope.numPerPage
+    console.log "caption", scope.caption
+    scope.model.setCaption scope.caption
     scope.cFields = scope.cFields ? scope.model.fields
     scope.dFields = scope.dFields ? scope.model.fields
     scope.model.setFields scope.cFields, scope.dFields

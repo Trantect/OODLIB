@@ -5,12 +5,14 @@
 	  <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/underscore/underscore.js"></script>
+    <!--
 	  <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+    -->
+	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
 	  <link rel="stylesheet" type="text/css" href="./bower_components/components-font-awesome/css/font-awesome.min.css">
-	  <link rel="stylesheet" type="text/css" href="build/table/table.css">
   </head>
   <body ng-app="app" ng-controller="appCtrl">
-    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2></ctable>
+    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 caption="title"></ctable>
     <cfooter info="company"></cfooter>
 	  <script src="build/common/base.js"></script>
 	  <script src="build/table/table.js"></script>

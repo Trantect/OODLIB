@@ -20,10 +20,11 @@ module.exports = (config) ->
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
       'lib/table/table.coffee',
-      'test/table/model.test.coffee'
-#      'test/table/css.test.coffee',
-#      'test/table/directive.test.coffee',
-#      'test/table/angular.test.coffee'
+      'build/table/table.html',
+      'test/table/model.test.coffee',
+      'test/table/css.test.coffee',
+      'test/table/directive.test.coffee',
+      'test/table/angular.test.coffee'
     ]
 
 
@@ -35,6 +36,7 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'build/**/*.html': ['ng-html2js']
       '**/**/*.coffee': ['coffee']
       'lib/table/table.coffee': ['coverage']
     }
@@ -43,7 +45,8 @@ module.exports = (config) ->
       'karma-jasmine',
       'karma-chrome-launcher',
       'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coverage',
+      'karma-ng-html2js-preprocessor'
     ]
 
     # test results reporter to use

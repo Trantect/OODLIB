@@ -10,7 +10,8 @@ class Table extends Model
   To construct an instance of table model
   @param data [Array<Dict>] data to be displayed in table
   ###
-  constructor: (@rawData) ->
+  constructor: (rawData) ->
+    @rawData = rawData ? []
     @initTable()
 
   ###
@@ -88,7 +89,6 @@ class Table extends Model
   ###
   resetOrder: (field, order) ->
     _.each @sort, (v, k) ->
-      console.log v, k
       if k!=field
         v.order = 0
       else

@@ -11,10 +11,5 @@ describe "Directive Test", () ->
         storage: "=info"
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
-
-
-    (expect d.ui instanceof UI).toBe true
-    (expect d.ui.config).toEqual {}
-    (expect d.ui.handlers).toEqual {}
     done()
     

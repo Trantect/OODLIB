@@ -7,12 +7,12 @@ class Footer extends Model
     @
 
 class FooterDirective extends Directive
-  constructor: (params, uiConfig) ->
+  constructor: (params) ->
     params = params ? {}
     footerParams =
       templateUrl: directiveDir + 'footer.html'
     _.extend params, footerParams
-    super params, Footer, FooterCssManager, new UI uiConfig
+    super params, Footer, FooterCssManager
 
 
 this.FooterDirective = FooterDirective

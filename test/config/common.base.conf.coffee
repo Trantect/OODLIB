@@ -18,7 +18,6 @@ module.exports = (config) ->
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
       'test/common/model.test.coffee',
-      'test/common/ui.test.coffee',
       'test/common/directive.test.coffee'
     ]
 

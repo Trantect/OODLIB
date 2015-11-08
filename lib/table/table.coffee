@@ -137,9 +137,8 @@ class TableDirective extends Directive
   ###
   Construct an instance of TableDirective
   @param params [Dict] parameters of angular directive
-  @param uiConfig [Array<Dict>] configuration of ui service
   ###
-  constructor: (params, cssKlass, uiConfig) ->
+  constructor: (params, cssKlass) ->
     params = params ? {}
     cssKlass = cssKlass ? TableCssManager
     tableParams =
@@ -150,7 +149,7 @@ class TableDirective extends Directive
         numPerPage: '=numPerPage'
         caption: '=caption'
     _.extend params, tableParams
-    super params, Table, cssKlass, new UI uiConfig
+    super params, Table, cssKlass
 
 
   linkFn: (scope, element, attr) ->

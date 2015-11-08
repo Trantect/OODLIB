@@ -10,99 +10,139 @@ class Table extends Model
   To construct an instance of table model
   @param data [Array<Dict>] data to be displayed in table
   ###
-  constructor: (data) ->
-    @updateTable data
+  constructor: (@rawData) ->
+    @initTable()
 
   ###
   To update table model by data
   @param data [Array<Dict>] data to be displayed in table
   ###
-  updateTable: (data) ->
-    @rawData = data
+  initTable: () ->
     @initFields()
     @initSorting()
 
-    @setTableData()
     @setPagination()
-    @getCurrentData()
+    @updateTableData()
+    @updateCurrentPage()
 
+  ###
+  To initialize table fields, including all fields, fields displayed in column, displayed in detail
+  ###
+  initFields: () ->
+    @fieldsSample = if _.has @rawData, '0' then @rawData[0] else {}
+    @fields = @detailFields = @columnFields = _.keys @fieldsSample
+
+
+  ###
+  To initialize sorting statuses and functions
+  ###
   initSorting: () ->
-    @sort = _.mapObject @rawData[0]||{}, (_f) ->
+    @sort = _.mapObject @fieldsSample, (_f) ->
       s =
         fn: _.identity
         order: 0
 
-  setPagination: (currentPage, numberPerPage) ->
-    @numPerPage = numberPerPage ? 2
-    @numPages = Math.ceil @data.length / @numPerPage
-    @currentPage = currentPage ? 1
-    @pageRange = if @numPages == 0 then [] else [1..@numPages]
-
-
-  initFields: () ->
-    @fields = @detailFields = @columnFields = _.keys @rawData[0]||[]
-
   ###
-  To get data by current page
+  To set table data by columnFields and detailFields
   ###
-  getCurrentData: () ->
-    @from = (@currentPage-1) * @numPerPage
-    @to = @from + @numPerPage - 1
-    @currentData = @data[@from..@to]
-    @activeIndex = -1
-
-  setCaption: (caption) ->
-    @caption = caption ? "Table"
-
-  setTableData: () ->
+  updateTableData: () ->
     @data = _.map @rawData, (d) =>
       tmp = {}
       tmp.columnData = _.pick d, @columnFields
       tmp.detailData = _.pick d, @detailFields
       tmp
 
-  resetOrder: (field) ->
+
+  ###
+  To set pagination
+  @param currentPage [number]
+  @param numberPerPage [number] number of records per page
+  ###
+  setPagination: (currentPage, numberPerPage) ->
+    @numPerPage = numberPerPage ? 2
+    @numPages = Math.ceil @rawData.length / @numPerPage
+    @currentPage = currentPage ? 1
+    @pageRange = if @numPages == 0 then [] else [1..@numPages]
+
+
+  ###
+  To get data by current page
+  ###
+  updateCurrentPage: () ->
+    @from = (@currentPage-1) * @numPerPage
+    @to = @from + @numPerPage - 1
+    @currentData = @data[@from..@to]
+    @activeDetailIndex = -1
+
+  ###
+  To set table caption
+  @param caption [string] default 'Table'
+  ###
+  setCaption: (caption) ->
+    @caption = caption ? "Table"
+
+  ###
+  To reset order status by field
+  @param field [string] field the data is sorted by
+  @param order [number] enum: -1(des), 0(no ordered), 1(asc)
+  ###
+  resetOrder: (field, order) ->
     _.each @sort, (v, k) ->
       console.log v, k
       if k!=field
         v.order = 0
+      else
+        v.order = order
+
   ###
-  To sort table data
+  To sort table data by field
+  @param field [string] field the data is sorted by
   ###
   sortBy: (field) ->
     currentOrder = @sort[field].order
     order = if currentOrder==0 then -1 else -currentOrder
-    console.log "order", order
     @rawData = _.sortBy @rawData, (d) =>
       (@sort[field].fn d[field])
     @rawData.reverse() if order == -1
-    @sort[field].order = order
-    @resetOrder field
-    @setTableData()
-    @getCurrentData()
+    @resetOrder field, order
+    @updateTableData()
+    @updateCurrentPage()
 
   ###
   To set current page and update data by current page
+  @param page [number] current page
   ###
   setCurrentPage: (page) ->
     @setPagination page, @numPerPage
-    @getCurrentData()
+    @updateCurrentPage()
 
+  ###
+  To set column fields, detail fields
+  @param cFields [Array<string>] column fields
+  @param dFields [Array<string>] detail fields
+  ###
   setFields: (cFields, dFields) ->
     @columnFields = _.intersection cFields, @fields
     @detailFields = _.intersection dFields, @fields
-    @setTableData()
-    @getCurrentData()
+    @updateTableData()
+    @updateCurrentPage()
 
 
   ###
-  To verify whether displaying detail
+  To toggle detail
+  @param _index [number] index of record whose detail is to be displayed
+  ###
+  toggleDetail: (_index) ->
+    @activeDetailIndex = if @activeDetailIndex!=_index then _index else -1
+
+
+  ###
+  Check whether detail of record by index should be displayed
+  @param _index [number] index of record to be judged
   ###
   detailDisplayed: (_index) ->
-    _index == @activeIndex
+    _index == @activeDetailIndex
 
-  toggleActive: (_index) ->
-    @activeIndex = if @activeIndex!=_index then _index else -1
 
 ###
 To define table css manager
@@ -110,20 +150,41 @@ To define table css manager
 ###
 class TableCssManager extends CssManager
 
+  ###
+  table tr style 
+  ###
   @brief: (item) ->
 
+  ###
+  row detail style
+  ###
   @detail: (item) ->
 
+  ###
+  table td style 
+  ###
   @td: (item) ->
 
+  ###
+  table cell style
+  ###
   @cell: (key, value) ->
 
+  ###
+  page index style
+  ###
   @pageState: (actived, i) ->
     v = if actived==i then 'is-active'
 
+  ###
+  pagination prev style
+  ###
   @prevPageState: (actived) ->
     v = if actived==1 then 'is-disabled'
 
+  ###
+  #pagination next style
+  ###
   @nextPageState: (actived, last) ->
     v = if actived==last then 'is-disabled'
 
@@ -151,10 +212,12 @@ class TableDirective extends Directive
     super params, Table, cssKlass
 
 
+  ###
+  To initialize link function of table directive
+  ###
   linkFn: (scope, element, attr) ->
     super scope, element, attr
     scope.model.setPagination 1, scope.numPerPage
-    console.log "caption", scope.caption
     scope.model.setCaption scope.caption
     scope.cFields = scope.cFields ? scope.model.fields
     scope.dFields = scope.dFields ? scope.model.fields

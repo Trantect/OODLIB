@@ -7,7 +7,7 @@
         th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
           {{t}}
     tbody
-      tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)" ng-class="css.brief(item)")
+      tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
         td(ng-repeat="(k,v) in item.columnData" class="css.td(item.columnData)")
           span(ng-bind='v' class="css.cell(k,v)")
       tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" class="css.detail(item)")

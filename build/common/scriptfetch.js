@@ -1,9 +1,11 @@
 (function() {
   this.fetch = function() {
-    var mydir, path, scripts;
+    var mydir, path, s, scripts;
     scripts = document.getElementsByTagName('script');
     path = scripts[scripts.length - 1].src.split('?')[0];
-    return mydir = path.split('/').slice(3, -1).join('/') + '/';
+    s = path.replace(window.location.origin + window.location.pathname, "");
+    console.log('path', s);
+    return mydir = s.split('/').slice(0, -1).join('/') + '/';
   };
 
 }).call(this);

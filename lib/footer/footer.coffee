@@ -1,4 +1,4 @@
-directiveDir = 'build/footer/'
+directiveDir = './build/footer/'
 
 class FooterCssManager
 

@@ -1,4 +1,4 @@
-directiveDir = 'build/table/'
+directiveDir = './build/table/'
 
 
 ###

@@ -1,5 +1,5 @@
-directiveDir = './build/table/'
-
+directiveDir = fetch()
+console.log directiveDir
 
 ###
 To define a table model

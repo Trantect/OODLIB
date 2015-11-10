@@ -113,6 +113,10 @@ class Table extends Model
   @param page [number] current page
   ###
   setCurrentPage: (page) ->
+    if page <= 0
+      page = 1
+    else if page >= @numPages
+      page = @numPages
     @setPagination page, @numPerPage
     @updateCurrentPage()
 
@@ -168,7 +172,24 @@ class TableCssManager extends CssManager
   ###
   table cell style
   ###
+  @cellContent: (key, value) ->
+
+  ###
+  cell icon
+  ###
+  @cellIcon: (key, vaule) ->
+    icon = switch key
+      when 'nickname' then 'fa fa-desktop'
+      when 'groupName' then 'fa fa-client-group'
+      else 'hide'
+  
+  ###
+  td with background
+  ###
   @cell: (key, value) ->
+    bg = switch
+      when key=='nickname' or key=='groupName' then 'td-icon'
+      else ''
 
   ###
   sort order
@@ -183,19 +204,25 @@ class TableCssManager extends CssManager
   page index style
   ###
   @pageState: (actived, i) ->
-    v = if actived==i then 'is-active'
+    v = switch
+      when actived==i then 'is-active'
+      else ''
 
   ###
   pagination prev style
   ###
   @prevPageState: (actived) ->
-    v = if actived==1 then 'is-disabled'
+    v = switch
+      when actived==1 then 'is-disabled'
+      else ''
 
   ###
   #pagination next style
   ###
   @nextPageState: (actived, last) ->
-    v = if actived==last then 'is-disabled'
+    v = switch
+      when actived==last then 'is-disabled'
+      else ''
 
 
 ###

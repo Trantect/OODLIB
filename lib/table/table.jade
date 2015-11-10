@@ -8,9 +8,9 @@
     tbody
       tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
         td(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")
-          .td-icon
-            i(ng-class="css.tdicon(k,v)")
-            span(ng-bind='v' class="css.cell(k,v)")
+          div(ng-class="css.cell(k,v)")
+            i(ng-class="css.cellIcon(k,v)")
+            span(ng-bind='v' class="css.cellContent(k,v)")
       tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)")
         td(colspan="{{model.columnFields.length}}")
           .detail-default

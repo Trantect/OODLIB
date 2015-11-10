@@ -1,9 +1,10 @@
 {
-  "name": "tableOBJ",
+  "name": "omega",
   "version": "0.0.0",
   "authors": [
-    "mario.ma <mario.ma@trantect.com>"
+    "phoenix.grey <phoenix.lv@trantect.com>"
   ],
+  "main": "build",
   "license": "MIT",
   "ignore": [
     "**/.*",

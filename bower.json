@@ -9,11 +9,17 @@
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "Gruntfile.coffee",
+    "index.coffee",
+    "index.html",
+    "karmaReport.py",
+    "karmarun.sh",
+    "lib",
+    "package.json"
   ],
   "dependencies": {
     "jquery": "2.1.4",

@@ -189,7 +189,6 @@ class TableCssManager extends CssManager
   @cell: (key, value) ->
     bg = switch
       when key=='nickname' or key=='groupName' then 'td-icon'
-      else ''
 
   ###
   sort order
@@ -206,7 +205,6 @@ class TableCssManager extends CssManager
   @pageState: (actived, i) ->
     v = switch
       when actived==i then 'is-active'
-      else ''
 
   ###
   pagination prev style
@@ -214,7 +212,6 @@ class TableCssManager extends CssManager
   @prevPageState: (actived) ->
     v = switch
       when actived==1 then 'is-disabled'
-      else ''
 
   ###
   #pagination next style
@@ -222,7 +219,6 @@ class TableCssManager extends CssManager
   @nextPageState: (actived, last) ->
     v = switch
       when actived==last then 'is-disabled'
-      else ''
 
 
 ###

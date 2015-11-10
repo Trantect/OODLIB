@@ -1,5 +1,5 @@
 .responsive
-  table.table.table-sort.table-detail-default
+  table.table.table-sort.table-detail-default.table-stripped-4
     thead
       tr
         th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
@@ -12,7 +12,7 @@
             i(ng-class="css.cellIcon(k,v)")
             span(ng-bind='v' class="css.cellContent(k,v)")
       tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)")
-        td(colspan="{{model.columnFields.length}}")
+        td.is-nopadding(colspan="{{model.columnFields.length}}")
           .detail-default
             .detail-title details
             dl
@@ -27,9 +27,9 @@
       span records
     ul.pagination
       li(ng-class="css.prevPageState(model.currentPage)", ng-click="model.setCurrentPage(model.currentPage-1)")
-        a(href="#") <<
+        a(href="#") «
       li(ng-repeat="i in model.pageRange", ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)")
         a(href="#") {{i}}
       li(ng-class="css.nextPageState(model.currentPage, model.numPages)", ng-click="model.setCurrentPage(model.currentPage+1)")
-        a(href="#") >>
+        a(href="#") »
 

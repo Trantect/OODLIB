@@ -171,6 +171,15 @@ class TableCssManager extends CssManager
   @cell: (key, value) ->
 
   ###
+  sort order
+  ###
+  @sortState: (sortMap, sortedField) ->
+    switch sortMap[sortedField].order
+      when -1 then "fa-sort-up"
+      when 1 then "fa-sort-down"
+      else "fa-sort"
+  
+  ###
   page index style
   ###
   @pageState: (actived, i) ->

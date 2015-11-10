@@ -9,6 +9,7 @@
   ],
   "license": "MIT",
   "ignore": [
+    "**/.*",
     "node_modules",
     "bower_components",
     "test",
@@ -24,12 +25,11 @@
   "dependencies": {
     "jquery": "2.1.4",
     "angular": "~1.4.7",
-    "bootstrap": "3.3.5",
-    "underscore": "1.8.3",
-    "components-font-awesome": "4.4.0",
-    "smaless": "0.1.1"
+    "underscore": "1.8.3"
   },
   "devDependencies": {
+    "components-font-awesome": "4.4.0",
+    "smaless": "0.1.1",
     "angular-mocks": "~1.4.7"
   }
 }

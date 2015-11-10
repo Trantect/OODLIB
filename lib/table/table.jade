@@ -1,4 +1,4 @@
-.table.table-footer
+.responsive
   table.table.table-sort.table-detail-default
     thead
       tr
@@ -7,20 +7,20 @@
           i.fa.fa-sort(ng-class="css.sortState(model.sort, t)")
     tbody
       tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
-        td.td-icon(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")
-          i(ng-class="css.tdicon(k,v)")
-          span(ng-bind='v' class="css.cell(k,v)")
+        td(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")
+          .td-icon
+            i(ng-class="css.tdicon(k,v)")
+            span(ng-bind='v' class="css.cell(k,v)")
       tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)")
         td(colspan="{{model.columnFields.length}}")
           .detail-default
-            .detail-title
-              details
+            .detail-title details
             dl
               dt(ng-repeat-start="(k,v) in item.detailData")
                 {{k}}:
               dd(ng-repeat-end="(k,v) in item.detailData")
                 {{v}}
-  div
+  .statistics  
     span 
       span total
       span(ng-bind="model.data.length")   

@@ -4,7 +4,9 @@
   "authors": [
     "phoenix.grey <phoenix.lv@trantect.com>"
   ],
-  "main": "build",
+  "main": [
+    "build/**/*.js"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",

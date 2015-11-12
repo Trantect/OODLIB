@@ -32,6 +32,14 @@ module.exports = (grunt)->
       app:
         files:
           'index.js': 'index.coffee'
+
+    ngTemplateCache:
+      templates:
+        files: [
+          'build/views.js': 'lib/**/*.html'
+        ]
+        options:
+          module: 'OODLib'
     jade:
       lib:
         options:
@@ -53,6 +61,7 @@ module.exports = (grunt)->
           require: 'coffee-script/register'
         src: ['test/**/*.coffee']
 
+
     shell:
       apidoc:
         command: './node_modules/.bin/codo'
@@ -64,11 +73,11 @@ module.exports = (grunt)->
     concat:
       dist:
         src: [
-          grunt.uriStatic + 'common/' + 'scriptfetch.js'
           grunt.uriStatic + 'common/' + 'base.js'
           grunt.uriStatic + 'table/' + '*.js'
           grunt.uriStatic + 'footer/' + '*.js'
           grunt.uriStatic + 'common/' + 'lib.js'
+          grunt.uriStatic + 'views.js'
           '!' + grunt.uriStatic + '*.min.js'
         ]
         dest:
@@ -97,11 +106,13 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-shell'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-concat'
+  grunt.loadNpmTasks 'grunt-hustler'
 
 
-  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'shell:apidoc']
+
+  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'ngTemplateCache','concat', 'minify', 'shell:apidoc']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
-  grunt.registerTask "default", ['libBuild', 'appBuild', 'concat', 'minify']
+  grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
   grunt.registerTask "test", ["clean:test", "shell:karma"]
   grunt.registerTask "minify", ["uglify"]

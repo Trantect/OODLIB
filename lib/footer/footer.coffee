@@ -1,4 +1,4 @@
-directiveDir = fetch()
+directiveDir = 'lib/footer/'
 
 class FooterCssManager
 

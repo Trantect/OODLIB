@@ -1,5 +1,4 @@
-directiveDir = fetch()
-console.log directiveDir
+directiveDir = 'lib/table/'
 
 ###
 To define a table model

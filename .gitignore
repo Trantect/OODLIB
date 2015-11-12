@@ -8,3 +8,6 @@ libdocs
 apidoc
 report
 coverage
+build/**/
+build/!dist/
+build/*.js

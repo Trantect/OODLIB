@@ -139,7 +139,7 @@ To define a model
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  directiveDir = 'build/table/';
+  directiveDir = 'lib/table/';
 
 
   /*
@@ -554,7 +554,7 @@ To define a model
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  directiveDir = 'build/footer/';
+  directiveDir = 'lib/footer/';
 
   FooterCssManager = (function() {
     function FooterCssManager() {}
@@ -624,3 +624,8 @@ Create an angular module called OODLIB
   DirectiveSchool.register(OOD, 'cfooter', f);
 
 }).call(this);
+
+angular.module('OODLib').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/footer/footer.html', '<footer> <p>Copyright © {{model.data.year}} {{model.data.name}}<span>|</span><a ng-href="{{model.data.website}}">{{model.data.websiteName}}</a><span>|</span>version: {{model.data.version}} {{model.data.status}}</p> </footer>');
+	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span>{{t}}</span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{k}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div class="statistics"> <span> <span>total</span><span ng-bind="model.data.length"> </span><span>records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
+}]);

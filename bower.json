@@ -5,7 +5,7 @@
     "phoenix.grey <phoenix.lv@trantect.com>"
   ],
   "main": [
-    "build/**/*.js"
+    "build/dist/*.js"
   ],
   "license": "MIT",
   "ignore": [

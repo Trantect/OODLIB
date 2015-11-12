@@ -72,7 +72,7 @@ module.exports = (grunt)->
           '!' + grunt.uriStatic + '*.min.js'
         ]
         dest:
-          grunt.uriDist + 'concat.js'
+          grunt.uriDist + 'ood-omega.js'
 
     uglify:
       dist:
@@ -82,10 +82,10 @@ module.exports = (grunt)->
         ext: '.min.js'
         flatten: true
         src: [
-          'dist/concat.js'
+          'dist/ood-omega.js'
           '*.js'
           '!*.min.js'
-          ]
+        ]
 
 
   grunt.loadNpmTasks 'grunt-contrib-clean'

@@ -1,4 +1,9 @@
 module.exports = (grunt)->
+# URI for concat & minify
+  grunt.uri = './'
+  grunt.uriStatic = grunt.uri + 'build/'
+  grunt.uriDist = grunt.uriStatic + 'dist/'
+
   grunt.initConfig
 
     watch:
@@ -55,7 +60,34 @@ module.exports = (grunt)->
         command: './karmarun.sh'
       coverage:
         command: 'python karmaReport.py'
-  
+
+    concat:
+      dist:
+        src: [
+          grunt.uriStatic + 'common/' + 'scriptfetch.js'
+          grunt.uriStatic + 'common/' + 'base.js'
+          grunt.uriStatic + 'table/' + '*.js'
+          grunt.uriStatic + 'footer/' + '*.js'
+          grunt.uriStatic + 'common/' + 'lib.js'
+          '!' + grunt.uriStatic + '*.min.js'
+        ]
+        dest:
+          grunt.uriDist + 'ood-omega.js'
+
+    uglify:
+      dist:
+        cwd: grunt.uriStatic
+        dest: grunt.uriDist
+        expand: true
+        ext: '.min.js'
+        flatten: true
+        src: [
+          'dist/ood-omega.js'
+          '*.js'
+          '!*.min.js'
+        ]
+
+
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
@@ -63,13 +95,15 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-jade'
   grunt.loadNpmTasks 'grunt-mocha-test'
   grunt.loadNpmTasks 'grunt-shell'
-
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
 
 
   grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'shell:apidoc']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
-  grunt.registerTask "default", ['libBuild', 'appBuild']
+  grunt.registerTask "default", ['libBuild', 'appBuild', 'concat', 'minify']
   grunt.registerTask "cleanBuild", ["clean:dev"]
   grunt.registerTask "test", ["clean:test", "shell:karma"]
+  grunt.registerTask "minify", ["uglify"]
 
   

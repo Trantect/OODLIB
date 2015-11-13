@@ -613,8 +613,6 @@ To define a model
     function AsideCssManager() {}
 
     AsideCssManager.arrowIcon = function(expansion, k) {
-      console.log("expansion", expansion);
-      console.log("k", k);
       switch (expansion[k]) {
         case EXPANDED:
           return 'fa fa-angle-up';

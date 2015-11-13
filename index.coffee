@@ -64,43 +64,43 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
       subnodes:
         monitor: {
           name: '安全监控'
-          URL: '/'
+          URL: '/securitymonitor'
           icon: 'fa.fa-circle-thin.fa-1'
         },
         terminalSpeedUp: {
           name: '终端加速'
-          URL: '/'
+          URL: '/terminalupgrademanager'
           icon: 'fa.fa-circle-thin.fa-1'
         },
         powerUpSpeedUp: {
           name: '开机加速'
-          URL: '/'
+          URL: '/bootspeed'
           icon: 'fa.fa-circle-thin.fa-1'
         },
         hardware: {
         name: '硬件资产'
-        URL: '/'
+        URL: '/hardwareInfo'
         icon: 'fa.fa-circle-thin.fa-1'
         }
     },
     softwareManagement: {
       name: '软件管理'
-      URL: ''
+      URL: '/softwaremanager'
       icon: ''
     },
     statisticsChart: {
       name: '统计报表'
-      URL: ''
+      URL: '/logcenter'
       icon: ''
     },
     safeLog: {
       name: '安全日志'
-      URL: ''
+      URL: '/safeLogs'
       icon: ''
     },
     serveLog: {
       name: '服务日志'
-      URL: ''
+      URL: '/serviceLogs'
       icon: ''
     }
 
@@ -108,12 +108,12 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
   $scope.aside2 =
     currentTask: {
       name: '当前任务'
-      URL: ''
+      URL: '/currenttask'
       icon: ''
     },
     taskHistory: {
       name: '历史任务'
-      URL: ''
+      URL: '/historytask'
       icon: ''
     }
 
@@ -121,17 +121,17 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
   $scope.aside3 =
     accountManagement: {
       name: '帐号管理'
-      URL: ''
+      URL: '/accountmanager'
       icon: ''
     },
     groupManagement: {
       name: '分组管理'
-      URL: ''
+      URL: '/groupmanager'
       icon: ''
     },
     scanTimer: {
       name: '定时体检'
-      URL: ''
+      URL: '/chronoexam'
       icon: ''
     }
 
@@ -142,12 +142,12 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
       URL: ''
       icon: ''
       subnodes: [
-        name: '安全监控'
-        URL: '/'
+        name: '控制中心相关设置'
+        URL: '/serverConfig'
         icon: ''
         ,
-        name: '终端加速'
-        URL: '/'
+        name: '终端相关设置'
+        URL: '/clientConfig'
         icon: ''
       ]
     }
@@ -155,7 +155,7 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
   $scope.aside5 =
     download: {
       name: '下载终端'
-      URL: ''
+      URL: '/installClient'
       icon: ''
     }
 

@@ -77,6 +77,7 @@ module.exports = (grunt)->
           grunt.uriStatic + 'common/' + 'base.js'
           grunt.uriStatic + 'table/' + '*.js'
           grunt.uriStatic + 'footer/' + '*.js'
+          grunt.uriStatic + 'aside/' + '*.js'
           grunt.uriStatic + 'common/' + 'lib.js'
           grunt.uriStatic + 'views.js'
           '!' + grunt.uriStatic + '*.min.js'

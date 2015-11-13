@@ -2,12 +2,12 @@ div.linedk
   ul
     li(ng-repeat="(k, v) in model.data")
       a(ng-href="{{v.URL}}" ng-click="model.toggle(k)")
-        i.{{v.icon}}
+        i(ng-class="v.icon")
         {{v.name}}
-        i.{{v.arrowIcon}}
+        i(ng-class="css.arrowIcon(model.expansion, k)")
       ul(ng-show="model.expanded(k)")
         li(ng-repeat="subnode in v.subnodes")
           a(ng-href="{{subnode.URL}}")
-            i.{{subnode.icon}}
+            i(ng-class="subnode.icon")
             {{subnode.name}}
 

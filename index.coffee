@@ -82,33 +82,33 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
     frontpage: {
       name: '首页'
       URL: '/'
-      icon: 'fa.fa-home'
+      icon: 'fa fa-home'
     },
     terminalManagement: {
       name: '终端管理'
       URL: '#'
-      icon: 'fa.fa-laptop'
-      arrowIcon: 'fa(ng-class="{\'fa-angle-down\': arrowIsOpen, \'fa-angle-up\': !arrowIsOpen}")'
+      icon: 'fa fa-laptop'
+      arrowIcon: 'fa fa-angle-down'
       subnodes:
         monitor: {
           name: '安全监控'
           URL: '/securitymonitor'
-          icon: 'fa.fa-circle-thin.fa-1'
+          icon: 'fa fa-circle-thin fa-1'
         },
         terminalSpeedUp: {
           name: '终端加速'
           URL: '/terminalupgrademanager'
-          icon: 'fa.fa-circle-thin.fa-1'
+          icon: 'fa fa-circle-thin fa-1'
         },
         powerUpSpeedUp: {
           name: '开机加速'
           URL: '/bootspeed'
-          icon: 'fa.fa-circle-thin.fa-1'
+          icon: 'fa fa-circle-thin fa-1'
         },
         hardware: {
         name: '硬件资产'
         URL: '/hardwareInfo'
-        icon: 'fa.fa-circle-thin.fa-1'
+        icon: 'fa fa-circle-thin fa-1'
         }
     },
     softwareManagement: {

@@ -8,51 +8,13 @@ class Model
   ###
   constructor: (@data) ->
 
+
 ###
-To define user interaction 
+To define a css manager
 @author Phoenix Grey
 ###
-class UI
-  ###
-  Construct a User interaction service
-  @param config [Array<Dict>] user interaction configuration 
-  @example (create a UI instance)
-    config = [
-      selector: 'tr'
-      action: 'click'
-      handlerName: 'displayDetails'
-    ,
-      selector: 'tr'
-      action: 'mouseover'
-      handlerName: 'displayOptionButtons'
-    ]
+class CssManager
 
-    new UI config 
-  ###
-  constructor: (config) ->
-    @config = config ? {}
-    @initHandler()
-
-  ###
-  Initialize the default handlers according to config
-  @private
-  ###
-  initHandler: () ->
-    @handlers = {}
-    _.each @config, (_c) =>
-      @handlers[_c.handlerName] = (element, model, scope, event) ->
-        console.log 'default ', _c.handlerName, ' handler'
-
-  ###
-  Set handler function
-  @param handlerName [String] handler name defined in config
-  @param fn [Function]
-  ###
-  setHandler: (handlerName, fn) ->
-    if _.has @handlers, handlerName
-      @handlers[handlerName] = fn
-    else
-      throw Error 'No events has defined for your handler'
 ###
 To define a directive
 @author Phoenix Grey
@@ -60,12 +22,13 @@ To define a directive
 class Directive
   ###
   Construct a directive by config, model, and events
-  @param params [dict] The parameters of angular directive
-  @param model [subclass of Model] The model the directive used to manipulate data 
-  @param events [subclass of Events] The user interaction with directives 
+  @param params [dict] Parameters of angular directive
+  @param modelKlass [subclass of Model] Model class the directive uses to manipulate data 
+  @param cssKlass [subClass of cssManager] CssManager class the directive uses to control css
   ###
-  constructor: (params, modelKlass, ui) ->
+  constructor: (params, modelKlass, cssKlass) ->
     @modelKlass = modelKlass or Model
+    @cssKlass = cssKlass or CssManager
     @params =
       restrict: 'E'
       templateUrl: ''
@@ -76,26 +39,16 @@ class Directive
       scope = _.extend @params.scope, params.scope
     _.extend @params, params
     @params.scope = scope
-    @ui = ui or new UI()
     @initLink()
 
   ###
-  Register user interaction
-  @param root [JQuery.dom] an html dom element
-  @param ui [UI] ui service to be bind with root
-  @param scope [angular.scope]
-  @private
+  Called when directive is initiated, which is used to be extended by sub classes
   ###
-  registerUI: (root, ui, scope) ->
-    _.each ui.config, (_p) ->
-      root.on _p.action, _p.selector, (event) ->
-        ui.handlers[_p.handlerName] root, scope.model, scope, event
-        scope.$apply()
-
   linkFn: (scope, element, attr) ->
     @scope = scope
-    _.extend scope, {model: new @modelKlass scope.storage}
-    @registerUI element, @ui, scope
+    _.extend scope,
+      model: new @modelKlass scope.storage
+      css: @cssKlass
 
   ###
   Initialize link function of angular directive
@@ -104,11 +57,6 @@ class Directive
   initLink: () ->
     @params['link'] = (scope, element, attr) =>
       @linkFn scope, element, attr
-  ###
-  Set handler function
-  ###
-  setHandler: (handlerName, fn) ->
-    @ui.setHandler handlerName, fn
 
 ###
 To register directives in app
@@ -125,7 +73,7 @@ class DirectiveSchool
       directive.params
 
 
-this.UI = UI
 this.Model = Model
+this.CssManager = CssManager
 this.DirectiveSchool = DirectiveSchool
 this.Directive = Directive

@@ -10,7 +10,9 @@ Expose OOD to Browser as a global object
 ###
 this.OOD = lib
 
-d = new TableDirective {}
+
+d = new TableDirective()
+
 DirectiveSchool.register OOD, 'ctable', d
 
 f = new FooterDirective()

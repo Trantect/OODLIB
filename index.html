@@ -2,23 +2,17 @@
   <head>
 	  <meta charset="UTF-8">
 	  <title> Angular OOD Lib  </title>
+	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
+   </head>
+  <body ng-app="app" ng-controller="appCtrl">
+    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=5 caption="title"></ctable>
+    <cfooter info="company"></cfooter>
 	  <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/underscore/underscore.js"></script>
-	  <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-	  <link rel="stylesheet" type="text/css" href="./bower_components/components-font-awesome/css/font-awesome.min.css">
-	  <link rel="stylesheet" type="text/css" href="build/table/table.css">
-  </head>
-  <body ng-app="app" ng-controller="appCtrl">
-    <ctable info="accounts" d-fields="accountDetails"></ctable>
-    <ctable info="fruits" d-fields="fruitDetails"></ctable>
-    <cfooter info="company"></cfooter>
-    <caside info="aside1"></caside>
-	  <script src="build/common/base.js"></script>
-	  <script src="build/table/table.js"></script>
-	  <script src="build/footer/footer.js"></script>
-	  <script src="build/aside/aside.js"></script>
-	  <script src="build/common/lib.js"></script>
+
+    <script src="build/dist/ood-omega.min.js"></script>
+
 	  <script src="index.js"></script>
   </body>
 </html>

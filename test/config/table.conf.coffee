@@ -19,10 +19,12 @@ module.exports = (config) ->
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
-      'test/common/model.test.coffee',
-      'test/common/css.test.coffee',
-      'test/common/directive.test.coffee',
-      'test/common/directiveSchool.test.coffee'
+      'lib/table/table.coffee',
+      'build/table/table.html',
+      'test/table/model.test.coffee',
+      'test/table/css.test.coffee',
+      'test/table/directive.test.coffee',
+      'test/table/angular.test.coffee'
     ]
 
 
@@ -34,15 +36,17 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/common/*.coffee': ['coffee']
-      'lib/common/base.coffee': ['coverage']
+      'build/**/*.html': ['ng-html2js']
+      '**/**/*.coffee': ['coffee']
+      'lib/table/table.coffee': ['coverage']
     }
 
     plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
       'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coverage',
+      'karma-ng-html2js-preprocessor'
     ]
 
     # test results reporter to use
@@ -58,7 +62,7 @@ module.exports = (config) ->
         subdir: (browser) ->
           browser.toLowerCase().split(/[ /-]/)[0]
         ,
-        file: 'coverage-common-base.json'
+        file: 'coverage-table.json'
       ,
         type: 'text-summary'
       ,

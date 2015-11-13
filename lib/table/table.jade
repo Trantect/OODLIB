@@ -1,25 +1,35 @@
-table.table
-  tr
-    th(ng-repeat="t in model.fields") 
-      {{t}}
-  tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleActive($index)")
-    td(ng-repeat="(k,v) in item.columnData")
-      span(ng-bind='v')
-    td.over(ng-show="pagination")
-      .pull-right
-        button.btn.btn-default.btn-icon.group_btn
-          i.fa.fa-trash-o
-        button.btn.btn-default.btn-icon
-          i.fa.fa-edit
-  tr(ng-repeat-end, ng-show="model.detailDisplayed($index)")
-    td(colspan="{{model.fields.length}}")
-      {{item.detailData}}
-
-ul(id="pagination")
-  li(ng-repeat="i in model.pageRange" id="{{i}}", ng-click="model.setCurrentPage(i)")
-    {{i}}
-p 
-  span total
-  span(ng-bind="model.data.length")   
-  span records
+.responsive
+  table.table.table-sort.table-detail-default.table-stripped-4
+    thead
+      tr
+        th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
+          span {{t}}
+          i.fa(ng-class="css.sortState(model.sort, t)")
+    tbody
+      tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
+        td(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")
+          div(ng-class="css.cell(k,v)")
+            i(ng-class="css.cellIcon(k,v)")
+            span(ng-bind='v' class="css.cellContent(k,v)")
+      tr(ng-repeat-end, ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)")
+        td.is-nopadding(colspan="{{model.columnFields.length}}")
+          .detail-default
+            .detail-title details
+            dl
+              dt(ng-repeat-start="(k,v) in item.detailData")
+                {{k}}:
+              dd(ng-repeat-end="(k,v) in item.detailData")
+                {{v}}
+  .statistics  
+    span 
+      span total
+      span(ng-bind="model.data.length")   
+      span records
+    ul.pagination
+      li(ng-class="css.prevPageState(model.currentPage)", ng-click="model.setCurrentPage(model.currentPage-1)")
+        a(href="#") «
+      li(ng-repeat="i in model.pageRange", ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)")
+        a(href="#") {{i}}
+      li(ng-class="css.nextPageState(model.currentPage, model.numPages)", ng-click="model.setCurrentPage(model.currentPage+1)")
+        a(href="#") »
 

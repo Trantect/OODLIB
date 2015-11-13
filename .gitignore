@@ -1,9 +1,12 @@
 bower_components/
 .idea/
-build/
 node_modules/
 index.js
 lib/**/*.html
 libdocs
 apidoc
 report
+coverage
+build/**/
+build/!dist/
+build/*.js

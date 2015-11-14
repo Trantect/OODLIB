@@ -75,13 +75,6 @@ class Table extends Model
     @activeDetailIndex = -1
 
   ###
-  To set table caption
-  @param caption [string] default 'Table'
-  ###
-  setCaption: (caption) ->
-    @caption = caption ? "Table"
-
-  ###
   To reset order status by field
   @param field [string] field the data is sorted by
   @param order [number] enum: -1(des), 0(no ordered), 1(asc)
@@ -238,7 +231,6 @@ class TableDirective extends Directive
         cFields: '=cFields'
         dFields: '=dFields'
         numPerPage: '=numPerPage'
-        caption: '=caption'
     _.extend params, tableParams
     super params, Table, cssKlass
 
@@ -249,7 +241,6 @@ class TableDirective extends Directive
   linkFn: (scope, element, attr) ->
     super scope, element, attr
     scope.model.setPagination 1, scope.numPerPage
-    scope.model.setCaption scope.caption
     scope.cFields = scope.cFields ? scope.model.fields
     scope.dFields = scope.dFields ? scope.model.fields
     scope.model.setFields scope.cFields, scope.dFields

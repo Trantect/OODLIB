@@ -250,16 +250,6 @@ To define a model
 
 
     /*
-    To set table caption
-    @param caption [string] default 'Table'
-     */
-
-    Table.prototype.setCaption = function(caption) {
-      return this.caption = caption != null ? caption : "Table";
-    };
-
-
-    /*
     To reset order status by field
     @param field [string] field the data is sorted by
     @param order [number] enum: -1(des), 0(no ordered), 1(asc)
@@ -516,8 +506,7 @@ To define a model
         scope: {
           cFields: '=cFields',
           dFields: '=dFields',
-          numPerPage: '=numPerPage',
-          caption: '=caption'
+          numPerPage: '=numPerPage'
         }
       };
       _.extend(params, tableParams);
@@ -533,7 +522,6 @@ To define a model
       var ref, ref1;
       TableDirective.__super__.linkFn.call(this, scope, element, attr);
       scope.model.setPagination(1, scope.numPerPage);
-      scope.model.setCaption(scope.caption);
       scope.cFields = (ref = scope.cFields) != null ? ref : scope.model.fields;
       scope.dFields = (ref1 = scope.dFields) != null ? ref1 : scope.model.fields;
       return scope.model.setFields(scope.cFields, scope.dFields);

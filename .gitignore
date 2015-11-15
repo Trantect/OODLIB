@@ -8,5 +8,6 @@ apidoc
 report
 coverage
 build/**/
-build/!dist/
+!build/dist/
 build/*.js
+po

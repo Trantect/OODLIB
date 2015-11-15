@@ -15,6 +15,8 @@ module.exports = (grunt)->
         tasks: ['appBuild']
     clean:
       lib: ['build', 'apidoc']
+      po: ['po']
+      compile: ['build/translation']
       test: ['report']
       app: ['index.js']
 
@@ -79,6 +81,7 @@ module.exports = (grunt)->
           grunt.uriStatic + 'footer/' + '*.js'
           grunt.uriStatic + 'aside/' + '*.js'
           grunt.uriStatic + 'common/' + 'lib.js'
+          grunt.uriStatic + 'translation.js'
           grunt.uriStatic + 'views.js'
           '!' + grunt.uriStatic + '*.min.js'
         ]
@@ -98,6 +101,15 @@ module.exports = (grunt)->
           '!*.min.js'
         ]
 
+    nggettext_extract:
+      lib:
+        files:
+          'po/lib.pot': ['build/**/*.html']
+
+    nggettext_compile:
+      lib:
+        files:
+          'build/translation.js': ['po/*.pot']
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -109,14 +121,16 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-concat'
   grunt.loadNpmTasks 'grunt-hustler'
+  grunt.loadNpmTasks 'grunt-angular-gettext'
 
-
-
-  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'ngTemplateCache','concat', 'minify', 'shell:apidoc']
+  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'ngTemplateCache', 'shell:apidoc']
+  grunt.registerTask "package", ['concat', 'uglify']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "default", ['libBuild', 'appBuild']
   grunt.registerTask "cleanBuild", ["clean:dev"]
   grunt.registerTask "test", ["clean:test", "shell:karma"]
-  grunt.registerTask "minify", ["uglify"]
+  grunt.registerTask "transExtract", ['clean:po', 'nggettext_extract']
+  grunt.registerTask "transCompile", ['clean:compile', 'nggettext_compile']
+
 
 

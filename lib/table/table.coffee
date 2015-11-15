@@ -125,6 +125,20 @@ class Table extends Model
 
 
   ###
+  Set Title Display
+  ###
+  setTitles: (titles) ->
+    @titles = _.mapObject @fieldsSample, (v, k) ->
+      console.log titles[k]
+      t = (titles and titles[k]) ? k
+
+  ###
+  get Title Display
+  ###
+  getTitle: (t) ->
+    @titles[t]
+  
+  ###
   To toggle detail
   @param _index [number] index of record whose detail is to be displayed
   ###
@@ -231,6 +245,7 @@ class TableDirective extends Directive
         cFields: '=cFields'
         dFields: '=dFields'
         numPerPage: '=numPerPage'
+        titles: '=titles'
     _.extend params, tableParams
     super params, Table, cssKlass
 
@@ -244,6 +259,7 @@ class TableDirective extends Directive
     scope.cFields = scope.cFields ? scope.model.fields
     scope.dFields = scope.dFields ? scope.model.fields
     scope.model.setFields scope.cFields, scope.dFields
+    scope.model.setTitles scope.titles
 
 this.TableDirective = TableDirective
 this.TableCssManager = TableCssManager

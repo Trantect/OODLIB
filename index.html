@@ -5,13 +5,18 @@
 	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
    </head>
   <body ng-app="app" ng-controller="appCtrl">
-    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=5></ctable>
+    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
     <cfooter info="company"></cfooter>
     <caside info="aside1"></caside>
+    <!--
+    <p translate> Welcome ladies and gentlemen! </p>
+    <p translate> Hello {{username}} </p>
+    <p translate>{{username}}</p>
+    -->
 	  <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/underscore/underscore.js"></script>
-
+	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
     <script src="build/dist/ood-omega.min.js"></script>
 
 	  <script src="index.js"></script>

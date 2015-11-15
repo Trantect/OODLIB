@@ -1,6 +1,20 @@
 app = angular.module 'app', ['OODLib']
 
 app.controller 'appCtrl', ['$scope', ($scope) ->
+  $scope.displayTitles =
+    "clientId":"用户号"
+    "nickname":"用户名"
+    "MACAddr":"Mac地址"
+    "groupName":"组名"
+    "clientName":"用户名称"
+    "diskSN":"硬盘号"
+    "os":"操作系统"
+    "pcSN":"计算机序列号"
+    "cpuType":"cpu 型号"
+    "ip":"IP 地址"
+    "pcType":"计算机类型"
+
+  $scope.username = 'Trantect'
   $scope.title = "Hardware Management"
   $scope.hardwareDetail = ['clientName', 'cpuType', 'diskSN', 'pcSN']
   $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']

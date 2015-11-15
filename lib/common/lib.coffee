@@ -2,7 +2,11 @@
 Create an angular module called OODLIB
 @author Phoenix Grey
 ###
-lib = angular.module "OODLib", []
+lib = angular.module "OODLib", ['gettext']
+lib.run ['gettextCatalog', (gettextCatalog) ->
+  gettextCatalog.currentLanguage = 'zh'
+  gettextCatalog.debug = true
+]
 
 ###
 Expose OOD to Browser as a global object

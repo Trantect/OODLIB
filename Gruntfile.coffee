@@ -126,7 +126,7 @@ module.exports = (grunt)->
   grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'ngTemplateCache', 'shell:apidoc']
   grunt.registerTask "package", ['concat', 'uglify']
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
-  grunt.registerTask "default", ['libBuild', 'appBuild']
+  grunt.registerTask "default", ['libBuild', 'appBuild', 'transCompile', 'package']
   grunt.registerTask "cleanBuild", ["clean:dev"]
   grunt.registerTask "test", ["clean:test", "shell:karma"]
   grunt.registerTask "transExtract", ['clean:po', 'nggettext_extract']

@@ -1,5 +1,4 @@
 # Karma configuration
-# Generated on Wed Oct 28 2015 17:28:48 GMT+0800 (CST)
 
 module.exports = (config) ->
   config.set
@@ -19,12 +18,12 @@ module.exports = (config) ->
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
       'lib/common/base.coffee',
-      'lib/table/table.coffee',
-      'lib/table/table.html',
-      'test/table/model.test.coffee',
-      'test/table/css.test.coffee',
-      'test/table/directive.test.coffee',
-      'test/table/angular.test.coffee'
+      'lib/footer/footer.coffee',
+      'lib/footer/footer.html',
+      'test/footer/model.test.coffee',
+      'test/footer/css.test.coffee',
+      'test/footer/directive.test.coffee',
+      'test/footer/angular.test.coffee'
     ]
 
 
@@ -38,7 +37,7 @@ module.exports = (config) ->
     preprocessors: {
       'lib/**/*.html': ['ng-html2js']
       '**/**/*.coffee': ['coffee']
-      'lib/table/table.coffee': ['coverage']
+      'lib/footer/footer.coffee': ['coverage']
     }
 
     plugins: [
@@ -62,7 +61,7 @@ module.exports = (config) ->
         subdir: (browser) ->
           browser.toLowerCase().split(/[ /-]/)[0]
         ,
-        file: 'coverage-table.json'
+        file: 'coverage-footer.json'
       ,
         type: 'text-summary'
       ,

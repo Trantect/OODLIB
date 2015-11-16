@@ -326,7 +326,6 @@ To define a model
     Table.prototype.setTitles = function(titles) {
       return this.titles = _.mapObject(this.fieldsSample, function(v, k) {
         var ref, t;
-        console.log(titles[k]);
         return t = (ref = titles && titles[k]) != null ? ref : k;
       });
     };
@@ -568,15 +567,20 @@ To define a model
 
   directiveDir = 'lib/footer/';
 
-  FooterCssManager = (function() {
-    function FooterCssManager() {}
 
-    return FooterCssManager;
-
-  })();
+  /*
+  To define a footer model
+  @extend Model
+   */
 
   Footer = (function(superClass) {
     extend(Footer, superClass);
+
+
+    /*
+    To construct an instance of footer model
+    @param data [Array<Dict>] data to be displayed in footer
+     */
 
     function Footer(data) {
       this.data = data;
@@ -587,8 +591,32 @@ To define a model
 
   })(Model);
 
+
+  /*
+  To define footer css manager
+   */
+
+  FooterCssManager = (function() {
+    function FooterCssManager() {}
+
+    return FooterCssManager;
+
+  })();
+
+
+  /*
+  To define footer directive
+  @extend Directive
+   */
+
   FooterDirective = (function(superClass) {
     extend(FooterDirective, superClass);
+
+
+    /*
+    Construct an instance of FooterDirective
+    @param params [dict] Parameters of angular directive
+     */
 
     function FooterDirective(params) {
       var footerParams;
@@ -740,11 +768,10 @@ Create an angular module called OODLIB
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"details":"详情","records":"条记录","total":"总共"});
 /* jshint +W100 */
 }]);
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/aside/aside.html', '<div class="linedk"> <ul> <li ng-repeat="(k, v) in model.data"><a ng-href="{{v.URL}}" ng-click="model.toggle(k)"><i ng-class="v.icon"></i>{{v.name}}<i ng-class="css.arrowIcon(model.expansion, k)"></i></a> <ul ng-show="model.expanded(k)"> <li ng-repeat="subnode in v.subnodes"><a ng-href="{{subnode.URL}}"><i ng-class="subnode.icon"></i>{{subnode.name}}</a></li> </ul> </li> </ul> </div>');
-	$templateCache.put('lib/footer/footer.html', '<footer> <p>Copyright © {{model.data.year}} {{model.data.name}}<span>|</span><a ng-href="{{model.data.website}}">{{model.data.websiteName}}</a><span>|</span>version: {{model.data.version}} {{model.data.status}}</p> </footer>');
+	$templateCache.put('lib/footer/footer.html', '<footer> <p>Copyright © {{model.data.year}} {{model.data.name}}<span> | </span><a ng-href="{{model.data.website}}">{{model.data.websiteName}}</a><span> | </span>version: {{model.data.version}} {{model.data.status}}</p> </footer>');
 	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData" ng-bind="model.getTitle(k)">:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
 }]);

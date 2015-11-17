@@ -3,6 +3,20 @@
 	  <meta charset="UTF-8">
 	  <title> Angular OOD Lib  </title>
 	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
+    <!-- style for test -->
+    <style>
+      .leftFooter {
+        /*text-align: left;*/
+        float: left;
+      }
+      .rightFooter {
+        /*text-align: right;*/
+        float: right;
+      }
+      .rightFooter li {
+        display: inline;
+      }
+    </style>
    </head>
   <body ng-app="app" ng-controller="appCtrl">
     <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>

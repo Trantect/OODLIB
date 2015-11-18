@@ -129,7 +129,6 @@ class Table extends Model
   ###
   setTitles: (titles) ->
     @titles = _.mapObject @fieldsSample, (v, k) ->
-      console.log titles[k]
       t = (titles and titles[k]) ? k
 
   ###

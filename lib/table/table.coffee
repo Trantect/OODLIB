@@ -152,7 +152,6 @@ class Table extends Model
   detailDisplayed: (_index) ->
     _index == @activeDetailIndex
 
-
 ###
 To define table css manager
 @extend CssManager

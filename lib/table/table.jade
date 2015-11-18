@@ -20,7 +20,7 @@
                 |:
               dd(ng-repeat-end="(k,v) in item.detailData")
                 {{v}}
-  .statistics  
+  .statistics(ng-show="model.data.length>0") 
     span 
       span(translate) total
       span(ng-bind="model.data.length")   

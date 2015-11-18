@@ -1,10 +1,7 @@
 footer
-  span.leftFooter
-    | Copyright © {{model.data.year}} {{model.data.name}}
-    span &nbsp;&nbsp;|&nbsp;&nbsp;
-    | Version: {{model.data.version}} {{model.data.status}}
-  span.rightFooter
-    ul
-      li(ng-repeat="(k, v) in model.data.website")
-        a(ng-href="{{ v }}")&nbsp;&nbsp;{{ k }}&nbsp;&nbsp;|
+  span.copyright Copyright © {{model.data.year}} {{model.data.name}} | Version: {{model.data.version}} {{model.data.status}}
+  span.help
+    span(ng-repeat="(k, v) in model.data.website")
+      a(ng-href="{{ v }}")&nbsp;{{ k }}&nbsp;
+      ||
         

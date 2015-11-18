@@ -16,8 +16,8 @@
           .detail-default
             .detail-title(translate) details
             dl
-              dt(ng-repeat-start="(k,v) in item.detailData" ng-bind="model.getTitle(k)")
-                |:
+              dt(ng-repeat-start="(k,v) in item.detailData")
+                {{model.getTitle(k)}}:
               dd(ng-repeat-end="(k,v) in item.detailData")
                 {{v}}
   .statistics(ng-show="model.data.length>0") 

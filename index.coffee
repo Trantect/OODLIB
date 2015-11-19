@@ -82,12 +82,12 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
 
 
   $scope.company =
-    name: '启明星辰'
-    version: '10.0.13980.1'
-    status: 'alpha'
-    year: '2015'
-    website: 'http://alpha.nj.trantect.com/'
-    websiteName: '云子可信官网'
+    copyright: '2015 Demo'
+    version: '0.0.1 alpha'
+    websites:
+      'our site':'http://www.trantect.com'
+      'help': 'http://help.trantect.com'
+      'link': '#'
 
 
 

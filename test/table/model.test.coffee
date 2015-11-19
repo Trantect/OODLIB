@@ -22,13 +22,6 @@ describe "Create Table model without data", () ->
     (expect m.activeDetailIndex).toEqual -1
     done()
 
-  it "set caption", (done) ->
-    (expect m.caption).toBeUndefined()
-    m.setCaption()
-    (expect m.caption).toEqual 'Table'
-    m.setCaption 'Overview'
-    (expect m.caption).toEqual 'Overview'
-    done()
 
   it "toggle detail", (done) ->
     m.toggleDetail 0
@@ -38,7 +31,7 @@ describe "Create Table model without data", () ->
     (expect m.activeDetailIndex).toEqual -1
     (expect m.detailDisplayed 0).toBe false
     done()
-    
+
 describe "Create Table model with data", () ->
   m = data = fieldsSample = fields = undefined
   beforeEach () ->
@@ -119,7 +112,7 @@ describe "Create Table model with data", () ->
     _.each m.sort, (v) ->
       (expect v.fn).toEqual _.identity
       (expect v.order).toEqual 0
-    
+
     (expect m.numPerPage).toEqual 2
     (expect m.numPages).toEqual 3
     (expect m.currentPage).toEqual 1

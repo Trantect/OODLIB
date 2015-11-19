@@ -3,13 +3,22 @@
 	  <meta charset="UTF-8">
 	  <title> Angular OOD Lib  </title>
 	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
-   </head>
+  </head>
   <body ng-app="app" ng-controller="appCtrl">
+    <!--
     <ctable></ctable>
     <ctable info="hardware"></ctable>
     <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
-    <cfooter info="company"></cfooter>
-    <caside info="aside1"></caside>
+    -->
+    <sidebar>
+      <caside info="aside1"></caside>
+      <caside info="aside2"></caside>
+    </sidebar>
+
+    <content>
+      <cfooter info="company"></cfooter>
+    </content>
+
     <!--
     <p translate> Welcome ladies and gentlemen! </p>
     <p translate> Hello {{username}} </p>

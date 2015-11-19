@@ -136,7 +136,7 @@ class Table extends Model
   ###
   getTitle: (t) ->
     @titles[t]
-  
+
   ###
   To toggle detail
   @param _index [number] index of record whose detail is to be displayed
@@ -159,7 +159,7 @@ To define table css manager
 class TableCssManager extends CssManager
 
   ###
-  table tr style 
+  table tr style
   ###
   @brief: (item) ->
 
@@ -169,7 +169,7 @@ class TableCssManager extends CssManager
   @detail: (item) ->
 
   ###
-  table td style 
+  table td style
   ###
   @td: (item) ->
 
@@ -186,7 +186,7 @@ class TableCssManager extends CssManager
       when 'nickname' then 'fa fa-desktop'
       when 'groupName' then 'fa fa-client-group'
       else 'hide'
-  
+
   ###
   td with background
   ###
@@ -202,7 +202,7 @@ class TableCssManager extends CssManager
       when -1 then "fa-sort-up"
       when 1 then "fa-sort-down"
       else "fa-sort"
-  
+
   ###
   page index style
   ###

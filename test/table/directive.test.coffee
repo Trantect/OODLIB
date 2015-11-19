@@ -7,13 +7,13 @@ describe "Directive Test", () ->
 
     params =
       restrict: 'E'
-      templateUrl: 'build/table/table.html'
+      templateUrl: 'lib/table/table.html'
       scope:
         cFields: '=cFields'
         dFields: '=dFields'
         numPerPage: '=numPerPage'
-        caption: '=caption'
         storage: "=info"
+        titles: '=titles'
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
     (expect d.params.link).toBeDefined()

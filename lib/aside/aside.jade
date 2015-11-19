@@ -1,13 +1,12 @@
-sidebar
-  ul.menu
-    li(ng-repeat="(k, v) in model.data")
-      a(ng-href="{{v.URL}}" ng-click="model.toggle(k)")
-        i(ng-class="v.icon")
-        span {{v.name}}
-        i.is-align-right(ng-class="css.arrowIcon(model.expansion, k)")
-      ul.menu(ng-show="model.expanded(k)")
-        li(ng-repeat="subnode in v.subnodes")
-          a(ng-href="{{subnode.URL}}")
-            i(ng-class="subnode.icon")
-            span {{subnode.name}}
+ul.menu
+  li(ng-repeat="(k, v) in model.data")
+    a(ng-href="{{v.URL}}" ng-click="model.toggle(k)")
+      i(ng-class="v.icon")
+      span {{v.name}}
+      i.is-align-right(ng-class="css.arrowIcon(model.expansion, k)")
+    ul.menu(ng-show="model.expanded(k)")
+      li(ng-repeat="subnode in v.subnodes")
+        a(ng-href="{{subnode.URL}}")
+          i(ng-class="subnode.icon")
+          span {{subnode.name}}
 

@@ -14,12 +14,9 @@ class AsideCssManager
 class Aside extends Model
   constructor: (@data) ->
     @initExpansion()
-    @
 
   initExpansion: () ->
     @expansion = _.mapObject @data, (v, k) ->
-      console.log "k", k
-      console.log "v", v
       state = if not v.subnodes then DISABLED else COLLAPSED
 
   toggle: (k) ->
@@ -32,7 +29,7 @@ class Aside extends Model
 
 class AsideDirective extends Directive
   constructor: (params, cssKlass) ->
-    params = params ? {}
+    params = params ? {replace: true}
     cssKlass = cssKlass ? AsideCssManager
     asideParams =
       templateUrl: directiveDir + 'aside.html'

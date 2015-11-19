@@ -82,11 +82,9 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
 
 
   $scope.company =
-    name: 'Demo'
-    version: '0.0.1'
-    status: 'alpha'
-    year: '2015'
-    website:
+    copyright: '2015 Demo'
+    version: '0.0.1 alpha'
+    websites:
       'our site':'http://www.trantect.com'
       'help': 'http://help.trantect.com'
       'link': '#'

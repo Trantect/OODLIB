@@ -1,7 +1,7 @@
 footer
-  span.copyright Copyright © {{model.data.year}} {{model.data.name}} | Version: {{model.data.version}} {{model.data.status}}
+  span.copyright Copyright © {{model.copyright}} | Version: {{model.version}}
   span.help
-    span(ng-repeat="(k, v) in model.data.website")
+    span(ng-repeat="(k, v) in model.websites")
       a(ng-href="{{ v }}")&nbsp;{{ k }}&nbsp;
-      ||
+      span(ng-show="{{$index}}<{{model.lenOfSites-1}}") |
         

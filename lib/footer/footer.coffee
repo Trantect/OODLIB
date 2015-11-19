@@ -9,8 +9,12 @@ class Footer extends Model
   To construct an instance of footer model
   @param data [Array<Dict>] data to be displayed in footer
   ###
-  constructor: (@data) ->
-    @
+  constructor: (data) ->
+    @rawData = data
+    @copyright = data.copyright
+    @version = data.version
+    @websites = data.websites
+    @lenOfSites = (_.keys data.websites).length
 
 ###
 To define footer css manager

@@ -106,43 +106,43 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
       subnodes:
         monitor: {
           name: '安全监控'
-          URL: '/securitymonitor'
+          URL: '/'
           icon: 'fa fa-circle-thin fa-1'
         },
         terminalSpeedUp: {
           name: '终端加速'
-          URL: '/terminalupgrademanager'
+          URL: '/'
           icon: 'fa fa-circle-thin fa-1'
         },
         powerUpSpeedUp: {
           name: '开机加速'
-          URL: '/bootspeed'
+          URL: '/'
           icon: 'fa fa-circle-thin fa-1'
         },
         hardware: {
         name: '硬件资产'
-        URL: '/hardwareInfo'
+        URL: '/'
         icon: 'fa fa-circle-thin fa-1'
         }
     },
     softwareManagement: {
       name: '软件管理'
-      URL: '/softwaremanager'
+      URL: '/'
       icon: ''
     },
     statisticsChart: {
       name: '统计报表'
-      URL: '/logcenter'
+      URL: '/'
       icon: ''
     },
     safeLog: {
       name: '安全日志'
-      URL: '/safeLogs'
+      URL: '/'
       icon: ''
     },
     serveLog: {
       name: '服务日志'
-      URL: '/serviceLogs'
+      URL: '/'
       icon: ''
     }
 
@@ -150,12 +150,12 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
   $scope.aside2 =
     currentTask: {
       name: '当前任务'
-      URL: '/currenttask'
+      URL: '/'
       icon: ''
     },
     taskHistory: {
       name: '历史任务'
-      URL: '/historytask'
+      URL: '/'
       icon: ''
     }
 

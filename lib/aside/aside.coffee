@@ -1,31 +1,71 @@
 directiveDir = 'build/aside/'
 
-EXPANDED = 0
-COLLAPSED = 1
-DISABLED = 2
+ACTIVE = 0
+INACTIVE = 1
 
+COLLAPSED = 0
+EXPANDED = 1
+
+t = (d, s) ->
+  _.mapObject d, () ->
+    s
 class AsideCssManager
-  @arrowIcon: (expansion, k) ->
-    switch expansion[k]
-      when EXPANDED then 'fa fa-angle-up'
+  @getState: (states, k) ->
+    switch states[k]
+      when ACTIVE then 'is-active'
+
+  @getExpansion: (states, k) ->
+    switch states[k]
       when COLLAPSED then 'fa fa-angle-down'
+      when EXPANDED then 'fa fa-angle-up'
       else ''
+
+  @subState: (states, k) ->
+    switch states[k]
+      when COLLAPSED then false
+      when EXPANDED then true
 
 class Aside extends Model
   constructor: (@data) ->
+    @initStates()
     @initExpansion()
 
+  initStates: () ->
+    @states = {}
+    _.each @data, (val, key) =>
+      @states[key] = INACTIVE
+      subStates = t val.subnodes, INACTIVE
+      _.extend @states, subStates
+
+  hasChildren: (k) ->
+    if @data[k]!=undefined
+      @data[k].subnodes!=undefined
+    else
+      false
+
   initExpansion: () ->
-    @expansion = _.mapObject @data, (v, k) ->
-      state = if not v.subnodes then DISABLED else COLLAPSED
+    @expansion = {}
+    _.each @data, (v, k) =>
+      if @hasChildren k
+        @expansion[k] = COLLAPSED
+      
+  setActive: (k) ->
+    @states = _.mapObject @states, (cv, ck) =>
+      if ck==k and not @hasChildren k
+        ACTIVE
+      else
+        INACTIVE
+    console.log "state", @states[k]
 
   toggle: (k) ->
-    @expansion[k] = switch @expansion[k]
-      when EXPANDED then COLLAPSED
-      when COLLAPSED then EXPANDED
+    if @expansion[k]!=undefined
+      @expansion[k] = switch @expansion[k]
+        when COLLAPSED then EXPANDED
+        when EXPANDED then COLLAPSED
 
-  expanded: (k) ->
-    @expansion[k] == EXPANDED
+  goto: (k) ->
+    @setActive k
+    @toggle k
 
 class AsideDirective extends Directive
   constructor: (params, cssKlass) ->

@@ -640,29 +640,53 @@ To define a model
 }).call(this);
 
 (function() {
-  var Aside, AsideCssManager, AsideDirective, COLLAPSED, DISABLED, EXPANDED, directiveDir,
+  var ACTIVE, Aside, AsideCssManager, AsideDirective, COLLAPSED, EXPANDED, INACTIVE, directiveDir, t,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
   directiveDir = 'build/aside/';
 
-  EXPANDED = 0;
+  ACTIVE = 0;
 
-  COLLAPSED = 1;
+  INACTIVE = 1;
 
-  DISABLED = 2;
+  COLLAPSED = 0;
+
+  EXPANDED = 1;
+
+  t = function(d, s) {
+    return _.mapObject(d, function() {
+      return s;
+    });
+  };
 
   AsideCssManager = (function() {
     function AsideCssManager() {}
 
-    AsideCssManager.arrowIcon = function(expansion, k) {
-      switch (expansion[k]) {
-        case EXPANDED:
-          return 'fa fa-angle-up';
+    AsideCssManager.getState = function(states, k) {
+      switch (states[k]) {
+        case ACTIVE:
+          return 'is-active';
+      }
+    };
+
+    AsideCssManager.getExpansion = function(states, k) {
+      switch (states[k]) {
         case COLLAPSED:
           return 'fa fa-angle-down';
+        case EXPANDED:
+          return 'fa fa-angle-up';
         default:
           return '';
+      }
+    };
+
+    AsideCssManager.subState = function(states, k) {
+      switch (states[k]) {
+        case COLLAPSED:
+          return false;
+        case EXPANDED:
+          return true;
       }
     };
 
@@ -675,29 +699,70 @@ To define a model
 
     function Aside(data) {
       this.data = data;
+      this.initStates();
       this.initExpansion();
     }
 
+    Aside.prototype.initStates = function() {
+      this.states = {};
+      return _.each(this.data, (function(_this) {
+        return function(val, key) {
+          var subStates;
+          _this.states[key] = INACTIVE;
+          subStates = t(val.subnodes, INACTIVE);
+          return _.extend(_this.states, subStates);
+        };
+      })(this));
+    };
+
+    Aside.prototype.hasChildren = function(k) {
+      if (this.data[k] !== void 0) {
+        return this.data[k].subnodes !== void 0;
+      } else {
+        return false;
+      }
+    };
+
     Aside.prototype.initExpansion = function() {
-      return this.expansion = _.mapObject(this.data, function(v, k) {
-        var state;
-        return state = !v.subnodes ? DISABLED : COLLAPSED;
-      });
+      this.expansion = {};
+      return _.each(this.data, (function(_this) {
+        return function(v, k) {
+          if (_this.hasChildren(k)) {
+            return _this.expansion[k] = COLLAPSED;
+          }
+        };
+      })(this));
+    };
+
+    Aside.prototype.setActive = function(k) {
+      this.states = _.mapObject(this.states, (function(_this) {
+        return function(cv, ck) {
+          if (ck === k && !_this.hasChildren(k)) {
+            return ACTIVE;
+          } else {
+            return INACTIVE;
+          }
+        };
+      })(this));
+      return console.log("state", this.states[k]);
     };
 
     Aside.prototype.toggle = function(k) {
-      return this.expansion[k] = (function() {
-        switch (this.expansion[k]) {
-          case EXPANDED:
-            return COLLAPSED;
-          case COLLAPSED:
-            return EXPANDED;
-        }
-      }).call(this);
+      if (this.expansion[k] !== void 0) {
+        return this.expansion[k] = (function() {
+          switch (this.expansion[k]) {
+            case COLLAPSED:
+              return EXPANDED;
+            case EXPANDED:
+              return COLLAPSED;
+          }
+        }).call(this);
+      }
     };
 
-    Aside.prototype.expanded = function(k) {
-      return this.expansion[k] === EXPANDED;
+    Aside.prototype.goto = function(k) {
+      this.setActive(k);
+      return this.toggle(k);
     };
 
     return Aside;
@@ -774,7 +839,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint +W100 */
 }]);
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/aside/aside.html', '<ul class="menu"> <li ng-repeat="(k, v) in model.data"><a ng-href="{{v.URL}}" ng-click="model.toggle(k)"><i ng-class="v.icon"></i><span>{{v.name}}</span><i ng-class="css.arrowIcon(model.expansion, k)" class="is-align-right"></i></a> <ul ng-show="model.expanded(k)" class="menu"> <li ng-repeat="subnode in v.subnodes"><a ng-href="{{subnode.URL}}"><i ng-class="subnode.icon"></i><span>{{subnode.name}}</span></a></li> </ul> </li> </ul>');
+	$templateCache.put('lib/aside/aside.html', '<ul class="menu"> <li ng-click="model.goto(k)" ng-repeat="(k, v) in model.data" ng-class="css.getState(model.states, k)"><a><i ng-class="v.icon"></i><span>{{v.name}}</span><i ng-class="css.getExpansion(model.expansion, k)" class="is-align-right"></i></a> <ul ng-show="css.subState(model.expansion, k)" class="menu"> <li ng-click="model.goto(sk); $event.stopPropagation();" ng-repeat="(sk, sv) in v.subnodes" ng-class="css.getState(model.states, sk)"><a><i ng-class="sv.icon"></i><span>{{sv.name}}</span></a></li> </ul> </li> </ul>');
 	$templateCache.put('lib/footer/footer.html', '<footer><span class="copyright">Copyright © {{model.copyright}} | Version: {{model.version}}</span><span class="help"><span ng-repeat="(k, v) in model.websites"><a ng-href="{{ v }}">&nbsp;{{ k }}&nbsp;</a><span ng-show="{{$index}}&lt;{{model.lenOfSites-1}}">|</span></span></span></footer>');
 	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
 	$templateCache.put('lib/topbar/topbarDropdown.html', '<ul class="dropdown-menu"> <li class="header">{{ model.data.name }}</li> <li> <ul class="menu"> <li ng-repeat="(k, v) in model.data"><a ng-href="{{v.URL}}" ng-click="model.toggle(k)"><i ng-class="v.icon" class="floatLeft"><span class="floatLeft"><small class="topBar_small"></small></span><span class="floatLeft">{{ v.name }}<small ng-bind="v.count" class="topBar_small_chrono"></small></span></i><i ng-class="css.arrowIcon(model.expansion, k)"></i> <ul ng-show="model.expanded(k)"> <li ng-repeat="(k, v) in v.subnodes">{{ k }}:&nbsp;&nbsp;{{ v }}</li> </ul></a></li> </ul> </li> <li class="footer"> <ul> <li ng-repeat="(k, v) in model.data.footerInfo">{{ k }}:&nbsp;&nbsp;{{ v }}</li> </ul> </li> </ul>');

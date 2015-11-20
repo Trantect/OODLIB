@@ -6,9 +6,6 @@
   </head>
   <body ng-app="app" ng-controller="appCtrl">
     <!--
-    <ctable></ctable>
-    <ctable info="hardware"></ctable>
-    <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
     -->
     <sidebar>
       <caside info="aside1"></caside>
@@ -16,6 +13,21 @@
     </sidebar>
 
     <content>
+      <div class="row">
+        <div class="panel panel-body">
+          <ctable></ctable>
+        </div>
+      </div>
+      <div class="row">
+        <div class="panel panel-body">
+          <ctable info="hardware"></ctable>
+        </div>
+      </div>
+      <div class="row">
+        <div class="panel panel-body">
+          <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
+        </div>
+      </div>
       <cfooter info="company"></cfooter>
     </content>
 

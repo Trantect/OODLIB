@@ -1,12 +1,12 @@
 ul.menu
-  li(ng-repeat="(k, v) in model.data")
-    a(ng-href="{{v.URL}}" ng-click="model.toggle(k)")
+  li(ng-click="model.goto(k)", ng-repeat="(k, v) in model.data", ng-class="css.getState(model.states, k)")
+    a
       i(ng-class="v.icon")
       span {{v.name}}
-      i.is-align-right(ng-class="css.arrowIcon(model.expansion, k)")
-    ul.menu(ng-show="model.expanded(k)")
-      li(ng-repeat="subnode in v.subnodes")
-        a(ng-href="{{subnode.URL}}")
-          i(ng-class="subnode.icon")
-          span {{subnode.name}}
+      i.is-align-right(ng-class="css.getExpansion(model.expansion, k)")
+    ul.menu(ng-show="css.subState(model.expansion, k)")
+      li(ng-click="model.goto(sk); $event.stopPropagation();", ng-repeat="(sk, sv) in v.subnodes", ng-class="css.getState(model.states, sk)")
+        a
+          i(ng-class="sv.icon")
+          span {{sv.name}}
 

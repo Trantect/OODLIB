@@ -1,12 +1,12 @@
-ul.menu
-  li(ng-click="model.goto(k)", ng-repeat="(k, v) in model.data", ng-class="css.getState(model.states, k)")
-    a
-      i(ng-class="v.icon")
-      span {{v.name}}
-      i.is-align-right(ng-class="css.getExpansion(model.expansion, k)")
-    ul.menu(ng-show="css.subState(model.expansion, k)")
-      li(ng-click="model.goto(sk); $event.stopPropagation();", ng-repeat="(sk, sv) in v.subnodes", ng-class="css.getState(model.states, sk)")
-        a
-          i(ng-class="sv.icon")
-          span {{sv.name}}
-
+sidebar
+  ul.menu(ng-repeat="menu in model.data")
+    li(ng-repeat="(k, v) in menu", ng-class="css.getState(model.states, k)", ng-click="model.goto(k)")
+      a
+        i(ng-class="v.icon")
+        span {{v.name}}
+        i.is-align-right(ng-class="css.getExpansion(model.expansion, k)")
+      ul.menu(ng-show="css.subState(model.expansion, k)")
+        li(ng-click="model.goto(sk); $event.stopPropagation();", ng-repeat="(sk, sv) in v.subnodes", ng-class="css.getState(model.states, sk)")
+          a
+            i(ng-class="sv.icon")
+            span {{sv.name}}

@@ -10,11 +10,15 @@ class Footer extends Model
   @param data [Array<Dict>] data to be displayed in footer
   ###
   constructor: (data) ->
-    @rawData = data
-    @copyright = data.copyright
-    @version = data.version
-    @websites = data.websites
-    @lenOfSites = (_.keys data.websites).length
+    defaultData =
+      copyright: "EMPTY copyright"
+      version: "EMPTY version"
+      websites: {}
+    @rawData = _.extend defaultData, data
+    @copyright = @rawData.copyright
+    @version = @rawData.version
+    @websites = @rawData.websites
+    @lenOfSites = (_.keys @rawData.websites).length
 
 ###
 To define footer css manager

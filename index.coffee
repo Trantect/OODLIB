@@ -1,8 +1,13 @@
 app = angular.module 'app', ['OODLib']
 
 app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
-  $scope.activeItem = $location.path()[1..]
-  console.log $scope.activeItem
+
+  $scope.$watch () ->
+    $location.path()[1..]
+  , (nV, oV) ->
+    $scope.activeItem = nV
+    console.log nV
+
   $scope.displayTitles =
     "clientId":"用户号"
     "nickname":"用户名"
@@ -107,35 +112,35 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
       subnodes:
         monitor:
           name: '安全监控'
-          URL: '/'
+          URL: '#monitor'
           icon: 'fa fa-circle-thin fa-1'
         terminalSpeedUp:
           name: '终端加速'
-          URL: '/'
+          URL: '#terminalSpeedUp'
           icon: 'fa fa-circle-thin fa-1'
         powerUpSpeedUp:
           name: '开机加速'
-          URL: '/'
+          URL: '#powerUpSpeedUp'
           icon: 'fa fa-circle-thin fa-1'
         hardware:
           name: '硬件资产'
-          URL: '/'
+          URL: '#hardware'
           icon: 'fa fa-circle-thin fa-1'
     softwareManagement:
       name: '软件管理'
-      URL: '/'
+      URL: '#softwareManagement'
       icon: ''
     statisticsChart:
       name: '统计报表'
-      URL: '/'
+      URL: '#statisticsChart'
       icon: ''
     safeLog:
       name: '安全日志'
-      URL: '/'
+      URL: '#safeLog'
       icon: ''
     serveLog:
       name: '服务日志'
-      URL: '/'
+      URL: '#serveLog'
       icon: ''
 
 
@@ -144,11 +149,11 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
   $scope.aside2 =
     currentTask:
       name: '当前任务'
-      URL: '/'
+      URL: '#currentTask'
       icon: ''
     taskHistory:
       name: '历史任务'
-      URL: '/'
+      URL: '#taskHistory'
       icon: ''
 
 
@@ -156,41 +161,47 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
   $scope.aside3 =
      accountManagement:
        name: '帐号管理'
-       URL: '/accountmanager'
+       URL: '#accountManagement'
        icon: ''
      groupManagement:
        name: '分组管理'
-       URL: '/groupmanager'
+       URL: '#groupManagement'
        icon: ''
      scanTimer:
        name: '定时体检'
-       URL: '/chronoexam'
+       URL: '#scanTimer'
        icon: ''
  
   $scope.aside4 =
     setting:
       name: '设置中心'
-      URL: ''
+      URL: '#setting'
       icon: ''
       subnodes:
         serverConfig:
           name: '控制中心相关设置'
-          URL: '/serverConfig'
+          URL: '#serverConfig'
           icon: ''
         clientConfig:
           name: '终端相关设置'
-          URL: '/clientConfig'
+          URL: '#clientConfig'
           icon: ''
 
   
   $scope.aside5 =
     download:
       name: '下载终端'
-      URL: '/installClient'
+      URL: '#download'
       icon: ''
   
 
+]
 
-
+###
+app.config ['$routeProvider', ($routeProvider) ->
+  $routeProvider
+    .when('/', {templateUrl: 'index.html'})
+    .otherwise('index.html')
 
 ]
+###

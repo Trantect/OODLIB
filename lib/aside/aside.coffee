@@ -78,7 +78,7 @@ class Aside extends Model
 
 
   setStates: (nodeId) ->
-    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (_.keys @states)[0]
+    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
     keys = @states[nodeId].changeState @states, @activatedKey, @expandedKey
     @expandedKey = keys.expandedKey
     @activatedKey = keys.activatedKey
@@ -101,7 +101,17 @@ class AsideDirective extends Directive
   ###
   linkFn: (scope, element, attr) ->
     super scope, element, attr
-    scope.model.setStates scope.activeItem
+
+    scope.$watch () ->
+      scope.activeItem
+    , (nV, oV) ->
+      scope.setActiveItem nV
+      console.log nV
+
+    scope.setActiveItem = (item) ->
+      scope.activeItem = item
+      scope.model.setStates scope.activeItem
+
 
 
 this.AsideDirective = AsideDirective

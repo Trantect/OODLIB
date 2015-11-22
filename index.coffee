@@ -84,10 +84,17 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
   $scope.company =
     copyright: '2015 Demo'
     version: '0.0.1 alpha'
-    websites:
+    websites: [
       'our site':'http://www.trantect.com'
+    ,
+      'our site':'http://www.trantect.com'
+    ,
       'help': 'http://help.trantect.com'
+    ,
       'link': '#'
+    ,
+      '世界': "http://www.sina.com"
+    ]
 
 
 

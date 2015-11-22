@@ -1,7 +1,7 @@
 footer
   span.copyright Copyright © {{model.copyright}} | Version: {{model.version}}
   span.help
-    span(ng-repeat="(k, v) in model.websites")
-      a(ng-href="{{ v }}")&nbsp;{{ k }}&nbsp;
+    span(ng-repeat="site in model.websites")
+      a(ng-href="{{model.getLink(site)}}")&nbsp;{{model.getName(site)}}&nbsp;
       span(ng-show="{{$index}}<{{model.lenOfSites-1}}") |
         

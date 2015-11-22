@@ -14,7 +14,14 @@ class Footer extends Model
     @copyright = data.copyright
     @version = data.version
     @websites = data.websites
-    @lenOfSites = (_.keys data.websites).length
+    @lenOfSites = data.websites.length
+
+  getLink: (o) ->
+    (_.values o)[0]
+
+  getName: (o) ->
+    (_.keys o)[0]
+
 
 ###
 To define footer css manager

@@ -1,8 +1,8 @@
 app = angular.module 'app', ['OODLib']
 
-app.controller 'appCtrl', ['$scope', ($scope) ->
-  $scope.test = () ->
-    console.log 'OK'
+app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
+  $scope.activeItem = $location.path()[1..]
+  console.log $scope.activeItem
   $scope.displayTitles =
     "clientId":"用户号"
     "nickname":"用户名"
@@ -153,44 +153,42 @@ app.controller 'appCtrl', ['$scope', ($scope) ->
 
 
 
-  # $scope.aside3 =
-  #   accountManagement:
-  #     name: '帐号管理'
-  #     URL: '/accountmanager'
-  #     icon: ''
-  #   groupManagement:
-  #     name: '分组管理'
-  #     URL: '/groupmanager'
-  #     icon: ''
-  #   scanTimer:
-  #     name: '定时体检'
-  #     URL: '/chronoexam'
-  #     icon: ''
-  #
-  #
-  #
-  # $scope.aside4 =
-  #   setting:
-  #     name: '设置中心'
-  #     URL: ''
-  #     icon: ''
-  #     subnodes: [
-  #       name: '控制中心相关设置'
-  #       URL: '/serverConfig'
-  #       icon: ''
-  #       ,
-  #       name: '终端相关设置'
-  #       URL: '/clientConfig'
-  #       icon: ''
-  #     ]
-  #
-  #
-  # $scope.aside5 =
-  #   download:
-  #     name: '下载终端'
-  #     URL: '/installClient'
-  #     icon: ''
-  #
+  $scope.aside3 =
+     accountManagement:
+       name: '帐号管理'
+       URL: '/accountmanager'
+       icon: ''
+     groupManagement:
+       name: '分组管理'
+       URL: '/groupmanager'
+       icon: ''
+     scanTimer:
+       name: '定时体检'
+       URL: '/chronoexam'
+       icon: ''
+ 
+  $scope.aside4 =
+    setting:
+      name: '设置中心'
+      URL: ''
+      icon: ''
+      subnodes:
+        serverConfig:
+          name: '控制中心相关设置'
+          URL: '/serverConfig'
+          icon: ''
+        clientConfig:
+          name: '终端相关设置'
+          URL: '/clientConfig'
+          icon: ''
+
+  
+  $scope.aside5 =
+    download:
+      name: '下载终端'
+      URL: '/installClient'
+      icon: ''
+  
 
 
 

@@ -9,23 +9,12 @@
     -->
 
 
-    <caside info="[aside1,aside2]" active-state="monitor"></caside>
-
+    <caside info="[aside1,aside2,aside3,aside4,aside5]" active-item="activeItem"></caside>
     <content>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable></ctable>
-        </div>
-      </div>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable info="hardware"></ctable>
-        </div>
-      </div>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
-        </div>
+
+      what : {{activeItem}}
+      <div class="panel panel-body">
+        <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
       </div>
       <cfooter info="company"></cfooter>
     </content>

@@ -1,12 +1,12 @@
 sidebar
-  ul.menu(ng-repeat="menu in model.data")
-    li(ng-repeat="(k, v) in menu", ng-class="css.getState(model.states, k)", ng-click="model.goto(k)")
-      a
-        i(ng-class="v.icon")
-        span {{v.name}}
-        i.is-align-right(ng-class="css.getExpansion(model.expansion, k)")
-      ul.menu(ng-show="css.subState(model.expansion, k)")
-        li(ng-click="model.goto(sk); $event.stopPropagation();", ng-repeat="(sk, sv) in v.subnodes", ng-class="css.getState(model.states, sk)")
-          a
-            i(ng-class="sv.icon")
-            span {{sv.name}}
+  ul.menu(ng-repeat="section in model.rawData")
+    li(ng-repeat="(nid, nObj) in section", ng-class="css.getState(model.states[nid].activation)")
+      a(ng-click="model.goto(nid)")
+        i(ng-class="nObj.icon")
+        span {{nObj.name}}
+        i.is-align-right(ng-class="css.getExpansion(model.states[nid].expansion)")
+      ul.menu(ng-show="css.expanded(model.states[nid].expansion)")
+        li(ng-repeat="(subNid, subNObj) in nObj.subnodes", ng-class="css.getState(model.states[ subNid].activation)")
+          a(ng-click="model.goto(subNid); $event.stopPropagation();")
+            i(ng-class="subNObj.icon")
+            span {{subNObj.name}}

@@ -1,38 +1,22 @@
 <html>
   <head>
 	  <meta charset="UTF-8">
-	  <title> Angular OOD Lib  </title>
-	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
+	  <title> Angular OOD Lib CDN  </title>
+    <script type="text/javascript">
+      var host = "http://phoenixgrey.github.io/oodlib/bower_components/ood-omega/build/dist/";
+    </script>
   </head>
-  <body ng-app="app" ng-controller="appCtrl">
-    <!--
-    -->
-
-
-    <caside info="[aside1,aside2,aside3,aside4,aside5]" active-item="activeItem"></caside>
-    <content>
-
-      what : {{activeItem}}
-      <div class="panel panel-body">
-        <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
-      </div>
-      <cfooter info="company"></cfooter>
-    </content>
+  <body>
+    <a href="./bower_components/ood-omega/build/dist/ood-omega.min.js">http://phoenixgrey.github.io/oodlib/bower_components/ood-omega/build/dist/ood-omega.min.js</a>
+ 
 
     <!--
-    <p translate> Welcome ladies and gentlemen! </p>
-    <p translate> Hello {{username}} </p>
-    <p translate>{{username}}</p>
-    -->
 	  <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
-    <!--
-	  <script src="./bower_components/angular-route/angular-route.js"></script>
-    -->
     <script src="./bower_components/underscore/underscore.js"></script>
 	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
     <script src="build/dist/ood-omega.min.js"></script>
 
-	  <script src="index.js"></script>
+    -->
   </body>
 </html>

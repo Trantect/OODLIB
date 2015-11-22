@@ -1,4 +1,4 @@
-directiveDir = 'build/aside/'
+directiveDir = 'lib/aside/'
 
 ACTIVE = 0
 INACTIVE = 1
@@ -6,74 +6,112 @@ INACTIVE = 1
 COLLAPSED = 0
 EXPANDED = 1
 
-t = (d, s) ->
-  _.mapObject d, () ->
-    s
-class AsideCssManager
-  @getState: (states, k) ->
-    switch states[k]
-      when ACTIVE then 'is-active'
+merge = (_L) ->
+  v = {}
+  _.each _L, (_item) ->
+    _.extend v, _item
+  v
 
-  @getExpansion: (states, k) ->
-    switch states[k]
+class AsideCssManager
+  @getState: (activation) ->
+    switch activation
+      when ACTIVE then 'is-active'
+      when INACTIVE then ''
+
+  @getExpansion: (expansion) ->
+    switch expansion
       when COLLAPSED then 'fa fa-angle-down'
       when EXPANDED then 'fa fa-angle-up'
       else ''
 
-  @subState: (states, k) ->
-    switch states[k]
+  @expanded: (expansion) ->
+    switch expansion
       when COLLAPSED then false
       when EXPANDED then true
+      else ''
+
+
+
+class NodeState
+  constructor: (id, content, hasFather) ->
+    @id = id
+    @hasChildren = content.subnodes!=undefined
+    @hasFather = hasFather
+    @expansion = if @hasChildren then COLLAPSED else undefined
+    @activation = INACTIVE
+
+  changeState: (states, activatedKey, expandedKey) ->
+    AK = activatedKey
+    EK = expandedKey
+    if @expansion != undefined
+      @expansion = if @expansion == COLLAPSED then EXPANDED else COLLAPSED
+    else
+      states[activatedKey].activation = INACTIVE if activatedKey != null
+      @activation = ACTIVE
+      AK = @id
+      if @hasFather
+        states[@hasFather].expansion = EXPANDED
+        EK = @hasFather
+    keys =
+      activatedKey: AK
+      expandedKey: EK
+
+
 
 class Aside extends Model
-  constructor: (@data) ->
+  constructor: (@rawData) ->
     @initStates()
-    @initExpansion()
 
   initStates: () ->
-    @states = {}
-    _.each @data, (val, key) =>
-      @states[key] = INACTIVE
-      subStates = t val.subnodes, INACTIVE
-      _.extend @states, subStates
+    t = _.map @rawData, (val, index) ->
+      sectionNodes = _.map val, (nodeContent, nodeId) ->
+        nodes = {}
+        nodes[nodeId] = new NodeState nodeId, nodeContent, false
+        subnodes = _.mapObject nodeContent.subnodes, (_subnode, _subid) ->
+          new NodeState _subid, _subnode, nodeId
+        _.extend nodes, subnodes
+        nodes
+      _tmp = merge sectionNodes
+    @states = merge t
+    @expandedKey = null
+    @activatedKey = null
 
-  hasChildren: (k) ->
-    if @data[k]!=undefined
-      @data[k].subnodes!=undefined
-    else
-      false
 
-  initExpansion: () ->
-    @expansion = {}
-    _.each @data, (v, k) =>
-      if @hasChildren k
-        @expansion[k] = COLLAPSED
-      
-  setActive: (k) ->
-    @states = _.mapObject @states, (cv, ck) =>
-      if ck==k and not @hasChildren k
-        ACTIVE
-      else
-        INACTIVE
-    console.log "state", @states[k]
+  setStates: (nodeId) ->
+    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
+    keys = @states[nodeId].changeState @states, @activatedKey, @expandedKey
+    @expandedKey = keys.expandedKey
+    @activatedKey = keys.activatedKey
 
-  toggle: (k) ->
-    if @expansion[k]!=undefined
-      @expansion[k] = switch @expansion[k]
-        when COLLAPSED then EXPANDED
-        when EXPANDED then COLLAPSED
-
-  goto: (k) ->
-    @setActive k
-    @toggle k
+  goto: (nodeId) ->
+    @setStates nodeId
 
 class AsideDirective extends Directive
   constructor: (params, cssKlass) ->
-    params = params ? {replace: true}
+    params = params ? {}
     cssKlass = cssKlass ? AsideCssManager
     asideParams =
       templateUrl: directiveDir + 'aside.html'
+      scope:
+        activeItem: "="
     _.extend params, asideParams
     super params, Aside, cssKlass
+  ###
+  To initialize link function of table directive
+  ###
+  linkFn: (scope, element, attr) ->
+    super scope, element, attr
+
+    scope.$watch () ->
+      scope.activeItem
+    , (nV, oV) ->
+      scope.setActiveItem nV
+      console.log nV
+
+    scope.setActiveItem = (item) ->
+      scope.activeItem = item
+      scope.model.setStates scope.activeItem
+
+
 
 this.AsideDirective = AsideDirective

@@ -7,26 +7,14 @@
   <body ng-app="app" ng-controller="appCtrl">
     <!--
     -->
-    <sidebar>
-      <caside info="aside1"></caside>
-      <caside info="aside2"></caside>
-    </sidebar>
 
+
+    <caside info="[aside1,aside2,aside3,aside4,aside5]" active-item="activeItem"></caside>
     <content>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable></ctable>
-        </div>
-      </div>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable info="hardware"></ctable>
-        </div>
-      </div>
-      <div class="row">
-        <div class="panel panel-body">
-          <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
-        </div>
+
+      what : {{activeItem}}
+      <div class="panel panel-body">
+        <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
       </div>
       <cfooter info="company"></cfooter>
     </content>
@@ -38,6 +26,9 @@
     -->
 	  <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
+    <!--
+	  <script src="./bower_components/angular-route/angular-route.js"></script>
+    -->
     <script src="./bower_components/underscore/underscore.js"></script>
 	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
     <script src="build/dist/ood-omega.min.js"></script>

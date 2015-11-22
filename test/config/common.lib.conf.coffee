@@ -17,6 +17,7 @@ module.exports = (config) ->
       'lib/common/base.coffee',
       'lib/table/table.coffee',
       'lib/footer/footer.coffee',
+      'lib/aside/aside.coffee',
       'lib/common/lib.coffee',
       'test/common/lib.test.coffee'
     ]

@@ -10,11 +10,16 @@ class Footer extends Model
   @param data [Array<Dict>] data to be displayed in footer
   ###
   constructor: (data) ->
-    @rawData = data
-    @copyright = data.copyright
-    @version = data.version
-    @websites = data.websites
-    @lenOfSites = data.websites.length
+    defaultData =
+      copyright: "EMPTY copyright"
+      version: "EMPTY version"
+      websites: []
+
+    @rawData = _.extend defaultData, data
+    @copyright = @rawData.copyright
+    @version = @rawData.version
+    @websites = @rawData.websites
+    @lenOfSites = @rawData.websites.length
 
   getLink: (o) ->
     (_.values o)[0]

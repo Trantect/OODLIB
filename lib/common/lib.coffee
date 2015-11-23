@@ -22,5 +22,5 @@ DirectiveSchool.register OOD, 'ctable', d
 f = new FooterDirective()
 DirectiveSchool.register OOD, 'cfooter', f
 
-a = new AsideDirective()
+a = new SidebarDirective()
 DirectiveSchool.register OOD, 'caside', a

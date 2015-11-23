@@ -49,7 +49,7 @@ module.exports = (grunt)->
         files:
           "lib/table/table.html": ["lib/table/table.jade"]
           "lib/footer/footer.html": ["lib/footer/footer.jade"]
-          "lib/aside/aside.html": ["lib/aside/aside.jade"]
+          "lib/sidebar/sidebar.html": ["lib/sidebar/sidebar.jade"]
     copy:
       lib:
         expand: true

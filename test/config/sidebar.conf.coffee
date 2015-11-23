@@ -1,3 +1,6 @@
+# Karma configuration
+# Generated on Wed Oct 28 2015 17:28:48 GMT+0800 (CST)
+
 module.exports = (config) ->
   config.set
 
@@ -12,14 +15,16 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
-      'bower_components/angular/angular.min.js',
       'lib/common/base.coffee',
-      'lib/table/table.coffee',
-      'lib/footer/footer.coffee',
       'lib/sidebar/sidebar.coffee',
-      'lib/common/lib.coffee',
-      'test/common/lib.test.coffee'
+      'lib/sidebar/sidebar.html',
+      #'test/sidebar/model.test.coffee',
+      #'test/sidebar/css.test.coffee',
+      #'test/sidebar/directive.test.coffee',
+      'test/sidebar/angular.test.coffee'
     ]
 
 
@@ -31,21 +36,24 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/*/*.coffee': ['coffee']
-      'lib/common/lib.coffee': ['coverage']
+      'lib/**/*.html': ['ng-html2js']
+      '**/**/*.coffee': ['coffee']
+      'lib/sidebar/sidebar.coffee': ['coverage']
     }
 
     plugins: [
       'karma-jasmine',
       'karma-chrome-launcher',
       'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coverage',
+      'karma-ng-html2js-preprocessor'
     ]
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress', 'coverage']
+
 
     coverageReporter:
       reporters: [
@@ -54,7 +62,7 @@ module.exports = (config) ->
         subdir: (browser) ->
           browser.toLowerCase().split(/[ /-]/)[0]
         ,
-        file: 'coverage-common-lib.json'
+        file: 'coverage-table.json'
       ,
         type: 'text-summary'
       ,

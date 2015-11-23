@@ -1,4 +1,4 @@
-directiveDir = 'lib/aside/'
+directiveDir = 'lib/sidebar/'
 
 ACTIVE = 0
 INACTIVE = 1
@@ -12,7 +12,7 @@ merge = (_L) ->
     _.extend v, _item
   v
 
-class AsideCssManager
+class SidebarCssManager
   @getState: (activation) ->
     switch activation
       when ACTIVE then 'is-active'
@@ -58,7 +58,7 @@ class NodeState
 
 
 
-class Aside extends Model
+class Sidebar extends Model
   constructor: (@rawData) ->
     @initStates()
 
@@ -73,6 +73,7 @@ class Aside extends Model
         nodes
       _tmp = merge sectionNodes
     @states = merge t
+    console.log 'states ', @states
     @expandedKey = null
     @activatedKey = null
 
@@ -86,16 +87,16 @@ class Aside extends Model
   goto: (nodeId) ->
     @setStates nodeId
 
-class AsideDirective extends Directive
+class SidebarDirective extends Directive
   constructor: (params, cssKlass) ->
     params = params ? {}
-    cssKlass = cssKlass ? AsideCssManager
+    cssKlass = cssKlass ? SidebarCssManager
     asideParams =
-      templateUrl: directiveDir + 'aside.html'
+      templateUrl: directiveDir + 'sidebar.html'
       scope:
         activeItem: "="
     _.extend params, asideParams
-    super params, Aside, cssKlass
+    super params, Sidebar, cssKlass
   ###
   To initialize link function of table directive
   ###
@@ -106,7 +107,6 @@ class AsideDirective extends Directive
       scope.activeItem
     , (nV, oV) ->
       scope.setActiveItem nV
-      console.log nV
 
     scope.setActiveItem = (item) ->
       scope.activeItem = item
@@ -114,4 +114,4 @@ class AsideDirective extends Directive
 
 
 
-this.AsideDirective = AsideDirective
+this.SidebarDirective = SidebarDirective

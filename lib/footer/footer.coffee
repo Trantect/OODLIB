@@ -21,9 +21,17 @@ class Footer extends Model
     @websites = @rawData.websites
     @lenOfSites = @rawData.websites.length
 
+  ###
+  To get value of an object
+  @param o [Object] data to be get value
+  ###
   getLink: (o) ->
     (_.values o)[0]
 
+  ###
+  To get key of an object
+  @param o [Object] data to be get key
+  ###
   getName: (o) ->
     (_.keys o)[0]
 

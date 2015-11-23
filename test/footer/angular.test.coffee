@@ -14,6 +14,7 @@ describe 'footer directive without args', () ->
     $scope = _$rootScope_.$new()
 
   it 'is used without info', (done) ->
+    $scope.company = {}
     element = ($compile '<cfooter></cfooter>') $scope
     $scope.$digest()
     eScope = element.isolateScope()
@@ -23,17 +24,20 @@ describe 'footer directive without args', () ->
 
   it 'is used with info', (done) ->
     $scope.company =
-      name: 'Demo'
-      version: '0.0.1'
-      status: 'alpha'
-      year: '2015'
-      website: 'http://www.trantect.com/'
-      websiteName: 'our site'
+      copyright: '2015 Demo'
+      version: '0.0.1 alpha'
+      websites: [
+        'our site':'http://www.trantect.com',
+        'our site':'http://www.trantect.com',
+        'help': 'http://help.trantect.com',
+        'link': '#',
+        '世界': "http://www.sina.com"
+      ]
     element = ($compile '<cfooter info="company"></cfooter>') $scope
     $scope.$digest()
     eScope = element.isolateScope()
     (expect _.has eScope, 'storage').toBe true
     (expect eScope.storage).toBeDefined()
     (expect eScope.storage).toEqual $scope.company
-    (expect element.html()).toContain '<footer>'
+    (expect element.html()).toContain '</footer>'
     done()

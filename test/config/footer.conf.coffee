@@ -17,6 +17,7 @@ module.exports = (config) ->
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
+      # 'bower_components/jquery/dist/jquery.min.js',
       'lib/common/base.coffee',
       'lib/footer/footer.coffee',
       'lib/footer/footer.html',

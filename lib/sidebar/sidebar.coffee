@@ -6,6 +6,10 @@ INACTIVE = 1
 COLLAPSED = 0
 EXPANDED = 1
 
+###
+To merge
+
+###
 merge = (_L) ->
   v = {}
   _.each _L, (_item) ->

@@ -79,7 +79,7 @@ module.exports = (grunt)->
           grunt.uriStatic + 'common/' + 'base.js'
           grunt.uriStatic + 'table/' + '*.js'
           grunt.uriStatic + 'footer/' + '*.js'
-          grunt.uriStatic + 'aside/' + '*.js'
+          grunt.uriStatic + 'sidebar/' + '*.js'
           grunt.uriStatic + 'common/' + 'lib.js'
           grunt.uriStatic + 'translation.js'
           grunt.uriStatic + 'views.js'
@@ -131,6 +131,3 @@ module.exports = (grunt)->
   grunt.registerTask "test", ["clean:test", "shell:karma"]
   grunt.registerTask "transExtract", ['clean:po', 'nggettext_extract']
   grunt.registerTask "transCompile", ['clean:compile', 'nggettext_compile']
-
-
-

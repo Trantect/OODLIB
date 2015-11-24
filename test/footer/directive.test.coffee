@@ -13,3 +13,16 @@ describe 'footer directive', () ->
       (expect f.params).toBeDefined
       (expect f.params).toEqual jasmine.objectContaining params
       done()
+
+    it 'create footer directive instance with arguments', (done) ->
+      params =
+        restrict: 'E'
+        templateUrl: 'lib/footer/footer.html'
+        scope:
+          storage: '=info'
+      f = new FooterDirective(params)
+      (expect f).toBeDefined()
+      (expect f.modelKlass).toBe Footer
+      (expect f.cssKlass).toBe FooterCssManager
+      (expect f.params).toEqual jasmine.objectContaining params
+      done()

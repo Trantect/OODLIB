@@ -598,8 +598,8 @@ To define a model
 
 
     /*
-    To get value of an object
-    @param o [Object] data to be get value
+    To get the first value of an object
+    @param o [Object]
      */
 
     Footer.prototype.getLink = function(o) {
@@ -608,8 +608,8 @@ To define a model
 
 
     /*
-    To get key of an object
-    @param o [Object] data to be get key
+    To get the first key of an object
+    @param o [Object]
      */
 
     Footer.prototype.getName = function(o) {
@@ -682,20 +682,34 @@ To define a model
 
 
   /*
-  To merge
+  To convert an array to an object
+  @params _L [Array]
    */
 
   merge = function(_L) {
     var v;
     v = {};
     _.each(_L, function(_item) {
-      return _.extend(v, _item);
+      console.log('_item', _item);
+      _.extend(v, _item);
+      return console.log('v', v);
     });
     return v;
   };
 
+
+  /*
+  To define sidebar css manager
+   */
+
   SidebarCssManager = (function() {
     function SidebarCssManager() {}
+
+
+    /*
+    To control active style
+    @params activation [boolean]
+     */
 
     SidebarCssManager.getState = function(activation) {
       switch (activation) {
@@ -705,6 +719,12 @@ To define a model
           return '';
       }
     };
+
+
+    /*
+    To control arrowIcon direction
+    @params expansion [boolean]
+     */
 
     SidebarCssManager.getExpansion = function(expansion) {
       switch (expansion) {
@@ -716,6 +736,12 @@ To define a model
           return '';
       }
     };
+
+
+    /*
+    To control expansion
+    @params expansion [boolean]
+     */
 
     SidebarCssManager.expanded = function(expansion) {
       switch (expansion) {
@@ -733,6 +759,13 @@ To define a model
   })();
 
   NodeState = (function() {
+
+    /*
+    To construct an instance of NodeState
+    @params id [string] node name
+    @params #content [object<dict>] node content
+    @params hasFather [boolean] node father existence
+     */
     function NodeState(id, content, hasFather) {
       this.id = id;
       this.hasChildren = content.subnodes !== void 0;
@@ -740,6 +773,14 @@ To define a model
       this.expansion = this.hasChildren ? COLLAPSED : void 0;
       this.activation = INACTIVE;
     }
+
+
+    /*
+    To set the state according to
+    @params `states` [object<dict>] state of node
+    @params activatedKey [enum] key in states for activation state
+    @params expandedKey [enum]
+     */
 
     NodeState.prototype.changeState = function(states, activatedKey, expandedKey) {
       var AK, EK, keys;
@@ -767,6 +808,12 @@ To define a model
     return NodeState;
 
   })();
+
+
+  /*
+  To define a sidebar model
+  @extend Model
+   */
 
   Sidebar = (function(superClass) {
     extend(Sidebar, superClass);

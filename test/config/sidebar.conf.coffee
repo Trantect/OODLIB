@@ -21,9 +21,9 @@ module.exports = (config) ->
       'lib/common/base.coffee',
       'lib/sidebar/sidebar.coffee',
       'lib/sidebar/sidebar.html',
-      #'test/sidebar/model.test.coffee',
+      'test/sidebar/model.test.coffee',
       #'test/sidebar/css.test.coffee',
-      #'test/sidebar/directive.test.coffee',
+      'test/sidebar/directive.test.coffee',
       'test/sidebar/angular.test.coffee'
     ]
 

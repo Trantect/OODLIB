@@ -45,6 +45,7 @@ class NodeState
     @activation = INACTIVE
 
   changeState: (states, activatedKey, expandedKey) ->
+
     AK = activatedKey
     EK = expandedKey
     if @expansion != undefined
@@ -56,16 +57,27 @@ class NodeState
       if @hasFather
         states[@hasFather].expansion = EXPANDED
         EK = @hasFather
+    console.log "============state changed============="
     keys =
       activatedKey: AK
       expandedKey: EK
 
 
-
+###
+To define a Sidebar Model
+@extend Model
+###
 class Sidebar extends Model
+  ###
+  To construct an instance of Sidebar
+  @param rawData[object] to get data from page
+  ###
   constructor: (@rawData) ->
     @initStates()
 
+  ###
+  To init a Sidebar use rawdata
+  ###
   initStates: () ->
     t = _.map @rawData, (val, index) ->
       sectionNodes = _.map val, (nodeContent, nodeId) ->
@@ -77,19 +89,24 @@ class Sidebar extends Model
         nodes
       _tmp = merge sectionNodes
     @states = merge t
-    console.log 'states ', @states
     @expandedKey = null
     @activatedKey = null
 
+  ###
 
+  ###
   setStates: (nodeId) ->
     nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
+    console.log nodeId
+    console.log "+++++++++++++++++++++++++++++++++++++++++++++++"
+    console.log @states
     keys = @states[nodeId].changeState @states, @activatedKey, @expandedKey
+
     @expandedKey = keys.expandedKey
     @activatedKey = keys.activatedKey
 
-  goto: (nodeId) ->
-    @setStates nodeId
+#  goto: (nodeId) ->
+#    @setStates nodeId
 
 class SidebarDirective extends Directive
   constructor: (params, cssKlass) ->
@@ -113,9 +130,10 @@ class SidebarDirective extends Directive
       scope.setActiveItem nV
 
     scope.setActiveItem = (item) ->
+      console.log "=========setActivity item============"
       scope.activeItem = item
-      scope.model.setStates scope.activeItem
-
+#      scope.model.setStates scope.activeItem
+#
 
 
 this.SidebarDirective = SidebarDirective

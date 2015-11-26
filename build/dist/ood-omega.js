@@ -758,6 +758,7 @@ To define a model
           EK = this.hasFather;
         }
       }
+      console.log("============state changed=============");
       return keys = {
         activatedKey: AK,
         expandedKey: EK
@@ -768,13 +769,30 @@ To define a model
 
   })();
 
+
+  /*
+  To define a Sidebar Model
+  @extend Model
+   */
+
   Sidebar = (function(superClass) {
     extend(Sidebar, superClass);
+
+
+    /*
+    To construct an instance of Sidebar
+    @param rawData[object] to get data from page
+     */
 
     function Sidebar(rawData) {
       this.rawData = rawData;
       this.initStates();
     }
+
+
+    /*
+    To init a Sidebar use rawdata
+     */
 
     Sidebar.prototype.initStates = function() {
       var t;
@@ -793,21 +811,23 @@ To define a model
         return _tmp = merge(sectionNodes);
       });
       this.states = merge(t);
-      console.log('states ', this.states);
       this.expandedKey = null;
       return this.activatedKey = null;
     };
 
+
+    /*
+     */
+
     Sidebar.prototype.setStates = function(nodeId) {
       var keys;
       nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : this.activatedKey || (_.keys(this.states))[0];
+      console.log(nodeId);
       keys = this.states[nodeId].changeState(this.states, this.activatedKey, this.expandedKey);
+      console.log("+++++++++++++++++++++++++++++++++++++++++++++++");
+      console.log(this.states[nodeId]);
       this.expandedKey = keys.expandedKey;
       return this.activatedKey = keys.activatedKey;
-    };
-
-    Sidebar.prototype.goto = function(nodeId) {
-      return this.setStates(nodeId);
     };
 
     return Sidebar;
@@ -844,8 +864,8 @@ To define a model
         return scope.setActiveItem(nV);
       });
       return scope.setActiveItem = function(item) {
-        scope.activeItem = item;
-        return scope.model.setStates(scope.activeItem);
+        console.log("=========setActivity item============");
+        return scope.activeItem = item;
       };
     };
 

@@ -7,8 +7,8 @@ COLLAPSED = 0
 EXPANDED = 1
 
 ###
-To convert an array to an object
-@param _L [Array]
+To convert an array of dict to a dict
+@param _L [Array<Dict>]
 ###
 merge = (_L) ->
   v = {}
@@ -24,7 +24,7 @@ To define sidebar css manager
 class SidebarCssManager
   ###
   To control active style
-  @param activation [boolean]
+  @param activation [emum] ACTIVE, INACTIVE
   ###
   @getState: (activation) ->
     switch activation
@@ -32,7 +32,7 @@ class SidebarCssManager
       when INACTIVE then ''
   ###
   To control arrowIcon direction
-  @param expansion [boolean]
+  @param expansion [enum] COLLAPSED, EXPANDED
   ###
   @getExpansion: (expansion) ->
     switch expansion
@@ -41,7 +41,7 @@ class SidebarCssManager
       else ''
   ###
   To control expansion
-  @param expansion [boolean]
+  @param expansion [enum] COLLAPSED, EXPANDED
   ###
   @expanded: (expansion) ->
     switch expansion
@@ -50,13 +50,15 @@ class SidebarCssManager
       else ''
 
 
-
+###
+To abstract state for menu item, which is so-called Node
+###
 class NodeState
   ###
   To construct an instance of NodeState
   @param id [string] node name or subnode name
   @param content [object<dict>] node content
-  @param hasFather [boolean] node father existence
+  @param hasFather [boolean/string] node father existence or father id
   ###
   constructor: (id, content, hasFather) ->
     @id = id
@@ -66,9 +68,9 @@ class NodeState
     @activation = INACTIVE
   ###
   To change the state according to two state keys
-  @param states [object<dict>] state of node
-  @param activatedKey [enum] key in states for activation state
-  @param expandedKey [enum] key in states for expansion state
+  @param states [object<dict>] state of nodes
+  @param activatedKey [enum] id of the node which is of activation state
+  @param expandedKey [enum] id of the node which is of expansion state
   ###
   changeState: (states, activatedKey, expandedKey) ->
     AK = activatedKey
@@ -93,6 +95,9 @@ To define a sidebar model
 ###
 class Sidebar extends Model
 
+  ###
+  To construct sidebar model
+  ###
   constructor: (@rawData) ->
     @initStates()
   ###
@@ -115,7 +120,7 @@ class Sidebar extends Model
 
   ###
   To set states according to their keys
-  @param nodeId [string] node name or subnode name
+  @param nodeId [string] node id or subnode id
   ###
   setStates: (nodeId) ->
     nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
@@ -124,7 +129,7 @@ class Sidebar extends Model
     @activatedKey = keys.activatedKey
   ###
   To sort all function into one single function
-  @param nodeId [string] node name or subnode name
+  @param nodeId [string] node id or subnode id
   ###
   goto: (nodeId) ->
     @setStates nodeId

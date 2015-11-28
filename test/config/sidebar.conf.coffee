@@ -23,8 +23,8 @@ module.exports = (config) ->
       'lib/sidebar/sidebar.html',
       'test/sidebar/model.test.coffee',
       #'test/sidebar/css.test.coffee',
-      'test/sidebar/directive.test.coffee',
-      'test/sidebar/angular.test.coffee'
+      #'test/sidebar/directive.test.coffee',
+      #'test/sidebar/angular.test.coffee'
     ]
 
 

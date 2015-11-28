@@ -57,7 +57,6 @@ class NodeState
       if @hasFather
         states[@hasFather].expansion = EXPANDED
         EK = @hasFather
-    console.log "============state changed============="
     keys =
       activatedKey: AK
       expandedKey: EK
@@ -97,11 +96,7 @@ class Sidebar extends Model
   ###
   setStates: (nodeId) ->
     nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
-    console.log nodeId
-    console.log "+++++++++++++++++++++++++++++++++++++++++++++++"
-    console.log @states
     keys = @states[nodeId].changeState @states, @activatedKey, @expandedKey
-
     @expandedKey = keys.expandedKey
     @activatedKey = keys.activatedKey
 
@@ -130,10 +125,9 @@ class SidebarDirective extends Directive
       scope.setActiveItem nV
 
     scope.setActiveItem = (item) ->
-      console.log "=========setActivity item============"
       scope.activeItem = item
-#      scope.model.setStates scope.activeItem
-#
+      scope.model.setStates scope.activeItem
+
 
 
 this.SidebarDirective = SidebarDirective

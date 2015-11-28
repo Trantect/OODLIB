@@ -598,8 +598,8 @@ To define a model
 
 
     /*
-    To get value of an object
-    @param o [Object] data to be get value
+    To get the first value of an object
+    @param o [Object]
      */
 
     Footer.prototype.getLink = function(o) {
@@ -608,8 +608,8 @@ To define a model
 
 
     /*
-    To get key of an object
-    @param o [Object] data to be get key
+    To get the first key of an object
+    @param o [Object]
      */
 
     Footer.prototype.getName = function(o) {
@@ -682,20 +682,34 @@ To define a model
 
 
   /*
-  To merge
+  To convert an array of dict to a dict
+  @param _L [Array<Dict>]
    */
 
   merge = function(_L) {
     var v;
     v = {};
     _.each(_L, function(_item) {
-      return _.extend(v, _item);
+      console.log('_item', _item);
+      _.extend(v, _item);
+      return console.log('v', v);
     });
     return v;
   };
 
+
+  /*
+  To define sidebar css manager
+   */
+
   SidebarCssManager = (function() {
     function SidebarCssManager() {}
+
+
+    /*
+    To control active style
+    @param activation [emum] ACTIVE, INACTIVE
+     */
 
     SidebarCssManager.getState = function(activation) {
       switch (activation) {
@@ -705,6 +719,12 @@ To define a model
           return '';
       }
     };
+
+
+    /*
+    To control arrowIcon direction
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
 
     SidebarCssManager.getExpansion = function(expansion) {
       switch (expansion) {
@@ -716,6 +736,12 @@ To define a model
           return '';
       }
     };
+
+
+    /*
+    To control expansion
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
 
     SidebarCssManager.expanded = function(expansion) {
       switch (expansion) {
@@ -732,7 +758,19 @@ To define a model
 
   })();
 
+
+  /*
+  To abstract state for menu item, which is so-called Node
+   */
+
   NodeState = (function() {
+
+    /*
+    To construct an instance of NodeState
+    @param id [string] node name or subnode name
+    @param content [object<dict>] node content
+    @param hasFather [boolean/string] node father existence or father id
+     */
     function NodeState(id, content, hasFather) {
       this.id = id;
       this.hasChildren = content.subnodes !== void 0;
@@ -740,6 +778,14 @@ To define a model
       this.expansion = this.hasChildren ? COLLAPSED : void 0;
       this.activation = INACTIVE;
     }
+
+
+    /*
+    To change the state according to two state keys
+    @param states [object<dict>] state of nodes
+    @param activatedKey [enum] id of the node which is of activation state
+    @param expandedKey [enum] id of the node which is of expansion state
+     */
 
     NodeState.prototype.changeState = function(states, activatedKey, expandedKey) {
       var AK, EK, keys;
@@ -768,13 +814,29 @@ To define a model
 
   })();
 
+
+  /*
+  To define a sidebar model
+  @extend Model
+   */
+
   Sidebar = (function(superClass) {
     extend(Sidebar, superClass);
+
+
+    /*
+    To construct sidebar model
+     */
 
     function Sidebar(rawData) {
       this.rawData = rawData;
       this.initStates();
     }
+
+
+    /*
+    To initilize the state of nodes, subnodes and turn them into a flat data structure
+     */
 
     Sidebar.prototype.initStates = function() {
       var t;
@@ -798,6 +860,12 @@ To define a model
       return this.activatedKey = null;
     };
 
+
+    /*
+    To set states according to their keys
+    @param nodeId [string] node id or subnode id
+     */
+
     Sidebar.prototype.setStates = function(nodeId) {
       var keys;
       nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : this.activatedKey || (_.keys(this.states))[0];
@@ -805,6 +873,12 @@ To define a model
       this.expandedKey = keys.expandedKey;
       return this.activatedKey = keys.activatedKey;
     };
+
+
+    /*
+    To sort all function into one single function
+    @param nodeId [string] node id or subnode id
+     */
 
     Sidebar.prototype.goto = function(nodeId) {
       return this.setStates(nodeId);
@@ -814,8 +888,20 @@ To define a model
 
   })(Model);
 
+
+  /*
+  To define sidebar directive
+  @extend Directive
+   */
+
   SidebarDirective = (function(superClass) {
     extend(SidebarDirective, superClass);
+
+
+    /*
+    To construct an instance of SidebarDirective
+    @param params [Dict] parameters of angular directive
+     */
 
     function SidebarDirective(params, cssKlass) {
       var asideParams;
@@ -843,6 +929,11 @@ To define a model
       }, function(nV, oV) {
         return scope.setActiveItem(nV);
       });
+
+      /*
+      To set ACTIVE state to node or subnode according to activeItem
+      @param item [string] node name or subnode name
+       */
       return scope.setActiveItem = function(item) {
         scope.activeItem = item;
         return scope.model.setStates(scope.activeItem);

@@ -596,9 +596,21 @@ To define a model
       this.lenOfSites = this.rawData.websites.length;
     }
 
+
+    /*
+    To get the first value of an object
+    @param o [Object]
+     */
+
     Footer.prototype.getLink = function(o) {
       return (_.values(o))[0];
     };
+
+
+    /*
+    To get the first key of an object
+    @param o [Object]
+     */
 
     Footer.prototype.getName = function(o) {
       return (_.keys(o))[0];
@@ -654,11 +666,11 @@ To define a model
 }).call(this);
 
 (function() {
-  var ACTIVE, Aside, AsideCssManager, AsideDirective, COLLAPSED, EXPANDED, INACTIVE, NodeState, directiveDir, merge,
+  var ACTIVE, COLLAPSED, EXPANDED, INACTIVE, NodeState, Sidebar, SidebarCssManager, SidebarDirective, directiveDir, merge,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  directiveDir = 'lib/aside/';
+  directiveDir = 'lib/sidebar/';
 
   ACTIVE = 0;
 
@@ -667,6 +679,12 @@ To define a model
   COLLAPSED = 0;
 
   EXPANDED = 1;
+
+
+  /*
+  To convert an array of dict to a dict
+  @param _L [Array<Dict>]
+   */
 
   merge = function(_L) {
     var v;
@@ -677,10 +695,21 @@ To define a model
     return v;
   };
 
-  AsideCssManager = (function() {
-    function AsideCssManager() {}
 
-    AsideCssManager.getState = function(activation) {
+  /*
+  To define sidebar css manager
+   */
+
+  SidebarCssManager = (function() {
+    function SidebarCssManager() {}
+
+
+    /*
+    To control active style
+    @param activation [emum] ACTIVE, INACTIVE
+     */
+
+    SidebarCssManager.getState = function(activation) {
       switch (activation) {
         case ACTIVE:
           return 'is-active';
@@ -689,7 +718,13 @@ To define a model
       }
     };
 
-    AsideCssManager.getExpansion = function(expansion) {
+
+    /*
+    To control arrowIcon direction
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
+
+    SidebarCssManager.getExpansion = function(expansion) {
       switch (expansion) {
         case COLLAPSED:
           return 'fa fa-angle-down';
@@ -700,7 +735,13 @@ To define a model
       }
     };
 
-    AsideCssManager.expanded = function(expansion) {
+
+    /*
+    To control expansion
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
+
+    SidebarCssManager.expanded = function(expansion) {
       switch (expansion) {
         case COLLAPSED:
           return false;
@@ -711,55 +752,98 @@ To define a model
       }
     };
 
-    return AsideCssManager;
+    return SidebarCssManager;
 
   })();
 
+
+  /*
+  To abstract state for menu item, which is so-called Node
+   */
+
   NodeState = (function() {
+
+    /*
+    To construct an instance of NodeState
+    @param id [string] node name or subnode name
+    @param content [object<dict>] node content
+    @param hasFather [boolean/string] node father existence or father id
+     */
     function NodeState(id, content, hasFather) {
       this.id = id;
-      this.hasChildren = content.subnodes !== void 0;
-      this.hasFather = hasFather;
+      this.hasChildren = content ? content.subnodes !== void 0 : void 0;
+      this.hasFather = hasFather != null ? hasFather : false;
       this.expansion = this.hasChildren ? COLLAPSED : void 0;
       this.activation = INACTIVE;
     }
 
-    NodeState.prototype.changeState = function(states, activatedKey, expandedKey) {
-      var AK, EK, keys;
-      AK = activatedKey;
-      EK = expandedKey;
+
+    /*
+    To activate node, including setting expansion and activation 
+    retrun an activated node id and expanded node id
+     */
+
+    NodeState.prototype.activate = function() {
+      var AK, EK;
+      AK = EK = void 0;
       if (this.expansion !== void 0) {
-        this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
+        this.toggle();
+        EK = this.expansion === EXPANDED ? this.id : void 0;
       } else {
-        if (activatedKey !== null) {
-          states[activatedKey].activation = INACTIVE;
-        }
         this.activation = ACTIVE;
         AK = this.id;
-        if (this.hasFather) {
-          states[this.hasFather].expansion = EXPANDED;
-          EK = this.hasFather;
-        }
+        EK = this.hasFather ? this.hasFather : void 0;
       }
-      return keys = {
-        activatedKey: AK,
-        expandedKey: EK
-      };
+      return [AK, EK];
+    };
+
+
+    /*
+    To set expansion EXPANDED if it is COLLAPSED
+     */
+
+    NodeState.prototype.expand = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : void 0;
+    };
+
+
+    /*
+    To toggle expansion value between COLLAPSED and EXPANDED
+     */
+
+    NodeState.prototype.toggle = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
     };
 
     return NodeState;
 
   })();
 
-  Aside = (function(superClass) {
-    extend(Aside, superClass);
 
-    function Aside(rawData) {
+  /*
+  To define a sidebar model
+  @extend Model
+   */
+
+  Sidebar = (function(superClass) {
+    extend(Sidebar, superClass);
+
+
+    /*
+    To construct sidebar model
+     */
+
+    function Sidebar(rawData) {
       this.rawData = rawData;
       this.initStates();
     }
 
-    Aside.prototype.initStates = function() {
+
+    /*
+    To initialize the state of nodes, subnodes and turn them into a flat data structure
+     */
+
+    Sidebar.prototype.initStates = function() {
       var t;
       t = _.map(this.rawData, function(val, index) {
         var _tmp, sectionNodes;
@@ -775,42 +859,65 @@ To define a model
         });
         return _tmp = merge(sectionNodes);
       });
-      this.states = merge(t);
-      this.expandedKey = null;
-      return this.activatedKey = null;
+      return this.states = merge(t);
     };
 
-    Aside.prototype.setStates = function(nodeId) {
-      var keys;
-      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : this.activatedKey || (_.keys(this.states))[0];
-      keys = this.states[nodeId].changeState(this.states, this.activatedKey, this.expandedKey);
-      this.expandedKey = keys.expandedKey;
-      return this.activatedKey = keys.activatedKey;
+
+    /*
+    To set states according to their keys
+    @param nodeId [string] node id or subnode id
+     */
+
+    Sidebar.prototype.setStates = function(nodeId) {
+      var activatedKey, expandedKey, ref;
+      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : (_.keys(this.states))[0];
+      ref = nodeId && this.states[nodeId] ? this.states[nodeId].activate() : [void 0, void 0], activatedKey = ref[0], expandedKey = ref[1];
+      if (expandedKey) {
+        return this.states[expandedKey].expand();
+      }
     };
 
-    Aside.prototype.goto = function(nodeId) {
-      return this.setStates(nodeId);
+
+    /*
+    To toggle a sidebar item
+    @param nid [String] node id
+     */
+
+    Sidebar.prototype.toggle = function(nid) {
+      return this.states[nid].toggle();
     };
 
-    return Aside;
+    return Sidebar;
 
   })(Model);
 
-  AsideDirective = (function(superClass) {
-    extend(AsideDirective, superClass);
 
-    function AsideDirective(params, cssKlass) {
+  /*
+  To define sidebar directive
+  @extend Directive
+   */
+
+  SidebarDirective = (function(superClass) {
+    extend(SidebarDirective, superClass);
+
+
+    /*
+    To construct an instance of SidebarDirective
+    @param params [Dict] parameters of angular directive
+     */
+
+    function SidebarDirective(params, cssKlass) {
       var asideParams;
       params = params != null ? params : {};
-      cssKlass = cssKlass != null ? cssKlass : AsideCssManager;
+      cssKlass = cssKlass != null ? cssKlass : SidebarCssManager;
       asideParams = {
-        templateUrl: directiveDir + 'aside.html',
+        templateUrl: directiveDir + 'sidebar.html',
         scope: {
           activeItem: "="
         }
       };
       _.extend(params, asideParams);
-      AsideDirective.__super__.constructor.call(this, params, Aside, cssKlass);
+      SidebarDirective.__super__.constructor.call(this, params, Sidebar, cssKlass);
     }
 
 
@@ -818,25 +925,30 @@ To define a model
     To initialize link function of table directive
      */
 
-    AsideDirective.prototype.linkFn = function(scope, element, attr) {
-      AsideDirective.__super__.linkFn.call(this, scope, element, attr);
+    SidebarDirective.prototype.linkFn = function(scope, element, attr) {
+      SidebarDirective.__super__.linkFn.call(this, scope, element, attr);
       scope.$watch(function() {
         return scope.activeItem;
       }, function(nV, oV) {
-        scope.setActiveItem(nV);
-        return console.log(nV);
+        return scope.setActiveItem(nV);
       });
+
+      /*
+      To set ACTIVE state to node or subnode according to activeItem
+      @param item [string] node name or subnode name
+       */
       return scope.setActiveItem = function(item) {
+        scope.model.initStates();
         scope.activeItem = item;
         return scope.model.setStates(scope.activeItem);
       };
     };
 
-    return AsideDirective;
+    return SidebarDirective;
 
   })(Directive);
 
-  this.AsideDirective = AsideDirective;
+  this.SidebarDirective = SidebarDirective;
 
 }).call(this);
 
@@ -874,7 +986,7 @@ Create an angular module called OODLIB
 
   DirectiveSchool.register(OOD, 'cfooter', f);
 
-  a = new AsideDirective();
+  a = new SidebarDirective();
 
   DirectiveSchool.register(OOD, 'caside', a);
 
@@ -886,8 +998,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint +W100 */
 }]);
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/aside/aside.html', '<sidebar> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-href="{{nObj.URL}}" ng-click="model.setStates(nid)"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[ subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
 	$templateCache.put('lib/footer/footer.html', '<footer><span class="copyright">Copyright © {{model.copyright}} | Version: {{model.version}}</span><span class="help"><span ng-repeat="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a><span ng-show="{{$index}}&lt;{{model.lenOfSites-1}}">|</span></span></span></footer>');
+	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
 	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
-	$templateCache.put('lib/topbar/topbarDropdown.html', '<ul class="dropdown-menu"> <li class="header">{{ model.data.name }}</li> <li> <ul class="menu"> <li ng-repeat="(k, v) in model.data"><a ng-href="{{v.URL}}" ng-click="model.toggle(k)"><i ng-class="v.icon" class="floatLeft"><span class="floatLeft"><small class="topBar_small"></small></span><span class="floatLeft">{{ v.name }}<small ng-bind="v.count" class="topBar_small_chrono"></small></span></i><i ng-class="css.arrowIcon(model.expansion, k)"></i> <ul ng-show="model.expanded(k)"> <li ng-repeat="(k, v) in v.subnodes">{{ k }}:&nbsp;&nbsp;{{ v }}</li> </ul></a></li> </ul> </li> <li class="footer"> <ul> <li ng-repeat="(k, v) in model.data.footerInfo">{{ k }}:&nbsp;&nbsp;{{ v }}</li> </ul> </li> </ul>');
 }]);

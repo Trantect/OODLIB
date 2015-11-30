@@ -690,9 +690,7 @@ To define a model
     var v;
     v = {};
     _.each(_L, function(_item) {
-      console.log('_item', _item);
-      _.extend(v, _item);
-      return console.log('v', v);
+      return _.extend(v, _item);
     });
     return v;
   };
@@ -773,41 +771,48 @@ To define a model
      */
     function NodeState(id, content, hasFather) {
       this.id = id;
-      this.hasChildren = content.subnodes !== void 0;
-      this.hasFather = hasFather;
+      this.hasChildren = content ? content.subnodes !== void 0 : void 0;
+      this.hasFather = hasFather != null ? hasFather : false;
       this.expansion = this.hasChildren ? COLLAPSED : void 0;
       this.activation = INACTIVE;
     }
 
 
     /*
-    To change the state according to two state keys
-    @param states [object<dict>] state of nodes
-    @param activatedKey [enum] id of the node which is of activation state
-    @param expandedKey [enum] id of the node which is of expansion state
+    To activate node, including setting expansion and activation 
+    retrun an activated node id and expanded node id
      */
 
-    NodeState.prototype.changeState = function(states, activatedKey, expandedKey) {
-      var AK, EK, keys;
-      AK = activatedKey;
-      EK = expandedKey;
+    NodeState.prototype.activate = function() {
+      var AK, EK;
+      AK = EK = void 0;
       if (this.expansion !== void 0) {
-        this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
+        this.toggle();
+        EK = this.expansion === EXPANDED ? this.id : void 0;
       } else {
-        if (activatedKey !== null) {
-          states[activatedKey].activation = INACTIVE;
-        }
         this.activation = ACTIVE;
         AK = this.id;
-        if (this.hasFather) {
-          states[this.hasFather].expansion = EXPANDED;
-          EK = this.hasFather;
-        }
+        EK = this.hasFather ? this.hasFather : void 0;
       }
-      return keys = {
-        activatedKey: AK,
-        expandedKey: EK
-      };
+      return [AK, EK];
+    };
+
+
+    /*
+    To set expansion EXPANDED if it is COLLAPSED
+     */
+
+    NodeState.prototype.expand = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : void 0;
+    };
+
+
+    /*
+    To toggle expansion value between COLLAPSED and EXPANDED
+     */
+
+    NodeState.prototype.toggle = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
     };
 
     return NodeState;
@@ -835,7 +840,7 @@ To define a model
 
 
     /*
-    To initilize the state of nodes, subnodes and turn them into a flat data structure
+    To initialize the state of nodes, subnodes and turn them into a flat data structure
      */
 
     Sidebar.prototype.initStates = function() {
@@ -854,9 +859,7 @@ To define a model
         });
         return _tmp = merge(sectionNodes);
       });
-      this.states = merge(t);
-      this.expandedKey = null;
-      return this.activatedKey = null;
+      return this.states = merge(t);
     };
 
 
@@ -866,21 +869,22 @@ To define a model
      */
 
     Sidebar.prototype.setStates = function(nodeId) {
-      var keys;
-      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : this.activatedKey || (_.keys(this.states))[0];
-      keys = this.states[nodeId].changeState(this.states, this.activatedKey, this.expandedKey);
-      this.expandedKey = keys.expandedKey;
-      return this.activatedKey = keys.activatedKey;
+      var activatedKey, expandedKey, ref;
+      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : (_.keys(this.states))[0];
+      ref = nodeId && this.states[nodeId] ? this.states[nodeId].activate() : [void 0, void 0], activatedKey = ref[0], expandedKey = ref[1];
+      if (expandedKey) {
+        return this.states[expandedKey].expand();
+      }
     };
 
 
     /*
-    To sort all function into one single function
-    @param nodeId [string] node id or subnode id
+    To toggle a sidebar item
+    @param nid [String] node id
      */
 
-    Sidebar.prototype.goto = function(nodeId) {
-      return this.setStates(nodeId);
+    Sidebar.prototype.toggle = function(nid) {
+      return this.states[nid].toggle();
     };
 
     return Sidebar;
@@ -934,6 +938,7 @@ To define a model
       @param item [string] node name or subnode name
        */
       return scope.setActiveItem = function(item) {
+        scope.model.initStates();
         scope.activeItem = item;
         return scope.model.setStates(scope.activeItem);
       };
@@ -994,6 +999,6 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 }]);
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/footer/footer.html', '<footer><span class="copyright">Copyright © {{model.copyright}} | Version: {{model.version}}</span><span class="help"><span ng-repeat="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a><span ng-show="{{$index}}&lt;{{model.lenOfSites-1}}">|</span></span></span></footer>');
-	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-href="{{nObj.URL}}" ng-click="model.setStates(nid)"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[ subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
+	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
 	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
 }]);

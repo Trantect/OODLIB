@@ -1,3 +1,209 @@
+ACTIVE = 0
+INACTIVE = 1
+
+COLLAPSED = 0
+EXPANDED = 1
+
+
+describe "NodeState without data", () ->
+  ns = undefined
+  beforeEach () ->
+    ns = new NodeState()
+
+  it "node state is created", (done) ->
+    (expect ns).toBeDefined()
+    (expect ns.activate).toBeDefined()
+    (expect ns.expand).toBeDefined()
+    (expect ns.toggle).toBeDefined()
+    (expect ns.id).toBeUndefined()
+    (expect ns.hasChildren).toBeUndefined()
+    (expect ns.hasFather).toBe false
+    (expect ns.expansion).toBeUndefined()
+    (expect ns.activation).toBe INACTIVE
+    done()
+
+describe "NodeState of no father or children", () ->
+  ns = undefined
+
+  it "create one only with id", (done) ->
+    ns = new NodeState 'frontend'
+    (expect ns).toBeDefined()
+    (expect ns.activate).toBeDefined()
+    (expect ns.expand).toBeDefined()
+    (expect ns.toggle).toBeDefined()
+    (expect ns.id).toBe 'frontend'
+    (expect ns.hasChildren).toBeUndefined()
+    (expect ns.hasFather).toBe false
+    (expect ns.expansion).toBeUndefined()
+    (expect ns.activation).toBe INACTIVE
+    done()
+
+  it "create one with id and empty content", (done) ->
+    ns = new NodeState 'frontend', {}
+    (expect ns).toBeDefined()
+    (expect ns.activate).toBeDefined()
+    (expect ns.expand).toBeDefined()
+    (expect ns.toggle).toBeDefined()
+    (expect ns.id).toBe 'frontend'
+    (expect ns.hasChildren).toBe false
+    (expect ns.hasFather).toBe false
+    (expect ns.expansion).toBeUndefined
+    (expect ns.activation).toBe INACTIVE
+    done()
+
+  it "activate", (done) ->
+    ns = new NodeState 'virus', {}
+    (expect ns.expansion).toBeUndefined
+    (expect ns.activation).toBe INACTIVE
+    [AK, EK] = ns.activate()
+    (expect ns.activation).toBe ACTIVE
+    (expect ns.expansion).toBeUndefined
+    (expect AK).toBe ns.id
+    (expect EK).toBeUndefined
+    done()
+
+  it "expand", (done) ->
+    ns = new NodeState 'virus', {}
+    (expect ns.expansion).toBeUndefined
+    ns.expand()
+    (expect ns.expansion).toBeUndefined
+    done()
+
+  it "toggle", (done) ->
+    ns = new NodeState 'virus', {}
+    (expect ns.expansion).toBeUndefined
+    ns.toggle()
+    (expect ns.expansion).toBeUndefined
+    done()
+
+
+describe "NodeState which has no father but children", () ->
+  ns = undefined
+  beforeEach () ->
+    ns = new NodeState "security", {subnodes:{}}
+
+  it "create with id and content with subnodes", (done) ->
+    (expect ns).toBeDefined()
+    (expect ns.id).toBe 'security'
+    (expect ns.hasChildren).toBe true
+    (expect ns.hasFather).toBe false
+    (expect ns.expansion).toBe COLLAPSED
+    (expect ns.activation).toBe INACTIVE
+    done()
+
+  it "activate", (done) ->
+    (expect ns.expansion).toBeUndefined
+    (expect ns.activation).toBe INACTIVE
+    [AK, EK] = ns.activate()
+    (expect ns.activation).toBe INACTIVE
+    (expect ns.expansion).toBe EXPANDED
+    (expect EK).toBe ns.id
+    (expect AK).toBeUndefined
+    [AK, EK] = ns.activate()
+    (expect ns.activation).toBe INACTIVE
+    (expect ns.expansion).toBe COLLAPSED
+    (expect EK).toBeUndefined
+    (expect AK).toBeUndefined
+
+    done()
+
+  it "expand", (done) ->
+    (expect ns.expansion).toBe COLLAPSED
+    ns.expand()
+    (expect ns.expansion).toBe EXPANDED
+    done()
+
+  it "toggle", (done) ->
+    (expect ns.expansion).toBe COLLAPSED
+    ns.toggle()
+    (expect ns.expansion).toBe EXPANDED
+    ns.toggle()
+    (expect ns.expansion).toBe COLLAPSED
+    done()
+
+describe "NodeState which has father but no children", () ->
+  ns = undefined
+  beforeEach () ->
+    ns = new NodeState "virus", {}, "security"
+
+  it "create with id, content, and father id", (done) ->
+    (expect ns).toBeDefined()
+    (expect ns.id).toBe 'virus'
+    (expect ns.hasChildren).toBe false
+    (expect ns.hasFather).toBe 'security'
+    (expect ns.expansion).toBeUndefined
+    (expect ns.activation).toBe INACTIVE
+    done()
+
+  it "activate", (done) ->
+    (expect ns.expansion).toBeUndefined
+    (expect ns.activation).toBe INACTIVE
+    [AK, EK] = ns.activate()
+    (expect ns.activation).toBe ACTIVE
+    (expect ns.expansion).toBeUndefined
+    (expect EK).toBe ns.hasFather
+    (expect AK).toBe ns.id
+    [AK, EK] = ns.activate()
+    (expect ns.activation).toBe ACTIVE
+    (expect ns.expansion).toBeUndefined
+    (expect EK).toBe ns.hasFather
+    (expect AK).toBe ns.id
+
+    done()
+
+  it "expand", (done) ->
+    (expect ns.expansion).toBeUndefined
+    ns.expand()
+    (expect ns.expansion).toBeUndefined
+    done()
+
+  it "toggle", (done) ->
+    (expect ns.expansion).toBeUndefined
+    ns.toggle()
+    (expect ns.expansion).toBeUndefined
+    ns.toggle()
+    (expect ns.expansion).toBeUndefined
+    done()
+
+describe "merge", () ->
+  _L = undefined
+
+  it "The array is undefined", (done) ->
+    r = merge _L
+    (expect r).toEqual {}
+    done()
+
+  it "The array is an empty", (done) ->
+    _L = []
+    r = merge _L
+    (expect r).toEqual {}
+    done()
+
+  it "The array is an empty", (done) ->
+    _L = [
+      name: 'phoenix'
+      age: 22
+    ,
+      university: 'TU Dresden'
+      degree: 'Master'
+    ,
+      hobby: 'paragliding'
+    ,
+      occupation: 'Engineer'
+    ]
+    expectR =
+      name: 'phoenix'
+      age: 22
+      university: 'TU Dresden'
+      degree: 'Master'
+      hobby: 'paragliding'
+      occupation: 'Engineer'
+
+    r = merge _L
+    (expect r).toEqual expectR
+    done()
+
+
 describe "Create Sidebar model without data", () ->
   m = undefined
   beforeEach () ->
@@ -5,33 +211,25 @@ describe "Create Sidebar model without data", () ->
 
   it "init Sidebar states", (done) ->
     (expect m).toBeDefined()
-#    (expect m.val).toEqual() {}
-#    (expect m.sectionNodes).toEqual() []
-#    (expect m.nodeContent).toEqual() {}
-#    (expect m.nodeId).toEqual() ""
-#    (expect m.subnodes).toEqual() {}
-#    (expect m.nodes).toEqual() {}
     (expect m.states).toEqual {}
-    (expect m.expandedKey).toEqual null
-    (expect m.activatedKey).toEqual null
-    done()
-  it "set activeItem",(done) ->
-    (expect m.expandedKey).toEqual null
-    (expect m.activatedKey).toEqual null
+    (expect m.setStates).toBeDefined()
     done()
 
-
+  it "setStates", () ->
+    (expect () ->
+      m.setStates()
+    ).not.toThrowError()
+      
 
 describe "Create Sidebar model with data", () ->
   m = undefined
   beforeEach () ->
     data = [
-      {
       frontpage:
         name: '首页'
         URL: '/'
         icon: 'fa fa-home'
-      ,
+    ,
       terminalManagement:
         name: '终端管理'
         URL: '#'
@@ -47,54 +245,87 @@ describe "Create Sidebar model with data", () ->
             name: '终端加速'
             URL: '#terminalSpeedUp'
             icon: 'fa fa-circle-thin fa-1'
-        ,
+      ,
       softwareManagement:
         name: '软件管理'
         URL: '#softwareManagement'
         icon: ''
-      }
     ]
     m = new Sidebar data
+    
 
   it "init Sidebar states", (done) ->
-    (expect m.states.frontpage.activation).toEqual INACTIVE
-    (expect m.states.terminalManagement.activation).toEqual INACTIVE
-    (expect m.states.monitor.activation).toEqual INACTIVE
-    (expect m.states.terminalSpeedUp.activation).toEqual INACTIVE
-    (expect m.states.softwareManagement.activation).toEqual INACTIVE
+    frontpageState = m.states.frontpage
+    terminalState = m.states.terminalManagement
+    monitorState = m.states.monitor
+    speedUpState = m.states.terminalSpeedUp
+    softwareState = m.states.softwareManagement
+    (expect frontpageState.activation).toEqual INACTIVE
+    (expect terminalState.activation).toEqual INACTIVE
+    (expect monitorState.activation).toEqual INACTIVE
+    (expect speedUpState.activation).toEqual INACTIVE
+    (expect softwareState.activation).toEqual INACTIVE
 
-    (expect m.states.frontpage.expansion).toEqual undefined
-    (expect m.states.terminalManagement.expansion).toEqual 0
-    (expect m.states.monitor.expansion).toEqual undefined
-    (expect m.states.terminalSpeedUp.expansion).toEqual undefined
-    (expect m.states.softwareManagement.expansion).toEqual undefined
+    (expect frontpageState.expansion).toEqual undefined
+    (expect terminalState.expansion).toEqual COLLAPSED
+    (expect monitorState.expansion).toEqual undefined
+    (expect speedUpState.expansion).toEqual undefined
+    (expect softwareState.expansion).toEqual undefined
 
-    (expect m.states.frontpage.hasChildren).toEqual false
-    (expect m.states.terminalManagement.hasChildren).toEqual true
-    (expect m.states.monitor.hasChildren).toEqual false
-    (expect m.states.terminalSpeedUp.hasChildren).toEqual false
-    (expect m.states.softwareManagement.hasChildren).toEqual false
+    (expect frontpageState.hasChildren).toEqual false
+    (expect terminalState.hasChildren).toEqual true
+    (expect monitorState.hasChildren).toEqual false
+    (expect speedUpState.hasChildren).toEqual false
+    (expect softwareState.hasChildren).toEqual false
 
-    (expect m.states.frontpage.hasFather).toEqual false
-    (expect m.states.terminalManagement.hasFather).toEqual false
-    (expect m.states.monitor.hasFather).toEqual "terminalManagement"
-    (expect m.states.terminalSpeedUp.hasFather).toEqual "terminalManagement"
-    (expect m.states.softwareManagement.hasFather).toEqual false
+    (expect frontpageState.hasFather).toEqual false
+    (expect terminalState.hasFather).toEqual false
+    (expect monitorState.hasFather).toEqual "terminalManagement"
+    (expect speedUpState.hasFather).toEqual "terminalManagement"
+    (expect softwareState.hasFather).toEqual false
 
-    (expect m.states.frontpage.id).toEqual "frontpage"
-    (expect m.states.terminalManagement.id).toEqual "terminalManagement"
-    (expect m.states.monitor.id).toEqual "monitor"
-    (expect m.states.terminalSpeedUp.id).toEqual "terminalSpeedUp"
-    (expect m.states.softwareManagement.id).toEqual "softwareManagement"
+    (expect frontpageState.id).toEqual "frontpage"
+    (expect terminalState.id).toEqual "terminalManagement"
+    (expect monitorState.id).toEqual "monitor"
+    (expect speedUpState.id).toEqual "terminalSpeedUp"
+    (expect softwareState.id).toEqual "softwareManagement"
 
-    (expect m.expandedKey).toEqual null
-    (expect m.activatedKey).toEqual null
     done()
 
-  it "set activeItem", (done) ->
+  it "set state on a node, which has no children or father", (done) ->
     m.setStates "softwareManagement"
-    (expect m.expandedKey).toEqual null
-    (expect m.activatedKey).toEqual "softwareManagement"
+    softwareState = m.states.softwareManagement
+    (expect softwareState.activation).toBe ACTIVE
+    (expect softwareState.expansion).toBeUndefined()
+
+
+    m.setStates "frontpage"
+    frontpageState = m.states.frontpage
+    (expect frontpageState.activation).toBe ACTIVE
+    (expect frontpageState.expansion).toBeUndefined
+
+    done()
+
+
+  it "toggle on a node, which has children but no father", (done) ->
+    terminalState = m.states.terminalManagement
+    (expect terminalState.activation).toBe INACTIVE
+    (expect terminalState.expansion).toBe COLLAPSED
+    m.toggle "terminalManagement"
+    (expect terminalState.activation).toBe INACTIVE
+    (expect terminalState.expansion).toBe EXPANDED
+    done()
+
+  it "set state on a node, which has no children but father", (done) ->
+    monitorState = m.states.monitor
+    terminalState = m.states.terminalManagement
+    (expect monitorState.activation).toBe INACTIVE
+    (expect monitorState.expansion).toBeUndefined()
+    (expect terminalState.activation).toBe INACTIVE
+    (expect terminalState.expansion).toBe COLLAPSED
+    m.setStates "monitor"
+    (expect monitorState.activation).toBe ACTIVE
+    (expect monitorState.expansion).toBeUndefined()
     done()
 
 

@@ -13,9 +13,7 @@ To convert an array of dict to a dict
 merge = (_L) ->
   v = {}
   _.each _L, (_item) ->
-    console.log '_item',_item
     _.extend v, _item
-    console.log 'v',v
   v
 
 ###
@@ -62,33 +60,36 @@ class NodeState
   ###
   constructor: (id, content, hasFather) ->
     @id = id
-    @hasChildren = content.subnodes!=undefined
-    @hasFather = hasFather
+    @hasChildren = if content then content.subnodes!=undefined else undefined
+    @hasFather = hasFather ? false
     @expansion = if @hasChildren then COLLAPSED else undefined
     @activation = INACTIVE
   ###
-  To change the state according to two state keys
-  @param states [object<dict>] state of nodes
-  @param activatedKey [enum] id of the node which is of activation state
-  @param expandedKey [enum] id of the node which is of expansion state
+  To activate node, including setting expansion and activation 
+  retrun an activated node id and expanded node id
   ###
-  changeState: (states, activatedKey, expandedKey) ->
-
-    AK = activatedKey
-    EK = expandedKey
+  activate: () ->
+    AK = EK = undefined
     if @expansion != undefined
-      @expansion = if @expansion == COLLAPSED then EXPANDED else COLLAPSED
+      @toggle()
+      EK = if @expansion == EXPANDED then @id
     else
-      states[activatedKey].activation = INACTIVE if activatedKey != null
       @activation = ACTIVE
       AK = @id
-      if @hasFather
-        states[@hasFather].expansion = EXPANDED
-        EK = @hasFather
-    keys =
-      activatedKey: AK
-      expandedKey: EK
+      EK = if @hasFather then @hasFather else undefined
+    [AK, EK]
 
+  ###
+  To set expansion EXPANDED if it is COLLAPSED
+  ###
+  expand: () ->
+    @expansion = if @expansion == COLLAPSED then EXPANDED
+
+  ###
+  To toggle expansion value between COLLAPSED and EXPANDED
+  ###
+  toggle: () ->
+    @expansion = if @expansion == COLLAPSED then EXPANDED else COLLAPSED
 
 ###
 To define a sidebar model
@@ -102,7 +103,7 @@ class Sidebar extends Model
   constructor: (@rawData) ->
     @initStates()
   ###
-  To initilize the state of nodes, subnodes and turn them into a flat data structure
+  To initialize the state of nodes, subnodes and turn them into a flat data structure
   ###
   initStates: () ->
     t = _.map @rawData, (val, index) ->
@@ -115,24 +116,23 @@ class Sidebar extends Model
         nodes
       _tmp = merge sectionNodes
     @states = merge t
-    @expandedKey = null
-    @activatedKey = null
 
   ###
   To set states according to their keys
   @param nodeId [string] node id or subnode id
   ###
   setStates: (nodeId) ->
-    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (@activatedKey or (_.keys @states)[0])
-    keys = @states[nodeId].changeState @states, @activatedKey, @expandedKey
-    @expandedKey = keys.expandedKey
-    @activatedKey = keys.activatedKey
+    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (_.keys @states)[0]
+    [activatedKey, expandedKey] = if nodeId and @states[nodeId] then @states[nodeId].activate() else [undefined, undefined]
+    if expandedKey then @states[expandedKey].expand()
+
   ###
-  To sort all function into one single function
-  @param nodeId [string] node id or subnode id
+  To toggle a sidebar item
+  @param nid [String] node id
   ###
-  goto: (nodeId) ->
-    @setStates nodeId
+  toggle: (nid) ->
+    @states[nid].toggle()
+
 ###
 To define sidebar directive
 @extend Directive
@@ -156,7 +156,6 @@ class SidebarDirective extends Directive
   ###
   linkFn: (scope, element, attr) ->
     super scope, element, attr
-
     scope.$watch () ->
       scope.activeItem
     , (nV, oV) ->
@@ -165,10 +164,11 @@ class SidebarDirective extends Directive
     To set ACTIVE state to node or subnode according to activeItem
     @param item [string] node name or subnode name
     ###
+    #scope.model.setStates scope.activeItem
     scope.setActiveItem = (item) ->
+      scope.model.initStates()
       scope.activeItem = item
       scope.model.setStates scope.activeItem
-
 
 
 this.SidebarDirective = SidebarDirective

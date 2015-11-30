@@ -136,7 +136,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
     softwareManagement:
       name: '软件管理'
       URL: '#softwareManagement'
-      icon: ''
+      icon: 'fa fa-laptop'
     statisticsChart:
       name: '统计报表'
       URL: '#statisticsChart'

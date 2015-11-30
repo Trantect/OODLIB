@@ -45,4 +45,7 @@ describe "Sidebar Css Manager Test", () ->
 
     done()
 
-
+  it "is able to be instantiated", (done) ->
+    o = new SidebarCssManager()
+    (expect o).toBeDefined()
+    done()

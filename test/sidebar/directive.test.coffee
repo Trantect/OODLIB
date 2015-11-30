@@ -15,6 +15,7 @@ describe "Directive Test", () ->
     (expect d.params).toEqual jasmine.objectContaining params
     (expect d.params.link).toBeDefined()
     done()
+
   it "Create Directive instance with two arguments", (done) ->
     params =
       restrict: 'E'
@@ -22,8 +23,9 @@ describe "Directive Test", () ->
       scope:
         storage: '=info'
         activeItem: '='
-    d=new SidebarDirective(params)
+    d = new SidebarDirective {}, SidebarCssManager
     (expect d).toBeDefined()
     (expect d.modelKlass).toBe Sidebar
     (expect d.cssKlass).toBe SidebarCssManager
-#    (expect d.params).toEqual jasmine.objectContaining params
+    (expect d.params).toEqual jasmine.objectContaining params
+    done()

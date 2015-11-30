@@ -99,6 +99,7 @@ class Sidebar extends Model
 
   ###
   To construct sidebar model
+  @param rawData [Object] info data imported from user
   ###
   constructor: (@rawData) ->
     @initStates()
@@ -141,6 +142,7 @@ class SidebarDirective extends Directive
   ###
   To construct an instance of SidebarDirective
   @param params [Dict] parameters of angular directive
+  @param cssKlass [Class] css management class for sidebar
   ###
   constructor: (params, cssKlass) ->
     params = params ? {}

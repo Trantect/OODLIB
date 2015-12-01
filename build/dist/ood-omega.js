@@ -831,10 +831,13 @@ To define a model
 
     /*
     To construct sidebar model
+    @param rawData [Object] info data imported from user
      */
 
     function Sidebar(rawData) {
-      this.rawData = rawData;
+      this.rawData = _.filter(rawData, function(v) {
+        return v !== void 0 && (_.keys(v)).length !== 0;
+      });
       this.initStates();
     }
 
@@ -904,6 +907,7 @@ To define a model
     /*
     To construct an instance of SidebarDirective
     @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for sidebar
      */
 
     function SidebarDirective(params, cssKlass) {

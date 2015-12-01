@@ -891,6 +891,16 @@ To define a model
       return this.states[nid].toggle();
     };
 
+
+    /*
+    To set user
+    @param user [String] user name
+     */
+
+    Sidebar.prototype.setUser = function(user) {
+      return this.user = user != null ? user : 'anonymous';
+    };
+
     return Sidebar;
 
   })(Model);
@@ -918,7 +928,8 @@ To define a model
       asideParams = {
         templateUrl: directiveDir + 'sidebar.html',
         scope: {
-          activeItem: "="
+          activeItem: "=",
+          user: "="
         }
       };
       _.extend(params, asideParams);
@@ -932,21 +943,27 @@ To define a model
 
     SidebarDirective.prototype.linkFn = function(scope, element, attr) {
       SidebarDirective.__super__.linkFn.call(this, scope, element, attr);
-      scope.$watch(function() {
-        return scope.activeItem;
-      }, function(nV, oV) {
-        return scope.setActiveItem(nV);
-      });
+
+      /*
+      scope.$watch () ->
+        scope.activeItem
+      , (nV, oV) ->
+        scope.setActiveItem nV
+       */
 
       /*
       To set ACTIVE state to node or subnode according to activeItem
       @param item [string] node name or subnode name
        */
-      return scope.setActiveItem = function(item) {
-        scope.model.initStates();
-        scope.activeItem = item;
-        return scope.model.setStates(scope.activeItem);
-      };
+      scope.model.setStates(scope.activeItem);
+      return scope.model.setUser(scope.user);
+
+      /*
+      scope.setActiveItem = (item) ->
+        scope.model.initStates()
+        scope.activeItem = item
+        scope.model.setStates scope.activeItem
+       */
     };
 
     return SidebarDirective;
@@ -999,11 +1016,11 @@ Create an angular module called OODLIB
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"details":"详情","records":"条记录","total":"总共"});
+    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好, {{model.user}}","details":"详情","records":"条记录","total":"总共"});
 /* jshint +W100 */
 }]);
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/footer/footer.html', '<div class="footer"><span class="copyright">Copyright © {{model.copyright}} | Version: {{model.version}}</span><span class="help"><span ng-repeat="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a><span ng-show="{{$index}}&lt;{{model.lenOfSites-1}}">|</span></span></span></div>');
-	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
+	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
 	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
 }]);

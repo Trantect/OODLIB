@@ -109,7 +109,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
   $scope.aside1 =
     frontpage:
       name: '首页'
-      URL: '/'
+      URL: '#frontpage'
       icon: 'fa fa-home'
     terminalManagement:
       name: '终端管理'
@@ -202,7 +202,11 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
       URL: '#download'
       icon: ''
   
-
+  $scope.wewe =
+    xxx:
+      name: '你好'
+      URL: '#xxx'
+      icon: ''
 ]
 
 ###

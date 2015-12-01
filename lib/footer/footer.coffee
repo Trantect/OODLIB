@@ -54,6 +54,7 @@ class FooterDirective extends Directive
     params = params ? {}
     footerParams =
       templateUrl: directiveDir + 'footer.html'
+      replace: true
     _.extend params, footerParams
     super params, Footer, FooterCssManager
 

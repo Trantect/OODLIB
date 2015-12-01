@@ -152,6 +152,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
 
 
 
+  $scope.what = {}
 
   $scope.aside2 =
     currentTask:
@@ -178,7 +179,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
        name: '定时体检'
        URL: '#scanTimer'
        icon: ''
- 
+  ### 
   $scope.aside4 =
     setting:
       name: '设置中心'
@@ -193,7 +194,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
           name: '终端相关设置'
           URL: '#clientConfig'
           icon: ''
-
+  ###
   
   $scope.aside5 =
     download:

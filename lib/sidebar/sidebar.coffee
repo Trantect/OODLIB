@@ -101,7 +101,9 @@ class Sidebar extends Model
   To construct sidebar model
   @param rawData [Object] info data imported from user
   ###
-  constructor: (@rawData) ->
+  constructor: (rawData) ->
+    @rawData = _.filter rawData, (v) ->
+      v != undefined and (_.keys v).length != 0
     @initStates()
   ###
   To initialize the state of nodes, subnodes and turn them into a flat data structure

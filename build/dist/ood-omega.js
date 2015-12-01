@@ -835,7 +835,9 @@ To define a model
      */
 
     function Sidebar(rawData) {
-      this.rawData = rawData;
+      this.rawData = _.filter(rawData, function(v) {
+        return v !== void 0 && (_.keys(v)).length !== 0;
+      });
       this.initStates();
     }
 

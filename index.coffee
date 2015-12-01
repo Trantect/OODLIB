@@ -2,12 +2,9 @@ app = angular.module 'app', ['OODLib']
 
 app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
 
-  $scope.$watch () ->
-    $location.path()[1..]
-  , (nV, oV) ->
-    $scope.activeItem = nV
-    console.log nV
+  $scope.activeItem = $location.path()[1..]
 
+  $scope.user = 'phoenix'
   $scope.displayTitles =
     "clientId":"用户号"
     "nickname":"用户名"

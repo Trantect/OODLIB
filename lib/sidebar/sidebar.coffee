@@ -136,6 +136,13 @@ class Sidebar extends Model
   toggle: (nid) ->
     @states[nid].toggle()
 
+  ###
+  To set user
+  @param user [String] user name 
+  ###
+  setUser: (user) ->
+    @user = user ? 'anonymous'
+
 ###
 To define sidebar directive
 @extend Directive
@@ -153,6 +160,7 @@ class SidebarDirective extends Directive
       templateUrl: directiveDir + 'sidebar.html'
       scope:
         activeItem: "="
+        user: "="
     _.extend params, asideParams
     super params, Sidebar, cssKlass
   ###
@@ -160,19 +168,23 @@ class SidebarDirective extends Directive
   ###
   linkFn: (scope, element, attr) ->
     super scope, element, attr
+    ###
     scope.$watch () ->
       scope.activeItem
     , (nV, oV) ->
       scope.setActiveItem nV
     ###
+    ###
     To set ACTIVE state to node or subnode according to activeItem
     @param item [string] node name or subnode name
     ###
-    #scope.model.setStates scope.activeItem
+    scope.model.setStates scope.activeItem
+    scope.model.setUser scope.user
+    ###
     scope.setActiveItem = (item) ->
       scope.model.initStates()
       scope.activeItem = item
       scope.model.setStates scope.activeItem
-
+    ###
 
 this.SidebarDirective = SidebarDirective

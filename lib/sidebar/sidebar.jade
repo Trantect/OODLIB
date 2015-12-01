@@ -1,7 +1,10 @@
 sidebar
+  .user-panel
+    .user-info
+      p(translate) Hello, {{model.user}}
   ul.menu(ng-repeat="section in model.rawData")
     li(ng-repeat="(nid, nObj) in section", ng-class="css.getState(model.states[nid].activation)")
-      a(ng-if="model.states[nid].hasChildren", ng-click="model.toggle(nid)")
+      a(ng-if="model.states[nid].hasChildren", ng-click="model.toggle(nid)" href="")
         i(ng-class="nObj.icon")
         span {{nObj.name}}
         i.is-align-right(ng-class="css.getExpansion(model.states[nid].expansion)")

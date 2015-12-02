@@ -224,7 +224,7 @@ describe "Create Table model with data", () ->
       (expect m.sort['os'].fn).toBe _.identity
 
       mockIp = (_ip) ->
-      mokOs = (_os) ->
+      mockOs = (_os) ->
       o =
         'ip': mockIp
         'os': mockOs

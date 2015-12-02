@@ -374,6 +374,34 @@ To define a model
 
 
     /*
+    To set sorting methods
+    @param key [String] field
+    @param fn [function] sorting function
+     */
+
+    Table.prototype.setFieldSorting = function(key, fn) {
+      return this.sort[key] = {
+        fn: fn,
+        order: 0
+      };
+    };
+
+
+    /*
+    To set sorting methods by an object
+    @param sort [Dict] sorting functions dict
+     */
+
+    Table.prototype.setSortings = function(sort) {
+      return _.mapObject(sort, (function(_this) {
+        return function(fn, key) {
+          return _this.setFieldSorting(key, fn);
+        };
+      })(this));
+    };
+
+
+    /*
     Check whether detail of record by index should be displayed
     @param _index [number] index of record to be judged
      */
@@ -543,7 +571,8 @@ To define a model
           cFields: '=cFields',
           dFields: '=dFields',
           numPerPage: '=numPerPage',
-          titles: '=titles'
+          titles: '=titles',
+          sortings: '='
         }
       };
       _.extend(params, tableParams);
@@ -562,7 +591,8 @@ To define a model
       scope.cFields = (ref = scope.cFields) != null ? ref : scope.model.fields;
       scope.dFields = (ref1 = scope.dFields) != null ? ref1 : scope.model.fields;
       scope.model.setFields(scope.cFields, scope.dFields);
-      return scope.model.setTitles(scope.titles);
+      scope.model.setTitles(scope.titles);
+      return scope.model.setSortings(scope.sortings);
     };
 
     return TableDirective;

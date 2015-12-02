@@ -11,13 +11,12 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
         when 'groupName' then 'fa fa-client-group'
         else 'hide'
 
-    ###
-    td with background
-    ###
     @cell: (key, value) ->
       bg = switch
         when key=='nickname' or key=='groupName' then 'td-icon'
 
+    @detail: (item) ->
+      'bcolor'
   $scope.user = 'phoenix'
   $scope.displayTitles =
     "clientId":"用户号"

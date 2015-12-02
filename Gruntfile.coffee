@@ -17,7 +17,7 @@ module.exports = (grunt)->
       lib: ['build', 'apidoc']
       po: ['po']
       compile: ['build/translation']
-      test: ['report']
+      test: ['report', 'coverage']
       app: ['index.js']
 
     coffee:

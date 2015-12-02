@@ -40,3 +40,28 @@ describe "Test table directive without args", () ->
     (expect eScope.storage).toEqual $scope.students
     (expect element.html()).toContain '</table>'
     done()
+
+  it "directive is used with info and cField, dField", (done) ->
+    $scope.persons = [
+      name: 'Billy'
+      age: '21'
+      occupation: 'Teacher'
+      hobby: 'talking'
+    ,
+      name: 'Alex'
+      age: '19'
+      occupation: 'Student'
+      hobby: 'sleeping'
+    ]
+
+    $scope.col = ['name', 'age']
+    $scope.detail = ['occupation', 'hobby']
+
+    element = ($compile '<ctable info="persons" c-fields="col" d-fields="detail"></ctable>') $scope
+    $scope.$digest()
+    eScope = element.isolateScope()
+    (expect _.has eScope, 'storage').toBe true
+    (expect eScope.storage).toBeDefined()
+    (expect eScope.storage).toEqual $scope.persons
+    (expect element.html()).toContain '</table>'
+    done()

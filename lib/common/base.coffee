@@ -34,6 +34,7 @@ class Directive
       templateUrl: ''
       scope:
         storage: "=info"
+        cssManager: "="
     scope = @params.scope
     if params and params.scope
       scope = _.extend @params.scope, params.scope
@@ -42,13 +43,21 @@ class Directive
     @initLink()
 
   ###
+  merge directive cssKlass and customerized one 
+  @param customerCssManager [Class] customerized css manager defined from directive attribute css-manager 
+  ###
+  mergeCssKlass: (customerCssManager) ->
+    _.extendOwn @cssKlass, customerCssManager
+    @cssKlass
+
+  ###
   Called when directive is initiated, which is used to be extended by sub classes
   ###
   linkFn: (scope, element, attr) ->
     @scope = scope
     _.extend scope,
       model: new @modelKlass scope.storage
-      css: @cssKlass
+      css: @mergeCssKlass scope.cssManager
 
   ###
   Initialize link function of angular directive

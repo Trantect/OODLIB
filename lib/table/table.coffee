@@ -137,6 +137,8 @@ class Table extends Model
   getTitle: (t) ->
     @titles[t]
 
+  getSortOrder: (_f) ->
+    @sort[_f].order
   ###
   To toggle detail
   @param _index [number] index of record whose detail is to be displayed
@@ -156,7 +158,7 @@ class Table extends Model
 To define table css manager
 @extend CssManager
 ###
-class TableCssManager extends CssManager
+class TableCssManager
 
   ###
   table tr style
@@ -182,23 +184,17 @@ class TableCssManager extends CssManager
   cell icon
   ###
   @cellIcon: (key, vaule) ->
-    icon = switch key
-      when 'nickname' then 'fa fa-desktop'
-      when 'groupName' then 'fa fa-client-group'
-      else 'hide'
 
   ###
   td with background
   ###
   @cell: (key, value) ->
-    bg = switch
-      when key=='nickname' or key=='groupName' then 'td-icon'
 
   ###
   sort order
   ###
-  @sortState: (sortMap, sortedField) ->
-    switch sortMap[sortedField].order
+  @sortState: (order) ->
+    switch order
       when -1 then "fa-sort-up"
       when 1 then "fa-sort-down"
       else "fa-sort"

@@ -4,7 +4,7 @@
       tr
         th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
           span(ng-bind="model.getTitle(t)")
-          i.fa(ng-class="css.sortState(model.sort, t)")
+          i.fa(ng-class="css.sortState(model.getSortOrder(t))")
     tbody
       tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
         td(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")

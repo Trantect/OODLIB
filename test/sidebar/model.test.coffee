@@ -215,11 +215,25 @@ describe "Create Sidebar model without data", () ->
     (expect m.setStates).toBeDefined()
     done()
 
-  it "setStates", () ->
+  it "setStates", (done) ->
     (expect () ->
       m.setStates()
     ).not.toThrowError()
+    done()
       
+  it "set user", (done) ->
+    (expect m.user).toBeUndefined()
+    m.setUser()
+    (expect m.user).toBe 'anonymous'
+    done()
+
+  it "set user", (done) ->
+    (expect m.user).toBeUndefined()
+    m.setUser 'Jane Don'
+    (expect m.user).toBe 'Jane Don'
+    done()
+
+
 
 describe "Create Sidebar model with data", () ->
   m = undefined
@@ -326,6 +340,18 @@ describe "Create Sidebar model with data", () ->
     m.setStates "monitor"
     (expect monitorState.activation).toBe ACTIVE
     (expect monitorState.expansion).toBeUndefined()
+    done()
+
+  it "set user", (done) ->
+    (expect m.user).toBeUndefined()
+    m.setUser()
+    (expect m.user).toBe 'anonymous'
+    done()
+
+  it "set user", (done) ->
+    (expect m.user).toBeUndefined()
+    m.setUser 'Jane Don'
+    (expect m.user).toBe 'Jane Don'
     done()
 
 

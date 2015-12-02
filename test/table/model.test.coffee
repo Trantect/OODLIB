@@ -130,38 +130,98 @@ describe "Create Table model with data", () ->
     (expect m.activeDetailIndex).toEqual -1
     done()
 
-  it "set page", (done) ->
-    page = 2
-    base = m.numPerPage*(page-1)
-    m.setCurrentPage page
-    _.each m.currentData, (v, i) ->
-      (expect v.columnData).toEqual data[base+i]
-      (expect v.detailData).toEqual data[base+i]
-    done()
+  describe "set Titles", () ->
+    it "set title replacement", (done) ->
+      displayTitles =
+        "clientId":"用户号"
+        "nickname":"用户名"
+        "MACAddr":"Mac地址"
+        "groupName":"组名"
+        "clientName":"用户名称"
+        "diskSN":"硬盘号"
+        "os":"操作系统"
+        "pcSN":"计算机序列号"
+        "cpuType":"cpu 型号"
+        "ip":"IP 地址"
+        "pcType":"计算机类型"
 
-  it "set Fields", (done) ->
-    cfs = ['clientId', 'os']
-    dfs = ['ip', 'MACAddr']
-    m.setFields cfs, dfs
-    (expect m.columnFields).toEqual cfs
-    (expect m.detailFields).toEqual dfs
+      m.setTitles displayTitles
+      (expect m.titles).toEqual displayTitles
+      done()
 
-    _.each m.data, (v, i) ->
-      (expect v.columnData).toEqual _.pick m.rawData[i], cfs
-      (expect v.detailData).toEqual _.pick m.rawData[i], dfs
+  describe "set page normal case", () ->
+    it "set page", (done) ->
+      page = 2
+      base = m.numPerPage*(page-1)
+      m.setCurrentPage page
+      _.each m.currentData, (v, i) ->
+        (expect v.columnData).toEqual data[base+i]
+        (expect v.detailData).toEqual data[base+i]
+      done()
 
-    done()
 
-  it "sort", (done) ->
-    (expect m.data[0].columnData).toEqual data[0]
-    (expect m.data[4].columnData).toEqual data[4]
+    it "set invalid page: 0", (done) ->
+      page = 0
+      m.setCurrentPage page
+      base = 0
+      _.each m.currentData, (v, i) ->
+        (expect v.columnData).toEqual data[base+i]
+        (expect v.detailData).toEqual data[base+i]
+      done()
 
-    m.sortBy 'nickname'
-    (expect m.data[0].columnData).toEqual data[3]
-    (expect m.data[4].columnData).toEqual data[2]
+    it "set invalid page: -1", (done) ->
+      page = -1
+      m.setCurrentPage page
+      base = 0
+      _.each m.currentData, (v, i) ->
+        (expect v.columnData).toEqual data[base+i]
+        (expect v.detailData).toEqual data[base+i]
+      done()
 
-    m.sortBy 'nickname'
-    (expect m.data[0].columnData).toEqual data[2]
-    (expect m.data[4].columnData).toEqual data[3]
+    it "set invalid page: 3", (done) ->
+      page = 3
+      m.setCurrentPage page
+      base = 4
+      _.each m.currentData, (v, i) ->
+        (expect v.columnData).toEqual data[base+i]
+        (expect v.detailData).toEqual data[base+i]
+      done()
 
-    done()
+    it "set invalid page: 4", (done) ->
+      page = 4
+      m.setCurrentPage page
+      base = 4
+      _.each m.currentData, (v, i) ->
+        (expect v.columnData).toEqual data[base+i]
+        (expect v.detailData).toEqual data[base+i]
+      done()
+
+
+  describe "set fields", () ->
+    it "set Fields", (done) ->
+      cfs = ['clientId', 'os']
+      dfs = ['ip', 'MACAddr']
+      m.setFields cfs, dfs
+      (expect m.columnFields).toEqual cfs
+      (expect m.detailFields).toEqual dfs
+
+      _.each m.data, (v, i) ->
+        (expect v.columnData).toEqual _.pick m.rawData[i], cfs
+        (expect v.detailData).toEqual _.pick m.rawData[i], dfs
+
+      done()
+
+  describe "sorting", () ->
+    it "sort", (done) ->
+      (expect m.data[0].columnData).toEqual data[0]
+      (expect m.data[4].columnData).toEqual data[4]
+
+      m.sortBy 'nickname'
+      (expect m.data[0].columnData).toEqual data[3]
+      (expect m.data[4].columnData).toEqual data[2]
+
+      m.sortBy 'nickname'
+      (expect m.data[0].columnData).toEqual data[2]
+      (expect m.data[4].columnData).toEqual data[3]
+
+      done()

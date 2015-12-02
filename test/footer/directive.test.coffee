@@ -10,6 +10,8 @@ describe 'footer directive', () ->
         templateUrl: 'lib/footer/footer.html'
         scope:
           storage: '=info'
+          cssManager: '='
+
       (expect f.params).toBeDefined
       (expect f.params).toEqual jasmine.objectContaining params
       done()
@@ -20,6 +22,7 @@ describe 'footer directive', () ->
         templateUrl: 'lib/footer/footer.html'
         scope:
           storage: '=info'
+          cssManager: '='
       f = new FooterDirective(params)
       (expect f).toBeDefined()
       (expect f.modelKlass).toBe Footer

@@ -4,6 +4,20 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
 
   $scope.activeItem = $location.path()[1..]
 
+  $scope.style = class TableCss
+    @cellIcon: (key, vaule) ->
+      icon = switch key
+        when 'nickname' then 'fa fa-desktop'
+        when 'groupName' then 'fa fa-client-group'
+        else 'hide'
+
+    ###
+    td with background
+    ###
+    @cell: (key, value) ->
+      bg = switch
+        when key=='nickname' or key=='groupName' then 'td-icon'
+
   $scope.user = 'phoenix'
   $scope.displayTitles =
     "clientId":"用户号"

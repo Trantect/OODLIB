@@ -6,14 +6,14 @@
   </head>
   <body ng-app="app" ng-controller="appCtrl">
 
-  <caside info="[aside1, aside2, aside3, what, aside4]" user="user" active-item="activeItem"></caside>
+  <caside user="user" active-item="activeItem"></caside>
     <content>
 
       what : {{activeItem}}
       <div class="panel panel-body">
-        <ctable info="hardware" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
+        <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles"></ctable>
       </div>
-      <cfooter info="company"></cfooter>
+      <cfooter info="company" css-manager="style"></cfooter>
     </content>
 
     <!--

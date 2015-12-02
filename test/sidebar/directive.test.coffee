@@ -12,6 +12,8 @@ describe "Directive Test", () ->
         storage: "=info"
         activeItem: '='
         user: '='
+        cssManager: '='
+
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
     (expect d.params.link).toBeDefined()
@@ -25,6 +27,8 @@ describe "Directive Test", () ->
         storage: '=info'
         activeItem: '='
         user: '='
+        cssManager: '='
+
     d = new SidebarDirective {}, SidebarCssManager
     (expect d).toBeDefined()
     (expect d.modelKlass).toBe Sidebar

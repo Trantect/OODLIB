@@ -1,37 +1,69 @@
 describe "Table Css Manager Test", () ->
+  TCM = TableCssManager
+  it "can be instantiated", (done) ->
+    tcm = new TCM()
+    (expect tcm).toBeDefined()
+    done()
 
   it "With defined methods", (done) ->
-    (expect TableCssManager.brief).toBeDefined()
-    (expect TableCssManager.detail).toBeDefined()
-    (expect TableCssManager.td).toBeDefined()
-    (expect TableCssManager.cell).toBeDefined()
-    (expect TableCssManager.pageState).toBeDefined()
-    (expect TableCssManager.prevPageState).toBeDefined()
-    (expect TableCssManager.nextPageState).toBeDefined()
+    (expect TCM.brief).toBeDefined()
+    (expect TCM.detail).toBeDefined()
+    (expect TCM.td).toBeDefined()
+    (expect TCM.cell).toBeDefined()
+    (expect TCM.cellIcon).toBeDefined()
+    (expect TCM.cellContent).toBeDefined()
+    (expect TCM.sortState).toBeDefined()
+
+    (expect TCM.pageState).toBeDefined()
+    (expect TCM.prevPageState).toBeDefined()
+    (expect TCM.nextPageState).toBeDefined()
     done()
     
+  it "empty functions", (done) ->
+    (expect TCM.brief).not.toThrowError()
+    (expect TCM.detail).not.toThrowError()
+    (expect TCM.td).not.toThrowError()
+    (expect TCM.cell).not.toThrowError()
+    (expect TCM.cellIcon).not.toThrowError()
+    (expect TCM.cellContent).not.toThrowError()
+    done()
+
+
+  it "sortState", (done) ->
+    state = TCM.sortState -1
+    (expect state).toEqual 'fa-sort-up'
+
+    state = TCM.sortState 1
+    (expect state).toEqual 'fa-sort-down'
+
+    state = TCM.sortState()
+    (expect state).toEqual 'fa-sort'
+
+    done()
+
+
   it "pageState", (done) ->
-    state = TableCssManager.pageState 2, 2
+    state = TCM.pageState 2, 2
     (expect state).toEqual 'is-active'
 
-    state = TableCssManager.pageState 2, 1
+    state = TCM.pageState 2, 1
     (expect state).toEqual undefined
     done()
 
 
   it "prevPageState", (done) ->
-    state = TableCssManager.prevPageState 1
+    state = TCM.prevPageState 1
     (expect state).toEqual 'is-disabled'
 
-    state = TableCssManager.prevPageState 10
+    state = TCM.prevPageState 10
     (expect state).toEqual undefined
     done()
 
   it "pageState", (done) ->
-    state = TableCssManager.nextPageState 10, 10
+    state = TCM.nextPageState 10, 10
     (expect state).toEqual 'is-disabled'
 
-    state = TableCssManager.nextPageState 3, 10
+    state = TCM.nextPageState 3, 10
     (expect state).toEqual undefined
     done()
 

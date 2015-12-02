@@ -55,7 +55,8 @@ To define a model
         restrict: 'E',
         templateUrl: '',
         scope: {
-          storage: "=info"
+          storage: "=info",
+          cssManager: "="
         }
       };
       scope = this.params.scope;
@@ -69,6 +70,17 @@ To define a model
 
 
     /*
+    merge directive cssKlass and customerized one 
+    @param customerCssManager [Class] customerized css manager defined from directive attribute css-manager
+     */
+
+    Directive.prototype.mergeCssKlass = function(customerCssManager) {
+      _.extendOwn(this.cssKlass, customerCssManager);
+      return this.cssKlass;
+    };
+
+
+    /*
     Called when directive is initiated, which is used to be extended by sub classes
      */
 
@@ -76,7 +88,7 @@ To define a model
       this.scope = scope;
       return _.extend(scope, {
         model: new this.modelKlass(scope.storage),
-        css: this.cssKlass
+        css: this.mergeCssKlass(scope.cssManager)
       });
     };
 
@@ -164,7 +176,6 @@ To define a model
 
     /*
     To update table model by data
-    @param data [Array<Dict>] data to be displayed in table
      */
 
     Table.prototype.initTable = function() {
@@ -321,6 +332,7 @@ To define a model
 
     /*
     Set Title Display
+    @param titles [Object] title representation
      */
 
     Table.prototype.setTitles = function(titles) {
@@ -333,10 +345,21 @@ To define a model
 
     /*
     get Title Display
+    @param t [String] title key
      */
 
     Table.prototype.getTitle = function(t) {
       return this.titles[t];
+    };
+
+
+    /*
+    get sort order by sorting key
+    @param _f [String] sorting key
+     */
+
+    Table.prototype.getSortOrder = function(_f) {
+      return this.sort[_f].order;
     };
 
 
@@ -369,16 +392,13 @@ To define a model
   @extend CssManager
    */
 
-  TableCssManager = (function(superClass) {
-    extend(TableCssManager, superClass);
-
-    function TableCssManager() {
-      return TableCssManager.__super__.constructor.apply(this, arguments);
-    }
+  TableCssManager = (function() {
+    function TableCssManager() {}
 
 
     /*
     table tr style
+    @param item [Object] a record in the table
      */
 
     TableCssManager.brief = function(item) {};
@@ -386,6 +406,7 @@ To define a model
 
     /*
     row detail style
+    @param item [Object] a record in the table
      */
 
     TableCssManager.detail = function(item) {};
@@ -393,6 +414,7 @@ To define a model
 
     /*
     table td style
+    @param item [Object] brief data in a record of the table
      */
 
     TableCssManager.td = function(item) {};
@@ -400,51 +422,38 @@ To define a model
 
     /*
     table cell style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
     TableCssManager.cellContent = function(key, value) {};
 
 
     /*
-    cell icon
+    cell icon style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
-    TableCssManager.cellIcon = function(key, vaule) {
-      var icon;
-      return icon = (function() {
-        switch (key) {
-          case 'nickname':
-            return 'fa fa-desktop';
-          case 'groupName':
-            return 'fa fa-client-group';
-          default:
-            return 'hide';
-        }
-      })();
-    };
+    TableCssManager.cellIcon = function(key, vaule) {};
 
 
     /*
-    td with background
+    cell style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
-    TableCssManager.cell = function(key, value) {
-      var bg;
-      return bg = (function() {
-        switch (false) {
-          case !(key === 'nickname' || key === 'groupName'):
-            return 'td-icon';
-        }
-      })();
-    };
+    TableCssManager.cell = function(key, value) {};
 
 
     /*
     sort order
+    @param order [enum] -1, 1, others
      */
 
-    TableCssManager.sortState = function(sortMap, sortedField) {
-      switch (sortMap[sortedField].order) {
+    TableCssManager.sortState = function(order) {
+      switch (order) {
         case -1:
           return "fa-sort-up";
         case 1:
@@ -457,6 +466,8 @@ To define a model
 
     /*
     page index style
+    @param actived [number] actived page num
+    @param i [number] current page num
      */
 
     TableCssManager.pageState = function(actived, i) {
@@ -472,6 +483,7 @@ To define a model
 
     /*
     pagination prev style
+    @param actived [number] actived page num
      */
 
     TableCssManager.prevPageState = function(actived) {
@@ -486,7 +498,9 @@ To define a model
 
 
     /*
-    #pagination next style
+    pagination next style
+    @param actived [number] actived page num
+    @param last [number] last page num
      */
 
     TableCssManager.nextPageState = function(actived, last) {
@@ -501,7 +515,7 @@ To define a model
 
     return TableCssManager;
 
-  })(CssManager);
+  })();
 
 
   /*
@@ -516,6 +530,7 @@ To define a model
     /*
     Construct an instance of TableDirective
     @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for TableDirective
      */
 
     function TableDirective(params, cssKlass) {
@@ -1022,5 +1037,5 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 angular.module('OODLib').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/footer/footer.html', '<div class="footer"><span class="copyright">Copyright © {{model.copyright}} | Version: {{model.version}}</span><span class="help"><span ng-repeat="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a><span ng-show="{{$index}}&lt;{{model.lenOfSites-1}}">|</span></span></span></div>');
 	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
-	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.sort, t)" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
+	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))" class="fa"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"> <div ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></div> </td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div ng-show="model.data.length&gt;0" class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
 }]);

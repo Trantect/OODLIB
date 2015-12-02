@@ -211,6 +211,30 @@ describe "Create Table model with data", () ->
 
       done()
 
+  describe "customerize sorting", () ->
+    it "setFieldSorting", (done) ->
+      (expect m.sort['ip'].fn).toBe _.identity
+      mock = (_ip) ->
+      m.setFieldSorting 'ip', mock
+      (expect m.sort['ip'].fn).toBe mock
+      done()
+
+    it "setSortings", (done) ->
+      (expect m.sort['ip'].fn).toBe _.identity
+      (expect m.sort['os'].fn).toBe _.identity
+
+      mockIp = (_ip) ->
+      mokOs = (_os) ->
+      o =
+        'ip': mockIp
+        'os': mockOs
+      m.setSortings o
+      (expect m.sort['ip'].fn).toBe mockIp
+      (expect m.sort['os'].fn).toBe mockOs
+      done()
+
+
+
   describe "sorting", () ->
     it "sort", (done) ->
       (expect m.data[0].columnData).toEqual data[0]

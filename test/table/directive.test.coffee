@@ -15,6 +15,7 @@ describe "Directive Test", () ->
         storage: "=info"
         titles: '=titles'
         cssManager: '='
+        sortings: '='
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
     (expect d.params.link).toBeDefined()
@@ -36,6 +37,7 @@ describe "Directive Test", () ->
         storage: "=info"
         titles: '=titles'
         cssManager: '='
+        sortings: '='
     (expect d.params).toBeDefined()
     (expect d.params).toEqual jasmine.objectContaining params
     (expect d.params.link).toBeDefined()

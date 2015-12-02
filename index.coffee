@@ -4,6 +4,8 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
 
   $scope.activeItem = $location.path()[1..]
 
+  $scope.sortings =
+
   $scope.style = class TableCss
     @cellIcon: (key, vaule) ->
       icon = switch key
@@ -30,6 +32,19 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
     "cpuType":"cpu 型号"
     "ip":"IP 地址"
     "pcType":"计算机类型"
+
+  $scope.ipToString = (_ip) ->
+    m = _ip.split "."
+    x = ""
+    _.each m, (item) ->
+      t = switch item.length
+        when 1 then "00" + item
+        when 0 then "0" + item
+        else item
+      x += t
+
+  $scope.sortings =
+    ip: $scope.ipToString
 
   $scope.username = 'Trantect'
   $scope.title = "Hardware Management"

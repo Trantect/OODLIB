@@ -152,6 +152,23 @@ class Table extends Model
   toggleDetail: (_index) ->
     @activeDetailIndex = if @activeDetailIndex!=_index then _index else -1
 
+  ###
+  To set sorting methods
+  @param key [String] field
+  @param fn [function] sorting function
+  ###
+  setFieldSorting: (key, fn) ->
+    @sort[key] =
+      fn: fn
+      order: 0
+
+  ###
+  To set sorting methods by an object
+  @param sort [Dict] sorting functions dict
+  ###
+  setSortings: (sort) ->
+    _.mapObject sort, (fn, key) =>
+      @setFieldSorting key, fn
 
   ###
   Check whether detail of record by index should be displayed
@@ -262,6 +279,7 @@ class TableDirective extends Directive
         dFields: '=dFields'
         numPerPage: '=numPerPage'
         titles: '=titles'
+        sortings: '='
     _.extend params, tableParams
     super params, Table, cssKlass
 
@@ -276,6 +294,8 @@ class TableDirective extends Directive
     scope.dFields = scope.dFields ? scope.model.fields
     scope.model.setFields scope.cFields, scope.dFields
     scope.model.setTitles scope.titles
+    scope.model.setSortings scope.sortings
+  
 
 this.TableDirective = TableDirective
 this.TableCssManager = TableCssManager

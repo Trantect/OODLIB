@@ -176,7 +176,6 @@ To define a model
 
     /*
     To update table model by data
-    @param data [Array<Dict>] data to be displayed in table
      */
 
     Table.prototype.initTable = function() {
@@ -333,6 +332,7 @@ To define a model
 
     /*
     Set Title Display
+    @param titles [Object] title representation
      */
 
     Table.prototype.setTitles = function(titles) {
@@ -345,11 +345,18 @@ To define a model
 
     /*
     get Title Display
+    @param t [String] title key
      */
 
     Table.prototype.getTitle = function(t) {
       return this.titles[t];
     };
+
+
+    /*
+    get sort order by sorting key
+    @param _f [String] sorting key
+     */
 
     Table.prototype.getSortOrder = function(_f) {
       return this.sort[_f].order;
@@ -391,6 +398,7 @@ To define a model
 
     /*
     table tr style
+    @param item [Object] a record in the table
      */
 
     TableCssManager.brief = function(item) {};
@@ -398,6 +406,7 @@ To define a model
 
     /*
     row detail style
+    @param item [Object] a record in the table
      */
 
     TableCssManager.detail = function(item) {};
@@ -405,6 +414,7 @@ To define a model
 
     /*
     table td style
+    @param item [Object] brief data in a record of the table
      */
 
     TableCssManager.td = function(item) {};
@@ -412,20 +422,26 @@ To define a model
 
     /*
     table cell style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
     TableCssManager.cellContent = function(key, value) {};
 
 
     /*
-    cell icon
+    cell icon style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
     TableCssManager.cellIcon = function(key, vaule) {};
 
 
     /*
-    td with background
+    cell style
+    @param key [String] field of table
+    @param value [Object] cell content
      */
 
     TableCssManager.cell = function(key, value) {};
@@ -433,6 +449,7 @@ To define a model
 
     /*
     sort order
+    @param order [enum] -1, 1, others
      */
 
     TableCssManager.sortState = function(order) {
@@ -449,6 +466,8 @@ To define a model
 
     /*
     page index style
+    @param actived [number] actived page num
+    @param i [number] current page num
      */
 
     TableCssManager.pageState = function(actived, i) {
@@ -464,6 +483,7 @@ To define a model
 
     /*
     pagination prev style
+    @param actived [number] actived page num
      */
 
     TableCssManager.prevPageState = function(actived) {
@@ -478,7 +498,9 @@ To define a model
 
 
     /*
-    #pagination next style
+    pagination next style
+    @param actived [number] actived page num
+    @param last [number] last page num
      */
 
     TableCssManager.nextPageState = function(actived, last) {
@@ -508,6 +530,7 @@ To define a model
     /*
     Construct an instance of TableDirective
     @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for TableDirective
      */
 
     function TableDirective(params, cssKlass) {

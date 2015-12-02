@@ -15,7 +15,6 @@ class Table extends Model
 
   ###
   To update table model by data
-  @param data [Array<Dict>] data to be displayed in table
   ###
   initTable: () ->
     @initFields()
@@ -126,6 +125,7 @@ class Table extends Model
 
   ###
   Set Title Display
+  @param titles [Object] title representation
   ###
   setTitles: (titles) ->
     @titles = _.mapObject @fieldsSample, (v, k) ->
@@ -133,12 +133,18 @@ class Table extends Model
 
   ###
   get Title Display
+  @param t [String] title key
   ###
   getTitle: (t) ->
     @titles[t]
 
+  ###
+  get sort order by sorting key
+  @param _f [String] sorting key
+  ###
   getSortOrder: (_f) ->
     @sort[_f].order
+
   ###
   To toggle detail
   @param _index [number] index of record whose detail is to be displayed
@@ -162,36 +168,46 @@ class TableCssManager
 
   ###
   table tr style
+  @param item [Object] a record in the table
   ###
   @brief: (item) ->
 
   ###
   row detail style
+  @param item [Object] a record in the table
   ###
   @detail: (item) ->
 
   ###
   table td style
+  @param item [Object] brief data in a record of the table 
   ###
   @td: (item) ->
 
   ###
   table cell style
+  @param key [String] field of table
+  @param value [Object] cell content 
   ###
   @cellContent: (key, value) ->
 
   ###
-  cell icon
+  cell icon style
+  @param key [String] field of table
+  @param value [Object] cell content 
   ###
   @cellIcon: (key, vaule) ->
 
   ###
-  td with background
+  cell style
+  @param key [String] field of table
+  @param value [Object] cell content 
   ###
   @cell: (key, value) ->
 
   ###
   sort order
+  @param order [enum] -1, 1, others 
   ###
   @sortState: (order) ->
     switch order
@@ -201,6 +217,8 @@ class TableCssManager
 
   ###
   page index style
+  @param actived [number] actived page num
+  @param i [number] current page num
   ###
   @pageState: (actived, i) ->
     v = switch
@@ -208,13 +226,16 @@ class TableCssManager
 
   ###
   pagination prev style
+  @param actived [number] actived page num
   ###
   @prevPageState: (actived) ->
     v = switch
       when actived==1 then 'is-disabled'
 
   ###
-  #pagination next style
+  pagination next style
+  @param actived [number] actived page num
+  @param last [number] last page num
   ###
   @nextPageState: (actived, last) ->
     v = switch
@@ -229,6 +250,7 @@ class TableDirective extends Directive
   ###
   Construct an instance of TableDirective
   @param params [Dict] parameters of angular directive
+  @param cssKlass [Class] css management class for TableDirective
   ###
   constructor: (params, cssKlass) ->
     params = params ? {}

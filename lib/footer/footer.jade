@@ -1,7 +1,10 @@
 .footer
-  span.copyright Copyright © {{model.copyright}} | Version: {{model.version}}
+  span.copyright 
+    span Copyright © {{model.copyright}}
+    span.line |
+    spen Version: {{model.version}}
   span.help
-    span(ng-repeat="site in model.websites")
+    span(ng-repeat-start="site in model.websites")
       a(ng-href="{{model.getLink(site)}}")&nbsp;{{model.getName(site)}}&nbsp;
-      span(ng-show="{{$index}}<{{model.lenOfSites-1}}") |
+    span.line(ng-repeat-end ng-show="{{$index}}<{{model.lenOfSites-1}}") |
         

@@ -4,7 +4,6 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
 
   $scope.activeItem = $location.path()[1..]
 
-  $scope.sortings =
 
   $scope.style = class TableCss
     @cellIcon: (key, vaule) ->
@@ -39,7 +38,7 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
     _.each m, (item) ->
       t = switch item.length
         when 1 then "00" + item
-        when 0 then "0" + item
+        when 2 then "0" + item
         else item
       x += t
 

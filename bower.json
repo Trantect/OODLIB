@@ -27,7 +27,7 @@
     "angular": "~1.4.7",
     "underscore": "1.8.3",
     "components-font-awesome": "4.4.0",
-    "smaless": "0.2.3-optimize.477bfa9",
+    "smaless": "0.3.0",
     "angular-gettext": "2.1.2"
   },
   "devDependencies": {

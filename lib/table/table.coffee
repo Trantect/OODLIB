@@ -136,7 +136,7 @@ class Table extends Model
   @param t [String] title key
   ###
   getTitle: (t) ->
-    @titles[t]
+    if @titles then @titles[t] else t
 
   ###
   get sort order by sorting key

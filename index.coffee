@@ -1,6 +1,6 @@
 app = angular.module 'app', ['OODLib']
 
-app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
+app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
 
   $scope.activeItem = $location.path()[1..]
 
@@ -112,22 +112,28 @@ app.controller 'appCtrl', ['$scope', '$location', ($scope, $location) ->
   ]
 
 
-  $scope.company =
-    copyright: '2015 Demo'
-    version: '0.0.1 alpha'
-    websites: [
-      'our site':'http://www.trantect.com'
-    ,
-      'our site':'http://www.trantect.com'
-    ,
-      'help': 'http://help.trantect.com'
-    ,
-      'link': '#'
-    ,
-      '世界': "http://www.sina.com"
-    ]
+  $scope.getFooter = () ->
+    $timeout setFooter, 3000
+    #setFooter()
 
+  setFooter = () ->
+    console.log "init running"
+    $scope.company =
+      copyright: '2015 Demo'
+      version: '0.0.1 alpha'
+      websites: [
+        'our site':'http://www.trantect.com'
+      ,
+        'our site':'http://www.trantect.com'
+      ,
+        'help': 'http://help.trantect.com'
+      ,
+        'link': '#'
+      ,
+        '世界': "http://www.sina.com"
+      ]
 
+  $scope.getFooter()
 
 
   $scope.aside1 =

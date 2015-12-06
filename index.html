@@ -10,13 +10,12 @@
     </style>
   </head>
   <body ng-app="app" ng-controller="appCtrl">
-
-  <caside user="user" active-item="activeItem"></caside>
+    <!--
+    <caside user="user" active-item="activeItem"></caside>
+    -->
     <content>
-
-      what : {{activeItem}}
       <div class="panel panel-body">
-        <ctable info="hardware"  css-manager="style" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles" sortings="sortings"></ctable>
+        <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" d-fields="hardwareDetail" num-per-page=2 titles="displayTitles" sortings="sortings"></ctable>
       </div>
       <cfooter info="company" css-manager="style"></cfooter>
     </content>

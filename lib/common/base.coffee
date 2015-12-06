@@ -58,14 +58,19 @@ class Directive
     _.extend scope,
       model: new @modelKlass scope.storage
       css: @mergeCssKlass scope.cssManager
+    scope.$watch 'storage', (nv, ov) =>
+      scope.model = new @modelKlass nv if nv!=ov
+    scope.$watch 'cssManager', (nv, ov) =>
+      scope.css = @mergeCssKlass nv if nv!=ov
 
   ###
   Initialize link function of angular directive
   @private
   ###
   initLink: () ->
-    @params['link'] = (scope, element, attr) =>
-      @linkFn scope, element, attr
+    @params['link'] =
+      pre: (scope, element, attr) =>
+        @linkFn scope, element, attr
 
 ###
 To register directives in app

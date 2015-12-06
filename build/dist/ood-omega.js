@@ -86,10 +86,24 @@ To define a model
 
     Directive.prototype.linkFn = function(scope, element, attr) {
       this.scope = scope;
-      return _.extend(scope, {
+      _.extend(scope, {
         model: new this.modelKlass(scope.storage),
         css: this.mergeCssKlass(scope.cssManager)
       });
+      scope.$watch('storage', (function(_this) {
+        return function(nv, ov) {
+          if (nv !== ov) {
+            return scope.model = new _this.modelKlass(nv);
+          }
+        };
+      })(this));
+      return scope.$watch('cssManager', (function(_this) {
+        return function(nv, ov) {
+          if (nv !== ov) {
+            return scope.css = _this.mergeCssKlass(nv);
+          }
+        };
+      })(this));
     };
 
 
@@ -99,11 +113,13 @@ To define a model
      */
 
     Directive.prototype.initLink = function() {
-      return this.params['link'] = (function(_this) {
-        return function(scope, element, attr) {
-          return _this.linkFn(scope, element, attr);
-        };
-      })(this);
+      return this.params['link'] = {
+        pre: (function(_this) {
+          return function(scope, element, attr) {
+            return _this.linkFn(scope, element, attr);
+          };
+        })(this)
+      };
     };
 
     return Directive;

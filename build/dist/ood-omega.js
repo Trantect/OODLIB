@@ -365,7 +365,11 @@ To define a model
      */
 
     Table.prototype.getTitle = function(t) {
-      return this.titles[t];
+      if (this.titles) {
+        return this.titles[t];
+      } else {
+        return t;
+      }
     };
 
 

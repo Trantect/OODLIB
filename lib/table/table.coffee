@@ -285,17 +285,26 @@ class TableDirective extends Directive
 
 
   ###
+  Refresh the table scope fields when model is refreshed
+  @param scope [Dict] scope of directive
+  @param flish [boolean] refresh or not
+  ###
+  refresh: (scope, flush) ->
+    if flush
+      scope.model.setPagination 1, scope.numPerPage
+      scope.cFields = scope.cFields ? scope.model.fields
+      scope.dFields = scope.dFields ? scope.model.fields
+      scope.model.setFields scope.cFields, scope.dFields
+      scope.model.setTitles scope.titles
+      scope.model.setSortings scope.sortings
+
+  ###
   To initialize link function of table directive
   ###
-  linkFn: (scope, element, attr) ->
+  linkFn: (scope, element, attr) =>
     super scope, element, attr
-    scope.model.setPagination 1, scope.numPerPage
-    scope.cFields = scope.cFields ? scope.model.fields
-    scope.dFields = scope.dFields ? scope.model.fields
-    scope.model.setFields scope.cFields, scope.dFields
-    scope.model.setTitles scope.titles
-    scope.model.setSortings scope.sortings
-  
+    scope.$watch 'model', (nv, ov) =>
+      @refresh scope, nv!=ov
 
 this.TableDirective = TableDirective
 this.TableCssManager = TableCssManager

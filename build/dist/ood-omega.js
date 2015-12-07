@@ -165,7 +165,8 @@ To define a model
 (function() {
   var Table, TableCssManager, TableDirective, directiveDir,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    hasProp = {}.hasOwnProperty;
+    hasProp = {}.hasOwnProperty,
+    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   directiveDir = 'lib/table/';
 
@@ -582,6 +583,7 @@ To define a model
      */
 
     function TableDirective(params, cssKlass) {
+      this.linkFn = bind(this.linkFn, this);
       var tableParams;
       params = params != null ? params : {};
       cssKlass = cssKlass != null ? cssKlass : TableCssManager;
@@ -601,18 +603,35 @@ To define a model
 
 
     /*
+    Refresh the table scope fields when model is refreshed
+    @param scope [Dict] scope of directive
+    @param flish [boolean] refresh or not
+     */
+
+    TableDirective.prototype.refresh = function(scope, flush) {
+      var ref, ref1;
+      if (flush) {
+        scope.model.setPagination(1, scope.numPerPage);
+        scope.cFields = (ref = scope.cFields) != null ? ref : scope.model.fields;
+        scope.dFields = (ref1 = scope.dFields) != null ? ref1 : scope.model.fields;
+        scope.model.setFields(scope.cFields, scope.dFields);
+        scope.model.setTitles(scope.titles);
+        return scope.model.setSortings(scope.sortings);
+      }
+    };
+
+
+    /*
     To initialize link function of table directive
      */
 
     TableDirective.prototype.linkFn = function(scope, element, attr) {
-      var ref, ref1;
       TableDirective.__super__.linkFn.call(this, scope, element, attr);
-      scope.model.setPagination(1, scope.numPerPage);
-      scope.cFields = (ref = scope.cFields) != null ? ref : scope.model.fields;
-      scope.dFields = (ref1 = scope.dFields) != null ? ref1 : scope.model.fields;
-      scope.model.setFields(scope.cFields, scope.dFields);
-      scope.model.setTitles(scope.titles);
-      return scope.model.setSortings(scope.sortings);
+      return scope.$watch('model', (function(_this) {
+        return function(nv, ov) {
+          return _this.refresh(scope, nv !== ov);
+        };
+      })(this));
     };
 
     return TableDirective;

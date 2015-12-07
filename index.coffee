@@ -5,7 +5,6 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
   $scope.activeItem = $location.path()[1..]
 
 
-  ###
   $scope.style = class TableCss
     @cellIcon: (key, vaule) ->
       icon = switch key
@@ -45,7 +44,6 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
 
   $scope.sortings =
     ip: $scope.ipToString
-  ###
   setTable = () ->
     console.log "init table"
     $scope.title = "Hardware Management"

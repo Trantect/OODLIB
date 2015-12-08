@@ -31,13 +31,16 @@ describe "Table Css Manager Test", () ->
 
   it "sortState", (done) ->
     state = TCM.sortState -1
-    (expect state).toEqual 'fa-sort-up'
+    (expect state).toEqual 'fa fa-sort-up'
 
     state = TCM.sortState 1
-    (expect state).toEqual 'fa-sort-down'
+    (expect state).toEqual 'fa fa-sort-down'
+
+    state = TCM.sortState 0
+    (expect state).toEqual 'fa fa-sort'
 
     state = TCM.sortState()
-    (expect state).toEqual 'fa-sort'
+    (expect state).toEqual ''
 
     done()
 

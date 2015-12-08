@@ -236,8 +236,8 @@ class TableCssManager
     switch order
       when -1 then "fa fa-sort-up"
       when 1 then "fa fa-sort-down"
-      when undefined then ''
-      else "fa fa-sort"
+      when 0 then "fa fa-sort"
+      else ''
 
   ###
   page index style

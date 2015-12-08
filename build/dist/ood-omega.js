@@ -518,10 +518,10 @@ To define a model
           return "fa fa-sort-up";
         case 1:
           return "fa fa-sort-down";
-        case void 0:
-          return '';
-        default:
+        case 0:
           return "fa fa-sort";
+        default:
+          return '';
       }
     };
 

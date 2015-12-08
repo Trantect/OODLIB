@@ -90,14 +90,15 @@ class Table extends Model
   @param field [string] field the data is sorted by
   ###
   sortBy: (field) ->
-    currentOrder = @sort[field].order
-    order = if currentOrder==0 then -1 else -currentOrder
-    @rawData = _.sortBy @rawData, (d) =>
-      (@sort[field].fn d[field])
-    @rawData.reverse() if order == -1
-    @resetOrder field, order
-    @updateTableData()
-    @updateCurrentPage()
+    if @sort[field]
+      currentOrder = @sort[field].order
+      order = if currentOrder==0 then -1 else -currentOrder
+      @rawData = _.sortBy @rawData, (d) =>
+        (@sort[field].fn d[field])
+      @rawData.reverse() if order == -1
+      @resetOrder field, order
+      @updateTableData()
+      @updateCurrentPage()
 
   ###
   To set current page and update data by current page
@@ -128,8 +129,13 @@ class Table extends Model
   @param titles [Object] title representation
   ###
   setTitles: (titles) ->
-    @titles = _.mapObject @fieldsSample, (v, k) ->
-      t = (titles and titles[k]) ? k
+    if (_.keys @fieldsSample).length==0
+      @titles = titles
+      @fields = @detailFields = @columnFields = _.keys @titles
+    else
+      @titles = _.mapObject @fieldsSample, (v, k) ->
+        t = (titles and titles[k]) ? k
+
 
   ###
   get Title Display
@@ -143,7 +149,7 @@ class Table extends Model
   @param _f [String] sorting key
   ###
   getSortOrder: (_f) ->
-    @sort[_f].order
+    if @sort and _.has @sort, _f then @sort[_f].order else undefined
 
   ###
   To toggle detail
@@ -228,9 +234,10 @@ class TableCssManager
   ###
   @sortState: (order) ->
     switch order
-      when -1 then "fa-sort-up"
-      when 1 then "fa-sort-down"
-      else "fa-sort"
+      when -1 then "fa fa-sort-up"
+      when 1 then "fa fa-sort-down"
+      when undefined then ''
+      else "fa fa-sort"
 
   ###
   page index style

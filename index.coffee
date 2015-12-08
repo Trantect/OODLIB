@@ -49,6 +49,10 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
     $scope.title = "Hardware Management"
     $scope.hardwareDetail = ['clientName', 'cpuType', 'diskSN', 'pcSN']
     $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']
+    
+    $scope.hardware = [
+    ]
+    ###
     $scope.hardware = [
       "clientId":"b1TJVRqo_e"
       "nickname":"viola_desktop"
@@ -110,7 +114,7 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
       "ip":"--"
       "pcType":"--"
     ]
-
+  ###
   $scope.getTable = () ->
     $timeout setTable, 1000
  

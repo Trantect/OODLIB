@@ -4,7 +4,7 @@
       tr
         th(ng-repeat="t in model.columnFields", ng-click="model.sortBy(t)") 
           span(ng-bind="model.getTitle(t)")
-          i.fa(ng-class="css.sortState(model.getSortOrder(t))")
+          i(ng-class="css.sortState(model.getSortOrder(t))")
     tbody
       tr(ng-repeat-start="item in model.currentData", ng-click="model.toggleDetail($index)" ng-class="css.brief(item)")
         td(ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)")
@@ -20,12 +20,12 @@
                 {{model.getTitle(k)}}:
               dd(ng-repeat-end="(k,v) in item.detailData")
                 {{v}}
-  .statistics(ng-show="model.data.length>0") 
+  .statistics 
     span 
       span(translate) total
       span(ng-bind="model.data.length")   
       span(translate) records
-    ul.pagination
+    ul.pagination(ng-show="model.data.length>0")
       li(ng-class="css.prevPageState(model.currentPage)", ng-click="model.setCurrentPage(model.currentPage-1)")
         a(href="#") «
       li(ng-repeat="i in model.pageRange", ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)")

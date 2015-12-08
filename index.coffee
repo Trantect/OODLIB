@@ -51,7 +51,8 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
     $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']
     
 
-    #$scope.hardware = []
+    $scope.hardware = []
+    ###
     $scope.hardware = [
       "clientId":"b1TJVRqo_e"
       "nickname":"viola_desktop"
@@ -117,8 +118,7 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
     $timeout setTable, 1000
  
   $scope.getTable()
-
-
+  ###
   $scope.getFooter = () ->
     $timeout setFooter, 3000
     #setFooter()

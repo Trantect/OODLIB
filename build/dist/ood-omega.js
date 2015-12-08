@@ -356,7 +356,7 @@ To define a model
 
     Table.prototype.setTitles = function(titles) {
       if ((_.keys(this.fieldsSample)).length === 0) {
-        this.titles = titles;
+        this.titles = titles != null ? titles : {};
         return this.fields = this.detailFields = this.columnFields = _.keys(this.titles);
       } else {
         return this.titles = _.mapObject(this.fieldsSample, function(v, k) {
@@ -640,6 +640,7 @@ To define a model
 
     TableDirective.prototype.linkFn = function(scope, element, attr) {
       TableDirective.__super__.linkFn.call(this, scope, element, attr);
+      this.refresh(scope, true);
       return scope.$watch('model', (function(_this) {
         return function(nv, ov) {
           return _this.refresh(scope, nv !== ov);

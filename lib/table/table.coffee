@@ -19,7 +19,6 @@ class Table extends Model
   initTable: () ->
     @initFields()
     @initSorting()
-
     @setPagination()
     @updateTableData()
     @updateCurrentPage()
@@ -130,7 +129,7 @@ class Table extends Model
   ###
   setTitles: (titles) ->
     if (_.keys @fieldsSample).length==0
-      @titles = titles
+      @titles = titles ? {}
       @fields = @detailFields = @columnFields = _.keys @titles
     else
       @titles = _.mapObject @fieldsSample, (v, k) ->
@@ -310,6 +309,7 @@ class TableDirective extends Directive
   ###
   linkFn: (scope, element, attr) =>
     super scope, element, attr
+    @refresh scope, true
     scope.$watch 'model', (nv, ov) =>
       @refresh scope, nv!=ov
 

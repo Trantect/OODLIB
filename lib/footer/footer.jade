@@ -5,6 +5,6 @@
     spen Version: {{model.version}}
   span.help
     span(ng-repeat-start="site in model.websites")
-      a(ng-href="{{model.getLink(site)}}")&nbsp;{{model.getName(site)}}&nbsp;
+      a(ng-href="{{model.getLink(site)}}" target="_blank")&nbsp;{{model.getName(site)}}&nbsp;
     span.line(ng-repeat-end ng-show="{{$index}}<{{model.lenOfSites-1}}") |
         

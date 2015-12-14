@@ -1,0 +1,10 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"Language: zh \n"
+
+#: ./build/components/sidebar/sidebar.html:5
+msgid "Hello, {{model.user}}"
+msgstr "你好，{{model.user}}"

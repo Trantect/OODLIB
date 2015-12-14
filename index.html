@@ -10,9 +10,7 @@
     </style>
   </head>
   <body ng-app="app" ng-controller="appCtrl">
-    <!--
-    <caside user="user" active-item="activeItem"></caside>
-    -->
+    <csidebar info="sidebar" user="user"></csidebar>
     <content>
       <div class="panel panel-body">
         <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" num-per-page=2 titles="displayTitles"></ctable>
@@ -20,20 +18,18 @@
       <cfooter info="company" css-manager="style"></cfooter>
     </content>
 
-    <!--
-    <p translate> Welcome ladies and gentlemen! </p>
-    <p translate> Hello {{username}} </p>
-    <p translate>{{username}}</p>
-    -->
-	  <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
-    <!--
-	  <script src="./bower_components/angular-route/angular-route.js"></script>
-    -->
     <script src="./bower_components/underscore/underscore.js"></script>
 	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
-    <script src="build/dist/ood-omega.min.js"></script>
 
+    <!--
+    <script src="build/dist/core.min.js"></script>
+    <script src="build/components/footer/c_footer.js"></script>
+    <script src="build/components/table/c_table.js"></script>
+    <script src="build/components/sidebar/c_sidebar.js"></script>
+    -->
+    <script src="build/dist/ood-omega.min.js"></script>
 	  <script src="index.js"></script>
   </body>
 </html>

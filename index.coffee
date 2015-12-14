@@ -1,4 +1,4 @@
-app = angular.module 'app', ['OODLib']
+app = angular.module 'app', ['OOD_Footer', 'OOD_Table', 'OOD_Sidebar']
 
 app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
 
@@ -232,6 +232,7 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
           icon: ''
   ###
   
+  $scope.sidebar = [$scope.aside1, $scope.aside2]
   $scope.aside5 =
     download:
       name: '下载终端'
@@ -245,11 +246,4 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
       icon: ''
 ]
 
-###
-app.config ['$routeProvider', ($routeProvider) ->
-  $routeProvider
-    .when('/', {templateUrl: 'index.html'})
-    .otherwise('index.html')
 
-]
-###

@@ -1,33 +1,43 @@
 module.exports = (grunt)->
-# URI for concat & minify
+  # URI for concat & minify
   grunt.uri = './'
-  grunt.uriStatic = grunt.uri + 'build/'
-  grunt.uriDist = grunt.uriStatic + 'dist/'
+
+  grunt.libSrc = grunt.uri + 'lib/'
+  grunt.coreSrc = grunt.libSrc + 'core/'
+  grunt.componentsSrc = grunt.libSrc + 'components/'
+
+  grunt.build = grunt.uri + 'build/'
+  grunt.core = grunt.build + 'core/'
+  grunt.components = grunt.build + 'components/'
+  grunt.dist = grunt.build + 'dist/'
+
 
   grunt.initConfig
-
     watch:
       lib:
-        files: ['lib/**/*.coffee', 'lib/**/*.jade']
-        tasks: ['libBuild']
+        files: [grunt.coreSrc+'*.coffee', grunt.componentsSrc+'**/*.[coffee|jade]']
+        tasks: ['coreBuild', 'componentsBuild']
       app:
         files: ['./index.coffee']
         tasks: ['appBuild']
+
     clean:
-      lib: ['build', 'apidoc']
-      po: ['po']
-      compile: ['build/translation']
+      core: [grunt.core]
+      components: [grunt.components]
       test: ['report', 'coverage']
       app: ['index.js']
 
     coffee:
-      lib:
+      core:
+        files:
+          'build/core/core.js': grunt.coreSrc+'*.coffee'
+      components:
         files: [
           {
-            expand: true,
-            cwd: 'lib'
-            src: ['**/*.coffee'],
-            dest: './build',
+            expand: true
+            cwd: grunt.componentsSrc
+            src: ['**/*.coffee']
+            dest: grunt.components,
             ext: '.js'
           }
         ]
@@ -38,24 +48,54 @@ module.exports = (grunt)->
     ngTemplateCache:
       templates:
         files: [
-          'build/views.js': 'lib/**/*.html'
+          'build/views.js': grunt.componentsSrc+'**/*.html'
+          'build/components/table/table_view.js': grunt.componentsSrc+'table/*.html'
+          'build/components/footer/footer_view.js': grunt.componentsSrc+'footer/*.html'
+          'build/components/sidebar/sidebar_view.js': grunt.componentsSrc+'sidebar/*.html'
         ]
         options:
           module: 'OODLib'
+
+      footer:
+        files: [
+          'build/components/footer/footer_view.js': grunt.componentsSrc+'footer/*.html'
+        ]
+        options:
+          module: 'OOD_Footer'
+
+      table:
+        files: [
+          'build/components/table/table_view.js': grunt.componentsSrc+'table/*.html'
+        ]
+        options:
+          module: 'OOD_Table'
+
+      sidebar:
+        files: [
+          'build/components/sidebar/sidebar_view.js': grunt.componentsSrc+'sidebar/*.html'
+        ]
+        options:
+          module: 'OOD_Sidebar'
+
     jade:
-      lib:
+      components:
         options:
           pretty: true
-        files:
-          "lib/table/table.html": ["lib/table/table.jade"]
-          "lib/footer/footer.html": ["lib/footer/footer.jade"]
-          "lib/sidebar/sidebar.html": ["lib/sidebar/sidebar.jade"]
+        files: [
+          {
+            cwd: grunt.componentsSrc
+            src: '**/*.jade'
+            dest: grunt.components
+            expand: true
+            ext: '.html'
+          }
+        ]
     copy:
-      lib:
+      core:
         expand: true
-        cwd: 'lib/'
-        src: ['**/*','!**/*.coffee', '!**/*.jade']
-        dest:'build/'
+        cwd: grunt.core
+        src: ['*.js']
+        dest: grunt.dist
 
     mochaTest:
       dev:
@@ -74,42 +114,77 @@ module.exports = (grunt)->
         command: 'python karmaReport.py'
 
     concat:
-      dist:
+      footer:
         src: [
-          grunt.uriStatic + 'common/' + 'base.js'
-          grunt.uriStatic + 'table/' + '*.js'
-          grunt.uriStatic + 'footer/' + '*.js'
-          grunt.uriStatic + 'sidebar/' + '*.js'
-          grunt.uriStatic + 'common/' + 'lib.js'
-          grunt.uriStatic + 'translation.js'
-          grunt.uriStatic + 'views.js'
-          '!' + grunt.uriStatic + '*.min.js'
+          grunt.components + 'footer/footer.js'
+          grunt.components + 'footer/footer_register.js'
+          grunt.components + 'footer/footer_view.js'
+
         ]
         dest:
-          grunt.uriDist + 'ood-omega.js'
+          grunt.components + 'footer/c_footer.js'
+
+      table:
+        src: [
+          grunt.components + 'table/table.js'
+          grunt.components + 'table/table_register.js'
+          grunt.components + 'table/table_translation.js'
+          grunt.components + 'table/table_view.js'
+        ]
+        dest:
+          grunt.components + 'table/c_table.js'
+
+      sidebar:
+        src: [
+          grunt.components + 'sidebar/sidebar.js'
+          grunt.components + 'sidebar/sidebar_register.js'
+          grunt.components + 'sidebar/sidebar_translation.js'
+          grunt.components + 'sidebar/sidebar_view.js'
+        ]
+        dest:
+          grunt.components + 'sidebar/c_sidebar.js'
+
+      dist:
+        src: [
+          grunt.core + 'core.js'
+          grunt.components + 'table/c_table.js'
+          grunt.components + 'footer/c_footer.js'
+          grunt.components + 'sidebar/c_sidebar.js'
+        ]
+        dest:
+          grunt.dist + 'ood-omega.js'
 
     uglify:
-      dist:
-        cwd: grunt.uriStatic
-        dest: grunt.uriDist
+      core:
+        cwd: grunt.core
+        dest: grunt.dist
         expand: true
         ext: '.min.js'
         flatten: true
         src: [
-          'dist/ood-omega.js'
           '*.js'
-          '!*.min.js'
         ]
 
-    nggettext_extract:
-      lib:
+      dist:
         files:
-          'po/lib.pot': ['build/**/*.html']
+          'build/dist/ood-omega.min.js': grunt.dist+'ood-omega.js'
+
+    nggettext_extract:
+      table:
+        files:
+          'build/components/table/table.pot': [grunt.components+'/table/table.html']
+      sidebar:
+        files:
+          'build/components/sidebar/sidebar.pot': [grunt.components+'/sidebar/sidebar.html']
 
     nggettext_compile:
-      lib:
+      table:
         files:
-          'build/translation.js': ['po/*.pot']
+          'build/components/table/table_translation.js': [grunt.components+'/table/table.pot']
+      sidebar:
+        files:
+          'build/components/sidebar/sidebar_translation.js': [grunt.components+'/sidebar/sidebar.pot']
+
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -123,11 +198,21 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-hustler'
   grunt.loadNpmTasks 'grunt-angular-gettext'
 
-  grunt.registerTask "libBuild", ["clean:lib", "jade:lib", "coffee:lib", "copy:lib", 'ngTemplateCache', 'shell:apidoc']
-  grunt.registerTask "package", ['concat', 'uglify']
+  grunt.registerTask "coreBuild", ["clean:core", "coffee:core", "uglify:core", "copy:core"]
+
+  grunt.registerTask "componentsBuild", ["jade:components", "coffee:components"]
+
+  grunt.registerTask "footerCreator", ["ngTemplateCache:footer", "concat:footer"]
+
+  grunt.registerTask "tablePreCreator", ["ngTemplateCache:table", "nggettext_extract:table"]
+  grunt.registerTask "tablePostCreator", ["nggettext_compile:table", "concat:table"]
+
+  grunt.registerTask "sidebarPreCreator", ["ngTemplateCache:sidebar",  "nggettext_extract:sidebar"]
+  grunt.registerTask "sidebarPostCreator", ["nggettext_compile:sidebar", "concat:sidebar"]
+
+  grunt.registerTask "package", ["concat:dist", "uglify:dist"]
+
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
-  grunt.registerTask "default", ['libBuild', 'appBuild', 'transCompile', 'package']
-  grunt.registerTask "cleanBuild", ["clean:dev"]
+
   grunt.registerTask "test", ["clean:test", "shell:karma"]
-  grunt.registerTask "transExtract", ['clean:po', 'nggettext_extract']
-  grunt.registerTask "transCompile", ['clean:compile', 'nggettext_compile']
+  

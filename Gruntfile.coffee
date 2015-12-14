@@ -1,12 +1,11 @@
 module.exports = (grunt)->
   # URI for concat & minify
-  grunt.uri = './'
 
-  grunt.libSrc = grunt.uri + 'lib/'
+  grunt.libSrc = 'lib/'
   grunt.coreSrc = grunt.libSrc + 'core/'
   grunt.componentsSrc = grunt.libSrc + 'components/'
 
-  grunt.build = grunt.uri + 'build/'
+  grunt.build = 'build/'
   grunt.core = grunt.build + 'core/'
   grunt.components = grunt.build + 'components/'
   grunt.dist = grunt.build + 'dist/'

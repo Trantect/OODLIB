@@ -7,5 +7,4 @@ libdocs
 apidoc
 report
 coverage
-build/dist/
 po

@@ -24,6 +24,7 @@ module.exports = (grunt)->
     clean:
       core: [grunt.core]
       components: [grunt.components]
+      apidoc: ['apidoc']
       test: ['report', 'coverage']
       app: ['index.js']
 
@@ -216,3 +217,4 @@ module.exports = (grunt)->
 
   grunt.registerTask "test", ["clean:test", "shell:karma"]
   
+  grunt.registerTask "apidoc", ["clean:apidoc", "shell:apidoc"]

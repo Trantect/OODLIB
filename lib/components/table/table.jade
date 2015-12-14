@@ -17,9 +17,9 @@
             .detail-title(translate) details
             dl
               dt(ng-repeat-start="(k,v) in item.detailData")
-                {{model.getTitle(k)}}:
+                | {{model.getTitle(k)}}:
               dd(ng-repeat-end="(k,v) in item.detailData")
-                {{v}}
+                | {{v}}
   .statistics 
     span 
       span(translate) total

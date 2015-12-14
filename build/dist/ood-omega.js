@@ -168,7 +168,7 @@ To define a model
     hasProp = {}.hasOwnProperty,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  directiveDir = 'lib/table/';
+  directiveDir = 'lib/components/table/';
 
 
   /*
@@ -356,7 +356,7 @@ To define a model
 
     Table.prototype.setTitles = function(titles) {
       if ((_.keys(this.fieldsSample)).length === 0) {
-        this.titles = titles;
+        this.titles = titles != null ? titles : {};
         return this.fields = this.detailFields = this.columnFields = _.keys(this.titles);
       } else {
         return this.titles = _.mapObject(this.fieldsSample, function(v, k) {
@@ -640,6 +640,7 @@ To define a model
 
     TableDirective.prototype.linkFn = function(scope, element, attr) {
       TableDirective.__super__.linkFn.call(this, scope, element, attr);
+      this.refresh(scope, true);
       return scope.$watch('model', (function(_this) {
         return function(nv, ov) {
           return _this.refresh(scope, nv !== ov);
@@ -657,12 +658,50 @@ To define a model
 
 }).call(this);
 
+
+/*
+Create an angular module called OOD_Table
+@author Phoenix Grey
+ */
+
+(function() {
+  var d, lib;
+
+  lib = angular.module("OOD_Table", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      gettextCatalog.currentLanguage = 'zh';
+      return gettextCatalog.debug = true;
+    }
+  ]);
+
+
+  /*
+  Expose OOD to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  d = new TableDirective();
+
+  DirectiveSchool.register(lib, 'ctable', d);
+
+}).call(this);
+
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('zh', {"details":"详情","records":"条记录","total":"总共"});
+/* jshint +W100 */
+}]);
+angular.module('OOD_Table').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('./lib/components/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"><span ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></span></td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul ng-show="model.data.length&gt;0" class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
+}]);
 (function() {
   var Footer, FooterCssManager, FooterDirective, directiveDir,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  directiveDir = 'lib/footer/';
+  directiveDir = 'lib/components/footer/';
 
 
   /*
@@ -763,12 +802,45 @@ To define a model
 
 }).call(this);
 
+
+/*
+Create an angular module called footer 
+@author Phoenix Grey
+ */
+
+(function() {
+  var f, lib;
+
+  lib = angular.module("OOD_Footer", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      gettextCatalog.currentLanguage = 'zh';
+      return gettextCatalog.debug = true;
+    }
+  ]);
+
+
+  /*
+  Expose footer to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  f = new FooterDirective();
+
+  DirectiveSchool.register(lib, 'cfooter', f);
+
+}).call(this);
+
+angular.module('OOD_Footer').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('./lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span> <spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
+}]);
 (function() {
   var ACTIVE, COLLAPSED, EXPANDED, INACTIVE, NodeState, Sidebar, SidebarCssManager, SidebarDirective, directiveDir, merge,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  directiveDir = 'lib/sidebar/';
+  directiveDir = 'lib/components/sidebar/';
 
   ACTIVE = 0;
 
@@ -1073,14 +1145,14 @@ To define a model
 
 
 /*
-Create an angular module called OODLIB
+Create an angular module called OOD_Sidebar
 @author Phoenix Grey
  */
 
 (function() {
-  var a, d, f, lib;
+  var a, lib;
 
-  lib = angular.module("OODLib", ['gettext']);
+  lib = angular.module("OOD_Sidebar", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
@@ -1095,29 +1167,17 @@ Create an angular module called OODLIB
   @author Phoenix Grey
    */
 
-  this.OOD = lib;
-
-  d = new TableDirective();
-
-  DirectiveSchool.register(OOD, 'ctable', d);
-
-  f = new FooterDirective();
-
-  DirectiveSchool.register(OOD, 'cfooter', f);
-
   a = new SidebarDirective();
 
-  DirectiveSchool.register(OOD, 'caside', a);
+  DirectiveSchool.register(lib, 'csidebar', a);
 
 }).call(this);
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好, {{model.user}}","details":"详情","records":"条记录","total":"总共"});
+    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好, {{model.user}}"});
 /* jshint +W100 */
 }]);
-angular.module('OODLib').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span> <spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
-	$templateCache.put('lib/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
-	$templateCache.put('lib/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"><span ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></span></td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul ng-show="model.data.length&gt;0" class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
+angular.module('OOD_Sidebar').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('./lib/components/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
 }]);

@@ -1,4 +1,4 @@
-directiveDir = 'lib/sidebar/'
+directiveDir = 'lib/components/sidebar/'
 
 ACTIVE = 0
 INACTIVE = 1

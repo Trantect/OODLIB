@@ -1,4 +1,4 @@
-directiveDir = 'lib/footer/'
+directiveDir = 'lib/components/footer/'
 
 ###
 To define a footer model

@@ -7,4 +7,3 @@
     span(ng-repeat-start="site in model.websites")
       a(ng-href="{{model.getLink(site)}}")&nbsp;{{model.getName(site)}}&nbsp;
     span.line(ng-repeat-end ng-show="{{$index}}<{{model.lenOfSites-1}}") |
-        

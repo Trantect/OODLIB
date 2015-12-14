@@ -1,4 +1,4 @@
-directiveDir = 'lib/table/'
+directiveDir = 'lib/components/table/'
 
 ###
 To define a table model

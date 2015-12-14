@@ -7,7 +7,7 @@ describe 'footer directive', () ->
 
       params =
         restrict: 'E'
-        templateUrl: 'lib/footer/footer.html'
+        templateUrl: 'lib/components/footer/footer.html'
         scope:
           storage: '=info'
           cssManager: '='

@@ -7,7 +7,7 @@ describe "Test table directive without args", () ->
 
   beforeEach module 'tester'
 
-  beforeEach module 'lib/table/table.html'
+  beforeEach module 'lib/components/table/table.html'
 
   beforeEach inject (_$compile_, _$rootScope_) ->
     $compile = _$compile_

@@ -18,9 +18,9 @@ module.exports = (config) ->
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
       # 'bower_components/jquery/dist/jquery.min.js',
-      'lib/common/base.coffee',
-      'lib/footer/footer.coffee',
-      'lib/footer/footer.html',
+      'lib/core/base.coffee',
+      'lib/components/footer/footer.coffee',
+      'lib/components/footer/footer.html',
       'test/footer/model.test.coffee',
       'test/footer/css.test.coffee',
       'test/footer/directive.test.coffee',
@@ -36,9 +36,9 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'lib/**/*.html': ['ng-html2js']
-      '**/**/*.coffee': ['coffee']
-      'lib/footer/footer.coffee': ['coverage']
+      'lib/components/**/*.html': ['ng-html2js']
+      '**/*.coffee': ['coffee']
+      'lib/components/footer/footer.coffee': ['coverage']
     }
 
     plugins: [

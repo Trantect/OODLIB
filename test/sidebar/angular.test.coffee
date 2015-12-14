@@ -7,7 +7,7 @@ describe "Test Sidebar directive without args", () ->
 
   beforeEach module 'tester'
 
-  beforeEach module 'lib/sidebar/sidebar.html'
+  beforeEach module 'lib/components/sidebar/sidebar.html'
 
   beforeEach inject (_$compile_, _$rootScope_) ->
     $compile = _$compile_

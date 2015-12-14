@@ -7,7 +7,7 @@ describe "Directive Test", () ->
 
     params =
       restrict: 'E'
-      templateUrl: 'lib/sidebar/sidebar.html'
+      templateUrl: 'lib/components/sidebar/sidebar.html'
       scope:
         storage: "=info"
         activeItem: '='
@@ -22,7 +22,7 @@ describe "Directive Test", () ->
   it "Create Directive instance with two arguments", (done) ->
     params =
       restrict: 'E'
-      templateUrl: 'lib/sidebar/sidebar.html'
+      templateUrl: 'lib/components/sidebar/sidebar.html'
       scope:
         storage: '=info'
         activeItem: '='

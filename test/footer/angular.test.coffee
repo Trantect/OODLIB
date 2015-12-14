@@ -7,7 +7,7 @@ describe 'use footer directive without info', () ->
 
   beforeEach module 'tester'
 
-  beforeEach module 'lib/footer/footer.html'
+  beforeEach module 'lib/components/footer/footer.html'
 
   beforeEach inject (_$compile_, _$rootScope_) ->
     $compile = _$compile_

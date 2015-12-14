@@ -7,7 +7,7 @@ describe "Directive Test", () ->
 
     params =
       restrict: 'E'
-      templateUrl: 'lib/table/table.html'
+      templateUrl: 'lib/components/table/table.html'
       scope:
         cFields: '=cFields'
         dFields: '=dFields'
@@ -29,7 +29,7 @@ describe "Directive Test", () ->
 
     params =
       restrict: 'E'
-      templateUrl: 'lib/table/table.html'
+      templateUrl: 'lib/components/table/table.html'
       scope:
         cFields: '=cFields'
         dFields: '=dFields'

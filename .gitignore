@@ -8,3 +8,4 @@ apidoc
 report
 coverage
 po
+lib/components/**/.build

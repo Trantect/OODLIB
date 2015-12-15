@@ -1,4 +1,4 @@
-app = angular.module 'app', ['OOD_Footer', 'OOD_Table', 'OOD_Sidebar']
+app = angular.module 'app', ['OOD_ddmHeader', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
 
 app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
 

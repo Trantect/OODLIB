@@ -2,7 +2,7 @@
 Create an angular module called OOD_Sidebar
 @author Phoenix Grey
 ###
-lib = angular.module "OOD_Sidebar", ['gettext']
+lib = angular.module "OOD_sidebar", ['gettext']
 lib.run ['gettextCatalog', (gettextCatalog) ->
   gettextCatalog.currentLanguage = 'zh'
   gettextCatalog.debug = true

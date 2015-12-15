@@ -2,7 +2,7 @@
 Create an angular module called footer 
 @author Phoenix Grey
 ###
-lib = angular.module "OOD_Footer", ['gettext']
+lib = angular.module "OOD_footer", ['gettext']
 lib.run ['gettextCatalog', (gettextCatalog) ->
   gettextCatalog.currentLanguage = 'zh'
   gettextCatalog.debug = true

@@ -287,8 +287,7 @@ Create an angular module called OOD_Table
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -436,8 +435,7 @@ Create an angular module called footer
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -782,8 +780,7 @@ Create an angular module called OOD_Sidebar
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -1316,8 +1313,7 @@ Create an angular module called OOD_Table
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 

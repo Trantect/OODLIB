@@ -117,8 +117,7 @@ Create an angular module called footer
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 

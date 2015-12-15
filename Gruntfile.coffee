@@ -109,9 +109,15 @@ module.exports = (grunt)->
   grunt.registerTask "test", ["clean:test", "shell:karma"]
   grunt.registerTask "apidoc", ["clean:apidoc", "shell:apidoc"]
 
+  componentsTask = []
   _.each components, (v) ->
     [taskName, seq] = v.generatePreTask()
     grunt.registerTask taskName, seq
+    componentsTask.push taskName
+
     [taskName, seq] = v.generatePostTask()
     grunt.registerTask taskName, seq
+    componentsTask.push taskName
 
+  grunt.registerTask 'componentsBuild', componentsTask
+  grunt.registerTask 'default', ['coreBuild', 'componentsBuild', 'package', 'appBuild']

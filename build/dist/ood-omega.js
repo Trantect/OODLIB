@@ -745,7 +745,7 @@ Create an angular module called OOD_Sidebar
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好， {{model.user}}"});
+    gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
 angular.module('OOD_sidebar').run(['$templateCache', function ($templateCache) {
@@ -1279,7 +1279,7 @@ Create an angular module called OOD_Table
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"details":"详情","records":"条记录","total":"总共"});
+    gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
 angular.module('OOD_table').run(['$templateCache', function ($templateCache) {

@@ -163,6 +163,57 @@ To define a model
 }).call(this);
 
 (function() {
+  var DDMBodyItemContent, DDMBodyItemContentDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/dropdownMenu/';
+
+  DDMBodyItemContent = (function(superClass) {
+    extend(DDMBodyItemContent, superClass);
+
+    function DDMBodyItemContent(rawData) {
+      this.rawData = rawData;
+      this.one = this.rawData.one;
+      this.two = this.rawData.two;
+      this.three = this.rawData.three;
+      this.four = this.rawData.four;
+    }
+
+    return DDMBodyItemContent;
+
+  })(Model);
+
+  DDMBodyItemContentDirective = (function(superClass) {
+    extend(DDMBodyItemContentDirective, superClass);
+
+
+    /*
+    Construct an instance of DDMDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for DDMHeaderDirective
+     */
+
+    function DDMBodyItemContentDirective(params, cssKlass) {
+      var headerParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass;
+      headerParams = {
+        templateUrl: directiveDir + 'bodyItemContent.html'
+      };
+      _.extend(params, headerParams);
+      DDMBodyItemContentDirective.__super__.constructor.call(this, params, DDMBodyItemContent, cssKlass);
+    }
+
+    return DDMBodyItemContentDirective;
+
+  })(Directive);
+
+  this.DDMBodyItemContentDirective = DDMBodyItemContentDirective;
+
+}).call(this);
+
+(function() {
   var DDMHeader, DDMHeaderCssManager, DDMHeaderDirective, directiveDir,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
@@ -232,7 +283,7 @@ Create an angular module called OOD_Table
 (function() {
   var d, lib;
 
-  lib = angular.module("OOD_ddmHeader", ['gettext']);
+  lib = angular.module("OOD_dropdownMenu", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
@@ -251,6 +302,10 @@ Create an angular module called OOD_Table
 
   DirectiveSchool.register(lib, 'ddmHeader', d);
 
+  d = new DDMBodyItemContentDirective();
+
+  DirectiveSchool.register(lib, 'ddmBody', d);
+
 }).call(this);
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
@@ -258,7 +313,8 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
     gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
-angular.module('OOD_ddmHeader').run(['$templateCache', function ($templateCache) {
+angular.module('OOD_dropdownMenu').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/dropdownMenu/bodyItemContent.html', '<div><div><span>{{model.one}}</span><span>{{model.two}}</span></div><div>{{model.three}}</div><div>{{model.four}}</div></div>');
 	$templateCache.put('lib/components/dropdownMenu/ddmHeader.html', '<div>{{model.title}}</div>');
 }]);
 (function() {

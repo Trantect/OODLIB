@@ -1,10 +1,10 @@
 _ = require 'underscore'
 pb = require './pluginBuild'
 
-ddmHeader = new pb 'dropdownMenu', 'ddmHeader'
-footer = new pb 'footer', 'footer'
-sidebar = new pb 'sidebar', 'sidebar'
-table = new pb 'table', 'table'
+ddmHeader = new pb 'dropdownMenu'
+footer = new pb 'footer'
+sidebar = new pb 'sidebar'
+table = new pb 'table'
 
 components = [ddmHeader, footer, sidebar, table]
 componentConfig = _.map components, (v) ->

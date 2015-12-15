@@ -1,7 +1,7 @@
 _ = require 'underscore'
 
 class BuildProcess
-  constructor: (@fName, @mName, src, dest) ->
+  constructor: (@fName, src, dest) ->
     @src = src ? ('lib/components/' + fName + '/')
     @dest = dest ? ('build/components/' + fName + '/')
     @tmpBuild = @src+'.build/'
@@ -42,11 +42,11 @@ class BuildProcess
     files = []
     files[0] = {}
     viewFile = @tmpBuild + 'view.js'
-    files[0][viewFile] = @src+@mName+'.html'
+    files[0][viewFile] = @src+'*.html'
     config =
       files: files
       options:
-        module: 'OOD_' + @mName
+        module: 'OOD_' + @fName
 
 
   ###
@@ -55,7 +55,7 @@ class BuildProcess
   extractTranslation: () ->
     files = {}
     potFile = @tmpBuild + 'translate.pot'
-    files[potFile] = [@src+@mName+'.html']
+    files[potFile] = [@src+'*.html']
     config =
       files: files
 
@@ -75,15 +75,16 @@ class BuildProcess
   concat logic code, template cache, translation, register into one
   ###
   concatIntoComponent: () ->
+
     config =
       src: [
-        @tmpBuild + @mName + '.js'
+        @tmpBuild + 'X_*.js'
         @tmpBuild + 'register.js'
         @tmpBuild + 'translate.js'
         @tmpBuild + 'view.js'
       ]
       dest:
-        @dest + 'c_' + @mName + '.js'
+        @dest + 'c_' + @fName + '.js'
 
   clean: () ->
     config = [@tmpBuild, @dest, @src+'*.html']
@@ -99,21 +100,21 @@ class BuildProcess
       concat: @concatIntoComponent
     config = _.mapObject raw, (v, k) =>
       tmp = {}
-      tmp[@mName] = v.apply @
+      tmp[@fName] = v.apply @
       tmp
 
   generatePreTask: () ->
-    taskName = @mName + 'PreCreator'
+    taskName = @fName + 'PreCreator'
     _seq = ["coffee", "jade", "ngTemplateCache", "nggettext_extract"]
     seq = _.map _seq, (v) =>
-      v + ":" + @mName
+      v + ":" + @fName
     [taskName, seq]
 
   generatePostTask: () ->
-    taskName = @mName + 'PostCreator'
+    taskName = @fName + 'PostCreator'
     _seq = ["nggettext_compile", "concat"]
     seq = _.map _seq, (v) =>
-      v + ":" + @mName
+      v + ":" + @fName
     [taskName, seq]
 
 

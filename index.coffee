@@ -1,4 +1,4 @@
-app = angular.module 'app', ['OOD_ddmHeader', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
+app = angular.module 'app', ['OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
 
 app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
 
@@ -19,6 +19,12 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
     @detail: (item) ->
       'bcolor'
   $scope.user = 'phoenix'
+  $scope.ddmBody =
+    one:'111'
+    two:'222'
+    three:'333'
+    four:'444'
+
   $scope.displayTitles =
     "clientId":"用户号"
     "nickname":"用户名"

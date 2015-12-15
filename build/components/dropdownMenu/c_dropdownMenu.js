@@ -68,7 +68,7 @@ Create an angular module called OOD_Table
 (function() {
   var d, lib;
 
-  lib = angular.module("OOD_ddmHeader", ['gettext']);
+  lib = angular.module("OOD_dropdownMenu", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
@@ -94,6 +94,6 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
     gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
-angular.module('OOD_ddmHeader').run(['$templateCache', function ($templateCache) {
+angular.module('OOD_dropdownMenu').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/dropdownMenu/ddmHeader.html', '<div>{{model.title}}</div>');
 }]);

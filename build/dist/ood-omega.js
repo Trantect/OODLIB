@@ -1,3 +1,7 @@
+/* version NO. 0.0.0 */
+
+/* version NO. 0.0.0 */
+
 
 /*
 To define a model
@@ -161,6 +165,656 @@ To define a model
   this.Directive = Directive;
 
 }).call(this);
+
+/* version NO. 0.0.0 */
+
+(function() {
+  var DDMBodyItemContent, DDMBodyItemContentDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/dropdownMenu/';
+
+  DDMBodyItemContent = (function(superClass) {
+    extend(DDMBodyItemContent, superClass);
+
+    function DDMBodyItemContent(rawData) {
+      this.rawData = rawData;
+      this.one = this.rawData.one;
+      this.two = this.rawData.two;
+      this.three = this.rawData.three;
+      this.four = this.rawData.four;
+    }
+
+    return DDMBodyItemContent;
+
+  })(Model);
+
+  DDMBodyItemContentDirective = (function(superClass) {
+    extend(DDMBodyItemContentDirective, superClass);
+
+
+    /*
+    Construct an instance of DDMDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for DDMHeaderDirective
+     */
+
+    function DDMBodyItemContentDirective(params, cssKlass) {
+      var headerParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass;
+      headerParams = {
+        templateUrl: directiveDir + 'bodyItemContent.html'
+      };
+      _.extend(params, headerParams);
+      DDMBodyItemContentDirective.__super__.constructor.call(this, params, DDMBodyItemContent, cssKlass);
+    }
+
+    return DDMBodyItemContentDirective;
+
+  })(Directive);
+
+  this.DDMBodyItemContentDirective = DDMBodyItemContentDirective;
+
+}).call(this);
+
+(function() {
+  var DDMHeader, DDMHeaderCssManager, DDMHeaderDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/dropdownMenu/';
+
+  DDMHeader = (function(superClass) {
+    extend(DDMHeader, superClass);
+
+    function DDMHeader(rawData) {
+      this.rawData = rawData;
+      this.title = this.rawData;
+    }
+
+    return DDMHeader;
+
+  })(Model);
+
+  DDMHeaderCssManager = (function(superClass) {
+    extend(DDMHeaderCssManager, superClass);
+
+    function DDMHeaderCssManager() {
+      return DDMHeaderCssManager.__super__.constructor.apply(this, arguments);
+    }
+
+    return DDMHeaderCssManager;
+
+  })(CssManager);
+
+  DDMHeaderDirective = (function(superClass) {
+    extend(DDMHeaderDirective, superClass);
+
+
+    /*
+    Construct an instance of DDMDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for DDMHeaderDirective
+     */
+
+    function DDMHeaderDirective(params, cssKlass) {
+      var headerParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass != null ? cssKlass : DDMHeaderCssManager;
+      headerParams = {
+        templateUrl: directiveDir + 'ddmHeader.html'
+      };
+      _.extend(params, headerParams);
+      DDMHeaderDirective.__super__.constructor.call(this, params, DDMHeader, cssKlass);
+    }
+
+    return DDMHeaderDirective;
+
+  })(Directive);
+
+  this.DDMHeaderDirective = DDMHeaderDirective;
+
+  this.DDMHeaderCssManager = DDMHeaderCssManager;
+
+}).call(this);
+
+
+/*
+Create an angular module called OOD_Table
+@author Phoenix Grey
+ */
+
+(function() {
+  var d, lib;
+
+  lib = angular.module("OOD_dropdownMenu", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      return gettextCatalog.currentLanguage = 'zh';
+    }
+  ]);
+
+
+  /*
+  Expose OOD to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  d = new DDMHeaderDirective();
+
+  DirectiveSchool.register(lib, 'ddmHeader', d);
+
+  d = new DDMBodyItemContentDirective();
+
+  DirectiveSchool.register(lib, 'ddmBody', d);
+
+}).call(this);
+
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('zh', {});
+/* jshint +W100 */
+}]);
+angular.module('OOD_dropdownMenu').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/dropdownMenu/bodyItemContent.html', '<div><div><span>{{model.one}}</span><span>{{model.two}}</span></div><div>{{model.three}}</div><div>{{model.four}}</div></div>');
+	$templateCache.put('lib/components/dropdownMenu/ddmHeader.html', '<div>{{model.title}}</div>');
+}]);
+/* version NO. 0.0.0 */
+
+(function() {
+  var Footer, FooterCssManager, FooterDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/footer/';
+
+
+  /*
+  To define a footer model
+  @extend Model
+   */
+
+  Footer = (function(superClass) {
+    extend(Footer, superClass);
+
+
+    /*
+    To construct an instance of footer model
+    @param data [Array<Dict>] data to be displayed in footer
+     */
+
+    function Footer(data) {
+      var defaultData;
+      defaultData = {
+        copyright: "EMPTY copyright",
+        version: "EMPTY version",
+        websites: []
+      };
+      this.rawData = _.extend(defaultData, data);
+      this.copyright = this.rawData.copyright;
+      this.version = this.rawData.version;
+      this.websites = this.rawData.websites;
+      this.lenOfSites = this.rawData.websites.length;
+    }
+
+
+    /*
+    To get the first value of an object
+    @param o [Object]
+     */
+
+    Footer.prototype.getLink = function(o) {
+      return (_.values(o))[0];
+    };
+
+
+    /*
+    To get the first key of an object
+    @param o [Object]
+     */
+
+    Footer.prototype.getName = function(o) {
+      return (_.keys(o))[0];
+    };
+
+    return Footer;
+
+  })(Model);
+
+
+  /*
+  To define footer css manager
+   */
+
+  FooterCssManager = (function() {
+    function FooterCssManager() {}
+
+    return FooterCssManager;
+
+  })();
+
+
+  /*
+  To define footer directive
+  @extend Directive
+   */
+
+  FooterDirective = (function(superClass) {
+    extend(FooterDirective, superClass);
+
+
+    /*
+    Construct an instance of FooterDirective
+    @param params [dict] Parameters of angular directive
+     */
+
+    function FooterDirective(params) {
+      var footerParams;
+      params = params != null ? params : {};
+      footerParams = {
+        templateUrl: directiveDir + 'footer.html',
+        replace: true
+      };
+      _.extend(params, footerParams);
+      FooterDirective.__super__.constructor.call(this, params, Footer, FooterCssManager);
+    }
+
+    return FooterDirective;
+
+  })(Directive);
+
+  this.FooterDirective = FooterDirective;
+
+}).call(this);
+
+
+/*
+Create an angular module called footer 
+@author Phoenix Grey
+ */
+
+(function() {
+  var f, lib;
+
+  lib = angular.module("OOD_footer", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      return gettextCatalog.currentLanguage = 'zh';
+    }
+  ]);
+
+
+  /*
+  Expose footer to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  f = new FooterDirective();
+
+  DirectiveSchool.register(lib, 'cfooter', f);
+
+}).call(this);
+
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('zh', {});
+/* jshint +W100 */
+}]);
+angular.module('OOD_footer').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span><spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">{{model.getName(site)}}</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
+}]);
+/* version NO. 0.0.0 */
+
+(function() {
+  var ACTIVE, COLLAPSED, EXPANDED, INACTIVE, NodeState, Sidebar, SidebarCssManager, SidebarDirective, directiveDir, merge,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/sidebar/';
+
+  ACTIVE = 0;
+
+  INACTIVE = 1;
+
+  COLLAPSED = 0;
+
+  EXPANDED = 1;
+
+
+  /*
+  To convert an array of dict to a dict
+  @param _L [Array<Dict>]
+   */
+
+  merge = function(_L) {
+    var v;
+    v = {};
+    _.each(_L, function(_item) {
+      return _.extend(v, _item);
+    });
+    return v;
+  };
+
+
+  /*
+  To define sidebar css manager
+   */
+
+  SidebarCssManager = (function() {
+    function SidebarCssManager() {}
+
+
+    /*
+    To control active style
+    @param activation [emum] ACTIVE, INACTIVE
+     */
+
+    SidebarCssManager.getState = function(activation) {
+      switch (activation) {
+        case ACTIVE:
+          return 'is-active';
+        case INACTIVE:
+          return '';
+      }
+    };
+
+
+    /*
+    To control arrowIcon direction
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
+
+    SidebarCssManager.getExpansion = function(expansion) {
+      switch (expansion) {
+        case COLLAPSED:
+          return 'fa fa-angle-down';
+        case EXPANDED:
+          return 'fa fa-angle-up';
+        default:
+          return '';
+      }
+    };
+
+
+    /*
+    To control expansion
+    @param expansion [enum] COLLAPSED, EXPANDED
+     */
+
+    SidebarCssManager.expanded = function(expansion) {
+      switch (expansion) {
+        case COLLAPSED:
+          return false;
+        case EXPANDED:
+          return true;
+        default:
+          return '';
+      }
+    };
+
+    return SidebarCssManager;
+
+  })();
+
+
+  /*
+  To abstract state for menu item, which is so-called Node
+   */
+
+  NodeState = (function() {
+
+    /*
+    To construct an instance of NodeState
+    @param id [string] node name or subnode name
+    @param content [object<dict>] node content
+    @param hasFather [boolean/string] node father existence or father id
+     */
+    function NodeState(id, content, hasFather) {
+      this.id = id;
+      this.hasChildren = content ? content.subnodes !== void 0 : void 0;
+      this.hasFather = hasFather != null ? hasFather : false;
+      this.expansion = this.hasChildren ? COLLAPSED : void 0;
+      this.activation = INACTIVE;
+    }
+
+
+    /*
+    To activate node, including setting expansion and activation 
+    retrun an activated node id and expanded node id
+     */
+
+    NodeState.prototype.activate = function() {
+      var AK, EK;
+      AK = EK = void 0;
+      if (this.expansion !== void 0) {
+        this.toggle();
+        EK = this.expansion === EXPANDED ? this.id : void 0;
+      } else {
+        this.activation = ACTIVE;
+        AK = this.id;
+        EK = this.hasFather ? this.hasFather : void 0;
+      }
+      return [AK, EK];
+    };
+
+
+    /*
+    To set expansion EXPANDED if it is COLLAPSED
+     */
+
+    NodeState.prototype.expand = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : void 0;
+    };
+
+
+    /*
+    To toggle expansion value between COLLAPSED and EXPANDED
+     */
+
+    NodeState.prototype.toggle = function() {
+      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
+    };
+
+    return NodeState;
+
+  })();
+
+
+  /*
+  To define a sidebar model
+  @extend Model
+   */
+
+  Sidebar = (function(superClass) {
+    extend(Sidebar, superClass);
+
+
+    /*
+    To construct sidebar model
+    @param rawData [Object] info data imported from user
+     */
+
+    function Sidebar(rawData) {
+      this.rawData = _.filter(rawData, function(v) {
+        return v !== void 0 && (_.keys(v)).length !== 0;
+      });
+      this.initStates();
+    }
+
+
+    /*
+    To initialize the state of nodes, subnodes and turn them into a flat data structure
+     */
+
+    Sidebar.prototype.initStates = function() {
+      var t;
+      t = _.map(this.rawData, function(val, index) {
+        var _tmp, sectionNodes;
+        sectionNodes = _.map(val, function(nodeContent, nodeId) {
+          var nodes, subnodes;
+          nodes = {};
+          nodes[nodeId] = new NodeState(nodeId, nodeContent, false);
+          subnodes = _.mapObject(nodeContent.subnodes, function(_subnode, _subid) {
+            return new NodeState(_subid, _subnode, nodeId);
+          });
+          _.extend(nodes, subnodes);
+          return nodes;
+        });
+        return _tmp = merge(sectionNodes);
+      });
+      return this.states = merge(t);
+    };
+
+
+    /*
+    To set states according to their keys
+    @param nodeId [string] node id or subnode id
+     */
+
+    Sidebar.prototype.setStates = function(nodeId) {
+      var activatedKey, expandedKey, ref;
+      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : (_.keys(this.states))[0];
+      ref = nodeId && this.states[nodeId] ? this.states[nodeId].activate() : [void 0, void 0], activatedKey = ref[0], expandedKey = ref[1];
+      if (expandedKey) {
+        return this.states[expandedKey].expand();
+      }
+    };
+
+
+    /*
+    To toggle a sidebar item
+    @param nid [String] node id
+     */
+
+    Sidebar.prototype.toggle = function(nid) {
+      return this.states[nid].toggle();
+    };
+
+
+    /*
+    To set user
+    @param user [String] user name
+     */
+
+    Sidebar.prototype.setUser = function(user) {
+      return this.user = user != null ? user : 'anonymous';
+    };
+
+    return Sidebar;
+
+  })(Model);
+
+
+  /*
+  To define sidebar directive
+  @extend Directive
+   */
+
+  SidebarDirective = (function(superClass) {
+    extend(SidebarDirective, superClass);
+
+
+    /*
+    To construct an instance of SidebarDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for sidebar
+     */
+
+    function SidebarDirective(params, cssKlass) {
+      var asideParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass != null ? cssKlass : SidebarCssManager;
+      asideParams = {
+        templateUrl: directiveDir + 'sidebar.html',
+        scope: {
+          activeItem: "=",
+          user: "="
+        }
+      };
+      _.extend(params, asideParams);
+      SidebarDirective.__super__.constructor.call(this, params, Sidebar, cssKlass);
+    }
+
+
+    /*
+    To initialize link function of table directive
+     */
+
+    SidebarDirective.prototype.linkFn = function(scope, element, attr) {
+      SidebarDirective.__super__.linkFn.call(this, scope, element, attr);
+
+      /*
+      scope.$watch () ->
+        scope.activeItem
+      , (nV, oV) ->
+        scope.setActiveItem nV
+       */
+
+      /*
+      To set ACTIVE state to node or subnode according to activeItem
+      @param item [string] node name or subnode name
+       */
+      scope.model.setStates(scope.activeItem);
+      return scope.model.setUser(scope.user);
+
+      /*
+      scope.setActiveItem = (item) ->
+        scope.model.initStates()
+        scope.activeItem = item
+        scope.model.setStates scope.activeItem
+       */
+    };
+
+    return SidebarDirective;
+
+  })(Directive);
+
+  this.SidebarDirective = SidebarDirective;
+
+}).call(this);
+
+
+/*
+Create an angular module called OOD_Sidebar
+@author Phoenix Grey
+ */
+
+(function() {
+  var a, lib;
+
+  lib = angular.module("OOD_sidebar", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      return gettextCatalog.currentLanguage = 'zh';
+    }
+  ]);
+
+
+  /*
+  Expose OOD to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  a = new SidebarDirective();
+
+  DirectiveSchool.register(lib, 'csidebar', a);
+
+}).call(this);
+
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('zh', {});
+/* jshint +W100 */
+}]);
+angular.module('OOD_sidebar').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar><div class="user-panel"><div class="user-info"><p translate="translate">Hello, {{model.user}}</p></div></div><ul ng-repeat="section in model.rawData" class="menu"><li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a><ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"><li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li></ul></li></ul></sidebar>');
+}]);
+/* version NO. 0.0.0 */
 
 (function() {
   var Table, TableCssManager, TableDirective, directiveDir,
@@ -667,12 +1321,11 @@ Create an angular module called OOD_Table
 (function() {
   var d, lib;
 
-  lib = angular.module("OOD_Table", ['gettext']);
+  lib = angular.module("OOD_table", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -690,494 +1343,9 @@ Create an angular module called OOD_Table
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"details":"详情","records":"条记录","total":"总共"});
+    gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
-angular.module('OOD_Table').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/table/table.html', '<div class="responsive"> <table class="table table-sort table-detail-default table-stripped-4"> <thead> <tr> <th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))"></i></th> </tr> </thead> <tbody> <tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"> <td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"><span ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></span></td> </tr> <tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"> <td colspan="{{model.columnFields.length}}" class="is-nopadding"> <div class="detail-default"> <div translate="translate" class="detail-title">details</div> <dl> <dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt> <dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd> </dl> </div> </td> </tr> </tbody> </table> <div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span> <ul ng-show="model.data.length&gt;0" class="pagination"> <li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li> <li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li> <li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li> </ul> </div> </div>');
-}]);
-(function() {
-  var Footer, FooterCssManager, FooterDirective, directiveDir,
-    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    hasProp = {}.hasOwnProperty;
-
-  directiveDir = 'lib/components/footer/';
-
-
-  /*
-  To define a footer model
-  @extend Model
-   */
-
-  Footer = (function(superClass) {
-    extend(Footer, superClass);
-
-
-    /*
-    To construct an instance of footer model
-    @param data [Array<Dict>] data to be displayed in footer
-     */
-
-    function Footer(data) {
-      var defaultData;
-      defaultData = {
-        copyright: "EMPTY copyright",
-        version: "EMPTY version",
-        websites: []
-      };
-      this.rawData = _.extend(defaultData, data);
-      this.copyright = this.rawData.copyright;
-      this.version = this.rawData.version;
-      this.websites = this.rawData.websites;
-      this.lenOfSites = this.rawData.websites.length;
-    }
-
-
-    /*
-    To get the first value of an object
-    @param o [Object]
-     */
-
-    Footer.prototype.getLink = function(o) {
-      return (_.values(o))[0];
-    };
-
-
-    /*
-    To get the first key of an object
-    @param o [Object]
-     */
-
-    Footer.prototype.getName = function(o) {
-      return (_.keys(o))[0];
-    };
-
-    return Footer;
-
-  })(Model);
-
-
-  /*
-  To define footer css manager
-   */
-
-  FooterCssManager = (function() {
-    function FooterCssManager() {}
-
-    return FooterCssManager;
-
-  })();
-
-
-  /*
-  To define footer directive
-  @extend Directive
-   */
-
-  FooterDirective = (function(superClass) {
-    extend(FooterDirective, superClass);
-
-
-    /*
-    Construct an instance of FooterDirective
-    @param params [dict] Parameters of angular directive
-     */
-
-    function FooterDirective(params) {
-      var footerParams;
-      params = params != null ? params : {};
-      footerParams = {
-        templateUrl: directiveDir + 'footer.html',
-        replace: true
-      };
-      _.extend(params, footerParams);
-      FooterDirective.__super__.constructor.call(this, params, Footer, FooterCssManager);
-    }
-
-    return FooterDirective;
-
-  })(Directive);
-
-  this.FooterDirective = FooterDirective;
-
-}).call(this);
-
-
-/*
-Create an angular module called footer 
-@author Phoenix Grey
- */
-
-(function() {
-  var f, lib;
-
-  lib = angular.module("OOD_Footer", ['gettext']);
-
-  lib.run([
-    'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
-    }
-  ]);
-
-
-  /*
-  Expose footer to Browser as a global object
-  @author Phoenix Grey
-   */
-
-  f = new FooterDirective();
-
-  DirectiveSchool.register(lib, 'cfooter', f);
-
-}).call(this);
-
-angular.module('OOD_Footer').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span> <spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
-}]);
-(function() {
-  var ACTIVE, COLLAPSED, EXPANDED, INACTIVE, NodeState, Sidebar, SidebarCssManager, SidebarDirective, directiveDir, merge,
-    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
-    hasProp = {}.hasOwnProperty;
-
-  directiveDir = 'lib/components/sidebar/';
-
-  ACTIVE = 0;
-
-  INACTIVE = 1;
-
-  COLLAPSED = 0;
-
-  EXPANDED = 1;
-
-
-  /*
-  To convert an array of dict to a dict
-  @param _L [Array<Dict>]
-   */
-
-  merge = function(_L) {
-    var v;
-    v = {};
-    _.each(_L, function(_item) {
-      return _.extend(v, _item);
-    });
-    return v;
-  };
-
-
-  /*
-  To define sidebar css manager
-   */
-
-  SidebarCssManager = (function() {
-    function SidebarCssManager() {}
-
-
-    /*
-    To control active style
-    @param activation [emum] ACTIVE, INACTIVE
-     */
-
-    SidebarCssManager.getState = function(activation) {
-      switch (activation) {
-        case ACTIVE:
-          return 'is-active';
-        case INACTIVE:
-          return '';
-      }
-    };
-
-
-    /*
-    To control arrowIcon direction
-    @param expansion [enum] COLLAPSED, EXPANDED
-     */
-
-    SidebarCssManager.getExpansion = function(expansion) {
-      switch (expansion) {
-        case COLLAPSED:
-          return 'fa fa-angle-down';
-        case EXPANDED:
-          return 'fa fa-angle-up';
-        default:
-          return '';
-      }
-    };
-
-
-    /*
-    To control expansion
-    @param expansion [enum] COLLAPSED, EXPANDED
-     */
-
-    SidebarCssManager.expanded = function(expansion) {
-      switch (expansion) {
-        case COLLAPSED:
-          return false;
-        case EXPANDED:
-          return true;
-        default:
-          return '';
-      }
-    };
-
-    return SidebarCssManager;
-
-  })();
-
-
-  /*
-  To abstract state for menu item, which is so-called Node
-   */
-
-  NodeState = (function() {
-
-    /*
-    To construct an instance of NodeState
-    @param id [string] node name or subnode name
-    @param content [object<dict>] node content
-    @param hasFather [boolean/string] node father existence or father id
-     */
-    function NodeState(id, content, hasFather) {
-      this.id = id;
-      this.hasChildren = content ? content.subnodes !== void 0 : void 0;
-      this.hasFather = hasFather != null ? hasFather : false;
-      this.expansion = this.hasChildren ? COLLAPSED : void 0;
-      this.activation = INACTIVE;
-    }
-
-
-    /*
-    To activate node, including setting expansion and activation 
-    retrun an activated node id and expanded node id
-     */
-
-    NodeState.prototype.activate = function() {
-      var AK, EK;
-      AK = EK = void 0;
-      if (this.expansion !== void 0) {
-        this.toggle();
-        EK = this.expansion === EXPANDED ? this.id : void 0;
-      } else {
-        this.activation = ACTIVE;
-        AK = this.id;
-        EK = this.hasFather ? this.hasFather : void 0;
-      }
-      return [AK, EK];
-    };
-
-
-    /*
-    To set expansion EXPANDED if it is COLLAPSED
-     */
-
-    NodeState.prototype.expand = function() {
-      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : void 0;
-    };
-
-
-    /*
-    To toggle expansion value between COLLAPSED and EXPANDED
-     */
-
-    NodeState.prototype.toggle = function() {
-      return this.expansion = this.expansion === COLLAPSED ? EXPANDED : COLLAPSED;
-    };
-
-    return NodeState;
-
-  })();
-
-
-  /*
-  To define a sidebar model
-  @extend Model
-   */
-
-  Sidebar = (function(superClass) {
-    extend(Sidebar, superClass);
-
-
-    /*
-    To construct sidebar model
-    @param rawData [Object] info data imported from user
-     */
-
-    function Sidebar(rawData) {
-      this.rawData = _.filter(rawData, function(v) {
-        return v !== void 0 && (_.keys(v)).length !== 0;
-      });
-      this.initStates();
-    }
-
-
-    /*
-    To initialize the state of nodes, subnodes and turn them into a flat data structure
-     */
-
-    Sidebar.prototype.initStates = function() {
-      var t;
-      t = _.map(this.rawData, function(val, index) {
-        var _tmp, sectionNodes;
-        sectionNodes = _.map(val, function(nodeContent, nodeId) {
-          var nodes, subnodes;
-          nodes = {};
-          nodes[nodeId] = new NodeState(nodeId, nodeContent, false);
-          subnodes = _.mapObject(nodeContent.subnodes, function(_subnode, _subid) {
-            return new NodeState(_subid, _subnode, nodeId);
-          });
-          _.extend(nodes, subnodes);
-          return nodes;
-        });
-        return _tmp = merge(sectionNodes);
-      });
-      return this.states = merge(t);
-    };
-
-
-    /*
-    To set states according to their keys
-    @param nodeId [string] node id or subnode id
-     */
-
-    Sidebar.prototype.setStates = function(nodeId) {
-      var activatedKey, expandedKey, ref;
-      nodeId = nodeId !== void 0 && nodeId !== '' ? nodeId : (_.keys(this.states))[0];
-      ref = nodeId && this.states[nodeId] ? this.states[nodeId].activate() : [void 0, void 0], activatedKey = ref[0], expandedKey = ref[1];
-      if (expandedKey) {
-        return this.states[expandedKey].expand();
-      }
-    };
-
-
-    /*
-    To toggle a sidebar item
-    @param nid [String] node id
-     */
-
-    Sidebar.prototype.toggle = function(nid) {
-      return this.states[nid].toggle();
-    };
-
-
-    /*
-    To set user
-    @param user [String] user name
-     */
-
-    Sidebar.prototype.setUser = function(user) {
-      return this.user = user != null ? user : 'anonymous';
-    };
-
-    return Sidebar;
-
-  })(Model);
-
-
-  /*
-  To define sidebar directive
-  @extend Directive
-   */
-
-  SidebarDirective = (function(superClass) {
-    extend(SidebarDirective, superClass);
-
-
-    /*
-    To construct an instance of SidebarDirective
-    @param params [Dict] parameters of angular directive
-    @param cssKlass [Class] css management class for sidebar
-     */
-
-    function SidebarDirective(params, cssKlass) {
-      var asideParams;
-      params = params != null ? params : {};
-      cssKlass = cssKlass != null ? cssKlass : SidebarCssManager;
-      asideParams = {
-        templateUrl: directiveDir + 'sidebar.html',
-        scope: {
-          activeItem: "=",
-          user: "="
-        }
-      };
-      _.extend(params, asideParams);
-      SidebarDirective.__super__.constructor.call(this, params, Sidebar, cssKlass);
-    }
-
-
-    /*
-    To initialize link function of table directive
-     */
-
-    SidebarDirective.prototype.linkFn = function(scope, element, attr) {
-      SidebarDirective.__super__.linkFn.call(this, scope, element, attr);
-
-      /*
-      scope.$watch () ->
-        scope.activeItem
-      , (nV, oV) ->
-        scope.setActiveItem nV
-       */
-
-      /*
-      To set ACTIVE state to node or subnode according to activeItem
-      @param item [string] node name or subnode name
-       */
-      scope.model.setStates(scope.activeItem);
-      return scope.model.setUser(scope.user);
-
-      /*
-      scope.setActiveItem = (item) ->
-        scope.model.initStates()
-        scope.activeItem = item
-        scope.model.setStates scope.activeItem
-       */
-    };
-
-    return SidebarDirective;
-
-  })(Directive);
-
-  this.SidebarDirective = SidebarDirective;
-
-}).call(this);
-
-
-/*
-Create an angular module called OOD_Sidebar
-@author Phoenix Grey
- */
-
-(function() {
-  var a, lib;
-
-  lib = angular.module("OOD_Sidebar", ['gettext']);
-
-  lib.run([
-    'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
-    }
-  ]);
-
-
-  /*
-  Expose OOD to Browser as a global object
-  @author Phoenix Grey
-   */
-
-  a = new SidebarDirective();
-
-  DirectiveSchool.register(lib, 'csidebar', a);
-
-}).call(this);
-
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好，{{model.user}}"});
-/* jshint +W100 */
-}]);
-angular.module('OOD_Sidebar').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
+angular.module('OOD_table').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/table/table.html', '<div class="responsive"><table class="table table-sort table-detail-default table-stripped-4"><thead><tr><th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))"></i></th></tr></thead><tbody><tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"><td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"><span ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></span></td></tr><tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"><td colspan="{{model.columnFields.length}}" class="is-nopadding"><div class="detail-default"><div translate="translate" class="detail-title">details</div><dl><dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt><dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd></dl></div></td></tr></tbody></table><div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span><ul ng-show="model.data.length&gt;0" class="pagination"><li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li><li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li><li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li></ul></div></div>');
 }]);

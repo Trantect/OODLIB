@@ -1,3 +1,5 @@
+/* version NO. 0.0.0 */
+
 (function() {
   var Footer, FooterCssManager, FooterDirective, directiveDir,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -113,12 +115,11 @@ Create an angular module called footer
 (function() {
   var f, lib;
 
-  lib = angular.module("OOD_Footer", ['gettext']);
+  lib = angular.module("OOD_footer", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -134,6 +135,11 @@ Create an angular module called footer
 
 }).call(this);
 
-angular.module('OOD_Footer').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span> <spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">&nbsp;{{model.getName(site)}}&nbsp;</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
+angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
+/* jshint -W100 */
+    gettextCatalog.setStrings('zh', {});
+/* jshint +W100 */
+}]);
+angular.module('OOD_footer').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span><spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">{{model.getName(site)}}</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
 }]);

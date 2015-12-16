@@ -1,3 +1,5 @@
+/* version NO. 0.0.0 */
+
 (function() {
   var ACTIVE, COLLAPSED, EXPANDED, INACTIVE, NodeState, Sidebar, SidebarCssManager, SidebarDirective, directiveDir, merge,
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -315,12 +317,11 @@ Create an angular module called OOD_Sidebar
 (function() {
   var a, lib;
 
-  lib = angular.module("OOD_Sidebar", ['gettext']);
+  lib = angular.module("OOD_sidebar", ['gettext']);
 
   lib.run([
     'gettextCatalog', function(gettextCatalog) {
-      gettextCatalog.currentLanguage = 'zh';
-      return gettextCatalog.debug = true;
+      return gettextCatalog.currentLanguage = 'zh';
     }
   ]);
 
@@ -338,9 +339,9 @@ Create an angular module called OOD_Sidebar
 
 angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 /* jshint -W100 */
-    gettextCatalog.setStrings('zh', {"Hello, {{model.user}}":"你好，{{model.user}}"});
+    gettextCatalog.setStrings('zh', {});
 /* jshint +W100 */
 }]);
-angular.module('OOD_Sidebar').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar> <div class="user-panel"> <div class="user-info"> <p translate="translate">Hello, {{model.user}}</p> </div> </div> <ul ng-repeat="section in model.rawData" class="menu"> <li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a> <ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"> <li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li> </ul> </li> </ul> </sidebar>');
+angular.module('OOD_sidebar').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar><div class="user-panel"><div class="user-info"><p translate="translate">Hello, {{model.user}}</p></div></div><ul ng-repeat="section in model.rawData" class="menu"><li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a><ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"><li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li></ul></li></ul></sidebar>');
 }]);

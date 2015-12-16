@@ -78,6 +78,7 @@ class BuildProcess
 
     config =
       src: [
+        'lib/version.js'
         @tmpBuild + 'X_*.js'
         @tmpBuild + 'register.js'
         @tmpBuild + 'translate.js'

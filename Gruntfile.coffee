@@ -65,9 +65,17 @@ tasks =
       command: 'python karmaReport.py'
 
   concat:
+    core:
+      src: [
+        libSrc + 'version.js'
+        coreBuild + 'core.js'
+      ]
+      dest:
+        coreBuild + 'core.js'
     dist:
       src: [
-        coreBuild+ 'core.js'
+        libSrc + 'version.js'
+        coreBuild + 'core.js'
         componentsBuild + '**/c_*.js'
       ]
       dest:
@@ -77,9 +85,13 @@ tasks =
     core:
       files:
         'build/core/core.min.js': coreBuild+'core.js'
+      options:
+        preserveComments: true
     dist:
       files:
         'build/dist/ood-omega.min.js': dist+'ood-omega.js'
+      options:
+        preserveComments: true
 
   nggettext_extract: {}
   nggettext_compile: {}
@@ -103,7 +115,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-hustler'
   grunt.loadNpmTasks 'grunt-angular-gettext'
 
-  grunt.registerTask "coreBuild", ["clean:core", "coffee:core", "uglify:core"]
+  grunt.registerTask "coreBuild", ["clean:core", "coffee:core", "concat:core", "uglify:core"]
   grunt.registerTask "package", ["concat:dist", "uglify:dist"]
   grunt.registerTask "appBuild", ["clean:app", "coffee:app"]
   grunt.registerTask "test", ["clean:test", "shell:karma"]

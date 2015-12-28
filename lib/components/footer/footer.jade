@@ -2,7 +2,7 @@
   span.copyright 
     span Copyright © {{model.copyright}}
     span.line |
-    spen Version: {{model.version}}
+    span Version: {{model.version}}
   span.help
     span(ng-repeat-start="site in model.websites")
       a(ng-href="{{model.getLink(site)}}") {{model.getName(site)}}

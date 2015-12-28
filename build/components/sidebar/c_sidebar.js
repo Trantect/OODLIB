@@ -337,11 +337,6 @@ Create an angular module called OOD_Sidebar
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_sidebar').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar><div class="user-panel"><div class="user-info"><p translate="translate">Hello, {{model.user}}</p></div></div><ul ng-repeat="section in model.rawData" class="menu"><li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a><ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"><li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li></ul></li></ul></sidebar>');
 }]);

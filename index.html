@@ -10,13 +10,13 @@
     </style>
   </head>
   <body ng-app="app" ng-controller="appCtrl">
+    <ctopbar></ctopbar>
     <csidebar info="sidebar" user="user"></csidebar>
     <content>
       <div class="panel panel-body">
         <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" num-per-page=2 titles="displayTitles"></ctable>
       </div>
-      <ddm-header info="user"></ddm-header>
-      <ddm-body info="ddmBody"></ddm-body>
+
       <cfooter info="company" css-manager="style"></cfooter>
     </content>
 

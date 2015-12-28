@@ -313,11 +313,6 @@ Create an angular module called OOD_Table
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_dropdownMenu').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/dropdownMenu/bodyItemContent.html', '<div><div><span>{{model.one}}</span><span>{{model.two}}</span></div><div>{{model.three}}</div><div>{{model.four}}</div></div>');
 	$templateCache.put('lib/components/dropdownMenu/ddmHeader.html', '<div>{{model.title}}</div>');
@@ -459,11 +454,6 @@ Create an angular module called footer
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_footer').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/footer/footer.html', '<div class="footer"><span class="copyright"> <span>Copyright © {{model.copyright}}</span><span class="line">|</span><spen>Version: {{model.version}}</spen></span><span class="help"><span ng-repeat-start="site in model.websites"><a ng-href="{{model.getLink(site)}}">{{model.getName(site)}}</a></span><span ng-repeat-end="ng-repeat-end" ng-show="{{$index}}&lt;{{model.lenOfSites-1}}" class="line">|</span></span></div>');
 }]);
@@ -806,11 +796,6 @@ Create an angular module called OOD_Sidebar
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_sidebar').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/sidebar/sidebar.html', '<sidebar><div class="user-panel"><div class="user-info"><p translate="translate">Hello, {{model.user}}</p></div></div><ul ng-repeat="section in model.rawData" class="menu"><li ng-repeat="(nid, nObj) in section" ng-class="css.getState(model.states[nid].activation)"><a ng-if="model.states[nid].hasChildren" ng-click="model.toggle(nid)" href=""><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span><i ng-class="css.getExpansion(model.states[nid].expansion)" class="is-align-right"></i></a><a ng-if="model.states[nid].hasChildren==false" ng-href="{{nObj.URL}}"><i ng-class="nObj.icon"></i><span>{{nObj.name}}</span></a><ul ng-show="css.expanded(model.states[nid].expansion)" class="menu"><li ng-repeat="(subNId, subNObj) in nObj.subnodes" ng-class="css.getState(model.states[subNId].activation)"><a ng-href="{{subNObj.URL}}"><i ng-class="subNObj.icon"></i><span>{{subNObj.name}}</span></a></li></ul></li></ul></sidebar>');
 }]);
@@ -1341,11 +1326,162 @@ Create an angular module called OOD_Table
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_table').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/table/table.html', '<div class="responsive"><table class="table table-sort table-detail-default table-stripped-4"><thead><tr><th ng-repeat="t in model.columnFields" ng-click="model.sortBy(t)"> <span ng-bind="model.getTitle(t)"></span><i ng-class="css.sortState(model.getSortOrder(t))"></i></th></tr></thead><tbody><tr ng-repeat-start="item in model.currentData" ng-click="model.toggleDetail($index)" ng-class="css.brief(item)"><td ng-repeat="(k,v) in item.columnData" ng-class="css.td(item.columnData)"><span ng-class="css.cell(k,v)"><i ng-class="css.cellIcon(k,v)"></i><span ng-bind="v" class="css.cellContent(k,v)"></span></span></td></tr><tr ng-repeat-end="ng-repeat-end" ng-show="model.detailDisplayed($index)" ng-class="css.detail(item)"><td colspan="{{model.columnFields.length}}" class="is-nopadding"><div class="detail-default"><div translate="translate" class="detail-title">details</div><dl><dt ng-repeat-start="(k,v) in item.detailData">{{model.getTitle(k)}}:</dt><dd ng-repeat-end="(k,v) in item.detailData">{{v}}</dd></dl></div></td></tr></tbody></table><div class="statistics"> <span> <span translate="translate">total</span><span ng-bind="model.data.length"> </span><span translate="translate">records</span></span><ul ng-show="model.data.length&gt;0" class="pagination"><li ng-class="css.prevPageState(model.currentPage)" ng-click="model.setCurrentPage(model.currentPage-1)"><a href="#">«</a></li><li ng-repeat="i in model.pageRange" ng-click="model.setCurrentPage(i)" ng-class="css.pageState(model.currentPage, i)"><a href="#">{{i}}</a></li><li ng-class="css.nextPageState(model.currentPage, model.numPages)" ng-click="model.setCurrentPage(model.currentPage+1)"><a href="#">»</a></li></ul></div></div>');
+}]);
+/* version NO. 0.0.0 */
+
+(function() {
+  var Topbar, TopbarCssManager, TopbarDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/topbar/';
+
+  Topbar = (function(superClass) {
+    extend(Topbar, superClass);
+
+    function Topbar(rawData) {
+      this.rawData = rawData;
+      this.title = this.rawData;
+    }
+
+    return Topbar;
+
+  })(Model);
+
+  TopbarCssManager = (function(superClass) {
+    extend(TopbarCssManager, superClass);
+
+    function TopbarCssManager() {
+      return TopbarCssManager.__super__.constructor.apply(this, arguments);
+    }
+
+    return TopbarCssManager;
+
+  })(CssManager);
+
+  TopbarDirective = (function(superClass) {
+    extend(TopbarDirective, superClass);
+
+
+    /*
+    Construct an instance of TopbarDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for TopbarDirective
+     */
+
+    function TopbarDirective(params, cssKlass) {
+      var headerParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass != null ? cssKlass : TopbarCssManager;
+      headerParams = {
+        templateUrl: directiveDir + 'topbar.html'
+      };
+      _.extend(params, headerParams);
+      TopbarDirective.__super__.constructor.call(this, params, Topbar, cssKlass);
+    }
+
+    return TopbarDirective;
+
+  })(Directive);
+
+  this.TopbarDirective = TopbarDirective;
+
+  this.TopbarCssManager = TopbarCssManager;
+
+}).call(this);
+
+(function() {
+  var Topbar, TopbarCssManager, TopbarDirective, directiveDir,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  directiveDir = 'lib/components/topbar/';
+
+  Topbar = (function(superClass) {
+    extend(Topbar, superClass);
+
+    function Topbar(rawData) {
+      this.rawData = rawData;
+      this.title = this.rawData;
+    }
+
+    return Topbar;
+
+  })(Model);
+
+  TopbarCssManager = (function(superClass) {
+    extend(TopbarCssManager, superClass);
+
+    function TopbarCssManager() {
+      return TopbarCssManager.__super__.constructor.apply(this, arguments);
+    }
+
+    return TopbarCssManager;
+
+  })(CssManager);
+
+  TopbarDirective = (function(superClass) {
+    extend(TopbarDirective, superClass);
+
+
+    /*
+    Construct an instance of TopbarDirective
+    @param params [Dict] parameters of angular directive
+    @param cssKlass [Class] css management class for TopbarDirective
+     */
+
+    function TopbarDirective(params, cssKlass) {
+      var headerParams;
+      params = params != null ? params : {};
+      cssKlass = cssKlass != null ? cssKlass : TopbarCssManager;
+      headerParams = {
+        templateUrl: directiveDir + 'topbar.html'
+      };
+      _.extend(params, headerParams);
+      TopbarDirective.__super__.constructor.call(this, params, Topbar, cssKlass);
+    }
+
+    return TopbarDirective;
+
+  })(Directive);
+
+  this.TopbarDirective = TopbarDirective;
+
+  this.TopbarCssManager = TopbarCssManager;
+
+}).call(this);
+
+
+/*
+Create an angular module called OOD_Table
+@author Phoenix Grey
+ */
+
+(function() {
+  var d, lib;
+
+  lib = angular.module("OOD_topbar", ['gettext']);
+
+  lib.run([
+    'gettextCatalog', function(gettextCatalog) {
+      return gettextCatalog.currentLanguage = 'zh';
+    }
+  ]);
+
+
+  /*
+  Expose OOD to Browser as a global object
+  @author Phoenix Grey
+   */
+
+  d = new TopbarDirective();
+
+  DirectiveSchool.register(lib, 'ctopbar', d);
+
+}).call(this);
+
+angular.module('OOD_topbar').run(['$templateCache', function ($templateCache) {
+	$templateCache.put('lib/components/topbar/topbar.html', '<header><a href="#" class="logo"><img src="https://trello-attachments.s3.amazonaws.com/5677614ccce6b3d59e4bc9d7/60x30/ad7f1ea7713688a05b95a2dcb7e0d4f4/LOGO..png"/></a><div class="nav header-nav"> <ul class="nav-toolbar is-align-left nav-clearfix"><li><a id="sidebar_controller" href="#" class="nav-item"><i class="fa fa-bars"></i></a></li></ul><ul class="nav-toolbar is-align-right nav-clearfix"><li><a href="#" class="nav-item"><i class="fa fa-sitemap"></i></a></li><li><a href="#" class="nav-item"><i class="fa fa-database"></i></a></li><li><a href="#" class="nav-item"><i class="fa fa-tasks"></i></a></li><li><a href="#" class="nav-item"><i class="icon-vul"></i></a></li><li><a href="#" class="nav-item"><i class="icon-virus"></i></a></li><li><a href="#" class="nav-item"><i class="icon-hips"></i></a></li><li class="user user-info"><a class="nav-item"><i class="fa fa-user"></i><span>abc1234567</span></a></li><li class="user dropdown"><a href="#" class="nav-item"><i class="fa fa-sign-out"></i><span class="user-exit">Logut</span></a></li></ul></div></header>');
 }]);

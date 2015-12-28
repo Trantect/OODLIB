@@ -1,12 +1,12 @@
 _ = require 'underscore'
 pb = require './pluginBuild'
 
-ddmHeader = new pb 'dropdownMenu'
+topbar = new pb 'topbar'
 footer = new pb 'footer'
 sidebar = new pb 'sidebar'
 table = new pb 'table'
 
-components = [ddmHeader, footer, sidebar, table]
+components = [topbar, footer, sidebar, table]
 componentConfig = _.map components, (v) ->
   v.generateConfig()
 
@@ -99,7 +99,7 @@ tasks =
 _.each componentConfig, (_config) ->
   _.each _config, (v, k) ->
     _.extend tasks[k], v
-  
+
 module.exports = (grunt)->
 
   grunt.initConfig tasks

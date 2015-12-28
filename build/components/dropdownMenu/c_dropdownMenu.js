@@ -145,11 +145,6 @@ Create an angular module called OOD_Table
 
 }).call(this);
 
-angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
-/* jshint -W100 */
-    gettextCatalog.setStrings('zh', {});
-/* jshint +W100 */
-}]);
 angular.module('OOD_dropdownMenu').run(['$templateCache', function ($templateCache) {
 	$templateCache.put('lib/components/dropdownMenu/bodyItemContent.html', '<div><div><span>{{model.one}}</span><span>{{model.two}}</span></div><div>{{model.three}}</div><div>{{model.four}}</div></div>');
 	$templateCache.put('lib/components/dropdownMenu/ddmHeader.html', '<div>{{model.title}}</div>');

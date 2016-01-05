@@ -19,7 +19,7 @@ module.exports = (config) ->
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/underscore/underscore-min.js',
       'lib/core/base.coffee',
-      'lib/components/table/table.coffee',
+      'lib/components/table/X_table.coffee',
       'lib/components/table/table.html',
       'test/table/model.test.coffee',
       'test/table/css.test.coffee',

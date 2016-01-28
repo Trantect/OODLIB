@@ -106,7 +106,7 @@ class BuildProcess
 
   generatePreTask: () ->
     taskName = @fName + 'PreCreator'
-    _seq = ["coffee", "jade", "ngTemplateCache", "nggettext_extract"]
+    _seq = ["clean", "coffee", "jade", "ngTemplateCache", "nggettext_extract"]
     seq = _.map _seq, (v) =>
       v + ":" + @fName
     [taskName, seq]

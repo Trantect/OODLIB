@@ -1,0 +1,41 @@
+<html>
+  <head>
+	  <meta charset="UTF-8">
+	  <title> Angular OOD Lib  </title>
+	  <link rel="stylesheet" type="text/css" href="./bower_components/smaless/build/css/main.css">
+    <style>
+      .bcolor {
+        background: blue;
+      }
+    </style>
+  </head>
+  <body ng-app="app" ng-controller="appCtrl">
+    <csidebar info="sidebar" user="user"></csidebar>
+    <content>
+      <div class="panel panel-body">
+        <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" num-per-page=2 titles="displayTitles" d-fields="hardwareBrief"></ctable>
+      </div>
+      <ddm-header info="user"></ddm-header>
+      <ddm-body info="ddmBody"></ddm-body>
+      <cfooter info="company" css-manager="style"></cfooter>
+    </content>
+
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+	  <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/underscore/underscore.js"></script>
+	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
+    <!--
+    <script src="build/core/core.min.js"></script>
+
+    <script src="build/components/dropdownMenu/c_ddmHeader.js"></script>
+    <script src="build/components/footer/c_footer.js"></script>
+
+
+    <script src="build/components/sidebar/c_sidebar.js"></script>
+    <script src="build/components/table/c_table.js"></script>
+    -->
+    <script src="build/dist/ood-omega.min.js"></script>
+
+	  <script src="index.js"></script>
+  </body>
+</html>

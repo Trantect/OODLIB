@@ -3,9 +3,8 @@ bower_components/
 node_modules/
 index.js
 lib/**/*.html
-libdocs
-apidoc
+apidoc/
 report
 coverage
-po
-lib/components/**/.build
+lib/components/**/.build/
+build/

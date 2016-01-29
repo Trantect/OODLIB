@@ -19,7 +19,7 @@ module.exports = (config) ->
       'bower_components/underscore/underscore-min.js',
       # 'bower_components/jquery/dist/jquery.min.js',
       'lib/core/base.coffee',
-      'lib/components/footer/footer.coffee',
+      'lib/components/footer/X_footer.coffee',
       'lib/components/footer/footer.html',
       'test/footer/model.test.coffee',
       'test/footer/css.test.coffee',

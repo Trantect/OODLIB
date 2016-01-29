@@ -5,8 +5,9 @@ ddmHeader = new pb 'dropdownMenu'
 footer = new pb 'footer'
 sidebar = new pb 'sidebar'
 table = new pb 'table'
+topBar = new pb 'topBar'
 
-components = [ddmHeader, footer, sidebar, table]
+components = [ddmHeader, footer, sidebar, table, topBar]
 componentConfig = _.map components, (v) ->
   v.generateConfig()
 

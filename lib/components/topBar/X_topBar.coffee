@@ -1,7 +1,7 @@
 directiveDir = 'lib/components/topBar/'
 
-ACTIVE = 0
-INACTIVE = 0
+FOCUS = 0
+UNFOCUS = 0
 
 ###
 To convert an array of dict to a dict
@@ -17,22 +17,34 @@ merge = (_L) ->
 To define topBar css manager
 ###
 class TopBarCssManager
-  #TODO
   ###
   To control active style
-  @param activation [enum] ACTIVE, INACTIVE
+  @param focusnion [enum] FOCUS, UNFOCUS
   ###
-  @getState: (activation) ->
+  @getState: (focusnion) ->
+    switch focusnion
+      when FOCUS then 'aaa'
+      when UNFOCUS then 'adaa'
+      else ''
 
-
-   ###
-   To control arrowIcon direction
-   @param expansion [enum] COLLAPSED, EXPANDED
-   ###
+  ###
+  To control arrowIcon direction
+  @param expansion [enum] COLLAPSED, EXPANDED
+  ###
   @getExpansion: (expansion) ->
     switch expansion
-      when COLLAPSED then 'fa fa-angle-down'
-      when EXPANDED then 'fa fa-angle-up'
+      when COLLAPSED then 'aa'
+      when EXPANDED then 'cc'
+      else ''
+
+  ###
+  To control expansion
+  @param expansion [enum] COLLAPSED, EXPANDED
+  ###
+  @expanded: (expansion) ->
+    switch expansion
+      when COLLAPSED then false
+      when EXPANDED then true
       else ''
 
 ###
@@ -45,7 +57,38 @@ class NodeState
   @param
   @param
   ###
+  constructor: (id, content, hasFather) ->
+    @id = id
+    @hasChildren = if content then content.subnodes!=undefined else undefined
+    @hasFather = hasFather ? false
+    @expansion = if @hasChildren then COLLAPSED else undefined
+    @activation = INACTIVE
+  ###
+  To activate node, including setting expansion and activation
+  return an activated node id and expanded node id
+  ###
+  activate: () ->
+    AK = EK = undefined
+    if @expansion != undefined
+      @toggle()
+      EK = if @expansion == EXPANDED then @id
+    else
+      @activation = ACTIVE
+      AK = @id
+      EK = if @hasFather then @hasFather else undefined
+    [AK, EK]
 
+  ###
+  To set expansion EXPANDED if it is COLLAPSED
+  ###
+  expand: () ->
+    @expansion = if @expansion == COLLAPSED then EXPANDED
+
+  ###
+  To toggle expansion value between COLLAPSED and EXPANDED
+  ###
+  toggle: () ->
+    @expansion = if @expansion == COLLAPSED then EXPANDED else COLLAPSED
 
 ###
 To define a topBar model
@@ -78,6 +121,15 @@ class TopBar extends Model
     @states = merge t
 
   ###
+  To set states according to their keys
+  @param nodeId [string] node id or subnode id
+  ###
+  setStates: (nodeId) ->
+    nodeId = if nodeId!=undefined and nodeId!='' then nodeId else (_.keys @states)[0]
+    [activatedKey, expandedKey] = if nodeId and @states[nodeId] then @states[nodeId].activate() else [undefined, undefined]
+    if expandedKey then @states[expandedKey].expand()
+
+  ###
   To toggle a topBar item
   @param nid [String] node id
   ###
@@ -102,8 +154,7 @@ class topBarDirective extends Directive
     asideParams =
       templateUrl: directiveDir + 'topBar.html'
       scope:
-        activeItem: "="
-        user: "="
+        focusItem: "="
     _.extend params, asideParams
     super params, TopBar, cssKlass
   ###
@@ -112,22 +163,9 @@ class topBarDirective extends Directive
   linkFn: (scope, element, attr) ->
     super scope, element, attr
     ###
-    scope.$watch () ->
-      scope.activeItem
-    , (nV, oV) ->
-      scope.setActiveItem nV
-    ###
-    ###
-    To set ACTIVE state to node or subnode according to activeItem
+    To set ACTIVE state to node or subnode according to focusItem
     @param item [string] node name or subnode name
     ###
-#    scope.model.setStates scope.activeItem
-#    scope.model.setUser scope.user
-###
-scope.setActiveItem = (item) ->
-  scope.model.initStates()
-  scope.activeItem = item
-  scope.model.setStates scope.activeItem
-###
+    scope.model.setStates scope.focusItem
 
 this.topBarDirective = topBarDirective

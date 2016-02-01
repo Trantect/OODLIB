@@ -7,6 +7,7 @@ header
         a.nav-item#sidebar_controller(href="#")
           i.fa.fa-bars
     ul.nav-toolbar.is-align-right.clearfix
+      //TODO use ng-repeat
       // first
       li.dropdown.dropdown1
         a.nav-item.dropdown-toggle(href="#")#dropdown-ctrl-1
@@ -150,6 +151,29 @@ header
                   i.fa.fa-tag.fa-flip-horizontal.fa-left-icon
                   span
                     | 终端版本:  10.4.3740.3001
+      //TODO this 4 same
+      //li(ng-repeat="(nid, nObj) in section", ng-class="css.getState('haha'), dropdown.dropdown3")
+      //  a.nav-item#{{'some ?? ctl'}}.dropdown-toggle(href="#")
+      //    i.fa.fa-tasks
+      //  .dropdown-menu
+      //    .dropdown-menu-header.li-border-bottom
+      //      | {{ Loophole }}
+      //    ul.height-control
+      //      li.li-border-bottom
+      //        .fa-indent
+      //          i.fa.fa-bolt.fa-icon-bolt.fa-left-icon
+      //          span
+      //            | Dangerous number
+      //          a(href="#").is-align-right
+      //            | 0
+      //      li
+      //        .fa-indent
+      //          i.fa.fa-laptop.fa-icon-laptop2.fa-left-icon
+      //          span
+      //            | Terminal version
+      //          a(href="#").is-align-right
+      //            | 0
+
       li.dropdown.dropdown3
         a.nav-item#dropdown-ctrl-3.dropdown-toggle(href="#")
           i.fa.fa-tasks

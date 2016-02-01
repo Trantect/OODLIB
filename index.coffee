@@ -1,4 +1,5 @@
-app = angular.module 'app', ['OOD_topBar', 'OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
+#app = angular.module 'app', ['OOD_topBar', 'OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
+app = angular.module 'app', ['OOD_topBar', 'OOD_sidebar']
 
 app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
 
@@ -51,7 +52,6 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
   $scope.sortings =
     ip: $scope.ipToString
   setTable = () ->
-    console.log "init table"
     $scope.title = "Hardware Management"
     $scope.hardwareDetail = ['clientName', 'cpuType', 'diskSN', 'pcSN']
     $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']
@@ -147,6 +147,97 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
 
   $scope.getFooter()
 
+  $scope.topBar = [$scope.topBar3]
+
+  $scope.topBar1 =
+    #TODO
+    multiCenter:
+      name: '多级中心'
+      URL: '#dropdown-ctl-1'
+      icon: 'fa fa-sitemap'
+
+  $scope.topBar2 =
+    #TODO
+    State:
+      name: '服务状态'
+      URL: '#dropdown-ctl-2'
+      icon: 'fa fa-database'
+      subnodes:
+        sub1:
+          name: 'elasticsearch'
+          icon: 'icon icon-ture fa-icon-check-circle fa-left-icon'
+        sub2:
+          name: 'redis'
+          URL: '#'
+          icon: 'icon icon-wrong fa-icon-exclamation-triangle fa-left-icon'
+        #TODO
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+
+  $scope.topBar3 =
+    #TODO the same
+    Tasks:
+      name: '任务'
+      URL: '#dropdown-ctl-3'
+      icon: 'fa fa-tasks'
+      subnodes:
+        sub1:
+          name: 'Dangerous number'
+          URL: '#'
+          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+    vul:
+      name: '漏洞'
+      URL: '#dropdown-ctl-4'
+      icon: 'icon-vul'
+      subnodes:
+        sub1:
+          name: 'Dangerous number'
+          URL: '#'
+          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+    virus:
+      name: '病毒'
+      URL: '#dropdown-ctl-5'
+      icon: 'icon-virus'
+      subnodes:
+        sub1:
+          name: 'Dangerous number'
+          URL: '#'
+          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+    hips:
+      name: '异常'
+      URL: '#dropdown-ctl-6'
+      icon: 'icon-hips'
+      subnodes:
+        sub1:
+          name: 'Dangerous number'
+          URL: '#'
+          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        sub2:
+          name: 'Terminal version'
+          URL: '#'
+          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
 
   $scope.aside1 =
     frontpage:
@@ -221,7 +312,7 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
        name: '定时体检'
        URL: '#scanTimer'
        icon: ''
-  ### 
+
   $scope.aside4 =
     setting:
       name: '设置中心'
@@ -236,9 +327,8 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
           name: '终端相关设置'
           URL: '#clientConfig'
           icon: ''
-  ###
-  
-  $scope.sidebar = [$scope.aside1, $scope.aside2]
+
+  $scope.sidebar = [$scope.aside1, $scope.aside2, $scope.aside3, $scope.aside4]
   $scope.aside5 =
     download:
       name: '下载终端'

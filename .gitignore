@@ -8,3 +8,4 @@ report
 coverage
 lib/components/**/.build/
 build/
+libdocs

@@ -1,7 +1,7 @@
 li(ng-class="model.rawData.klass")
-  a.nav-item.dropdown-toggle(href="{{model.rawData.URL}}", ng-click="model.toggle($event)")
+  a.nav-item.dropdown-toggle(href="{{model.rawData.URL}}", ng-click="toggleSelect()")
     i(ng-class="model.rawData.icon")
-  .dropdown-menu
+  .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
     .dropdown-menu-header.li-border-bottom
       | {{model.rawData.name}}
     ul.height-control

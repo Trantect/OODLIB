@@ -13,29 +13,6 @@ class TopBar extends Model
   constructor: (rawData) ->
     @rawData = rawData
 
-  ###
-  To toggle a topBar item
-  @param nid [String] node id
-  ###
-  toggle: (_this) ->
-
-    nextElement = angular.element(_this.currentTarget).next()
-    if nextElement.hasClass('is-show')
-      nextElement.removeClass('is-show')
-    else
-      angular.element("li > div.dropdown-menu").removeClass('is-show')
-      nextElement.addClass('is-show')
-    return false
-
-  subToggle: (_this) ->
-    nextElement = angular.element(_this.currentTarget).parent().next()
-    if nextElement.hasClass('is-show')
-      nextElement.removeClass('is-show')
-    else
-      nextElement.addClass('is-show')
-    return false
-
-
 ###
 To define topBar directive
 @extend Directive
@@ -49,12 +26,10 @@ class TopBarDirective extends Directive
   constructor: (params, cssKlass, templateHtml) ->
     params = params ? {}
     cssKlass = cssKlass ? {}
-    asideParams =
+    topBarParams =
       templateUrl: directiveDir + templateHtml
-      scope:
-        focusItem: "="
       replace: true
-    _.extend params, asideParams
+    _.extend params, topBarParams
     super params, TopBar, cssKlass
   ###
   To initialize link function of topBar directive
@@ -65,6 +40,22 @@ class TopBarDirective extends Directive
     To set ACTIVE state to node or subnode according to focusItem
     @param item [string] node name or subnode name
     ###
-#    scope.model.setStates scope.focusItem
+    scope.isPopupVisible = false
+    scope.subToggle = false
+
+    scope.toggleSelect = ->
+      scope.isPopupVisible = !scope.isPopupVisible
+
+    scope.subToggleSelect = ->
+      scope.subToggle = !scope.subToggle
+
+#    $(document).on 'click', (event) ->
+#      isClickedElementChildOfPopup = element.find(event.target).length > 0
+#      if isClickedElementChildOfPopup
+#        return
+#      scope.$apply ->
+#        scope.isPopupVisible = false
+
+# ---
 
 this.TopBarDirective = TopBarDirective

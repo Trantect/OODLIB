@@ -1,7 +1,7 @@
 li(ng-class='model.rawData.klass')
-  a.nav-item.dropdown-toggle(href="#" ng-click="model.toggle($event)")
+  a.nav-item.dropdown-toggle(href="#" ng-click="toggleSelect()")
     i(ng-class='model.rawData.icon')
-  .dropdown-menu
+  .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
     .dropdown-menu-header.li-border-bottom
       | {{model.rawData.name}}
     ul.height-control
@@ -16,8 +16,8 @@ li(ng-class='model.rawData.klass')
           i.fa.fa-circle.fa-icon-circle.fa-left-icon
           span
             | {{model.rawData.fatherCenter.info.name}}
-          i#chevron-down-ctrl1.fa.fa-angle-down.is-align-right.fa-icon-angle(ng-click="model.subToggle($event)")
-        ul#chevron-down1.dropdown-menu-sub
+          i#chevron-down-ctrl1.fa.fa-angle-down.is-align-right.fa-icon-angle(ng-click="subToggleSelect()")
+        ul#chevron-down1.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
           li.li-border-bottom(ng-repeat='info in model.rawData.fatherCenter.info.info')
             .fa-indent
               i(ng-class='info.icon')

@@ -1,7 +1,7 @@
 li(ng-class='model.rawData.klass')
-  a.nav-item.dropdown-toggle(href="#" ng-click="model.toggle($event)")
+  a.nav-item.dropdown-toggle(href="#" ng-click="toggleSelect()")
     i(ng-class='model.rawData.icon')
-  .dropdown-menu
+  .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
     .dropdown-menu-header.li-border-bottom
       | {{model.rawData.name}}
     ul.height-control
@@ -15,8 +15,8 @@ li(ng-class='model.rawData.klass')
           i(ng-class="model.rawData.privateCloud.icon")
           span
             | {{model.rawData.privateCloud.name}}
-          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl2.fa-icon-angle(ng-click="model.subToggle($event)")
-        ul#chevron-down2.dropdown-menu-sub
+          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl2.fa-icon-angle(ng-click="subToggleSelect()")
+        ul#chevron-down2.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
           li.li-border-bottom(ng-repeat="info in model.rawData.privateCloud.info")
             .fa-indent
               i(ng-class="info.icon")

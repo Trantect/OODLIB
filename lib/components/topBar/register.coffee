@@ -31,7 +31,6 @@ topBarObj =
   ctopbarMultiCenter: 'topBarMultiCenter.html'
   ctopbarServiceStatus: 'topBarServiceStatus.html'
   ctopbarNormal: 'topBarNormal.html'
-  ctopbarItem: 'topBarItem.html'
 
 _.each topBarObj, (v, k) ->
   a = new TopBarDirective(undefined, undefined, v)

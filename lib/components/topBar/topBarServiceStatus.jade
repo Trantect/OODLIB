@@ -1,67 +1,32 @@
-li.dropdown.dropdown2
-  a.nav-item.dropdown-toggle(href="#")#dropdown-ctrl-2
-    i.fa.fa-database
+li(ng-class='model.rawData.klass')
+  a.nav-item.dropdown-toggle(href="#" ng-click="model.toggle($event)")
+    i(ng-class='model.rawData.icon')
   .dropdown-menu
     .dropdown-menu-header.li-border-bottom
-      | State
+      | {{model.rawData.name}}
     ul.height-control
-      li.li-border-bottom
+      li.li-border-bottom(ng-repeat='child in model.rawData.subNodes')
         .fa-indent
-          i.icon.icon-ture.fa-icon-check-circle.fa-left-icon
+          i(ng-class="child.icon")
           span
-            | elasticsearch
-      li.li-border-bottom
-        .fa-indent
-          i.icon.icon-ture.fa-icon-check-circle.fa-left-icon
-          span
-            | redis
-      li.li-border-bottom
-        .fa-indent
-          i.icon.icon-wrong.fa-icon-exclamation-triangle.fa-left-icon
-          span.title
-            | redisCache
-          span.sub-title-sm
-            | Link failure
-      li.li-border-bottom
-        .fa-indent
-          i.icon.icon-ture.fa-icon-check-circle.fa-left-icon
-          span
-            | web
+            | {{child.name}}
       li
         .fa-indent
-          i.icon.icon-ture.fa-icon-check-circle.fa-left-icon
+          i(ng-class="model.rawData.privateCloud.icon")
           span
-            | Private Cloud
-          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl2.fa-icon-angle
+            | {{model.rawData.privateCloud.name}}
+          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl2.fa-icon-angle(ng-click="model.subToggle($event)")
         ul#chevron-down2.dropdown-menu-sub
-          li.li-border-bottom
+          li.li-border-bottom(ng-repeat="info in model.rawData.privateCloud.info")
             .fa-indent
-              i.icon.icon-virus.fa-icon-virus.fa-left-icon
+              i(ng-class="info.icon")
               span.title
-                | Patch version
-            .fa-indent
+                | {{info.name}}
+            .fa-indent(ng-repeat="v in info.value")
               span
-                | 2015.12.21.230(TVL000)
-          li
-            .fa-indent
-              i.icon.icon-vul.fa-icon-vul.fa-left-icon
-              span.title
-                | Patch version
-            .fa-indent
-              span
-                | 2015.12.21.230(TVL000)
-            .fa-indent
-              span
-                | 2015.12.21.230(TVL000)
-            .fa-indent
-              span
-                | 2015.12.21.230(TVL000)
+                | {{v}}
         li.dropdown-menu-footer
-          .fa-indent
+          .fa-indent(ng-repeat='info in model.rawData.footer.info')
             i.fa.fa-tag.fa-flip-horizontal.fa-left-icon
             span
-              | 控制中心版本:  10.0.15770.0 alpha
-          .fa-indent
-            i.fa.fa-tag.fa-flip-horizontal.fa-left-icon
-            span
-              | 终端版本:  10.4.3740.3001
+              | {{info}}

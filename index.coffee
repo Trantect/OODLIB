@@ -149,88 +149,144 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', '$window', '$rootS
 
 
   $scope.topbarMultiCenter =
-    #TODO
-    multiCenter:
-      name: '多级中心'
-      URL: '#dropdown-ctl-1'
-      icon: 'fa fa-sitemap'
+    name: '多级中心'
+    URL: '#dropdown-ctl-1'
+    klass: 'dropdown dropdown3'
+    icon: 'fa fa-sitemap'
+    fatherCenter:
+      name:'父控中心'
+      info:
+        name:'云子可信_581b2a'
+        info:[
+          {
+            name:'IP地址'
+            icon:'fa fa-map-marker fa-icon-mapmark fa-left-icon'
+            value:['192.168.2.160:3621']
+          }
+          {
+            name:'控制中心版本'
+            icon:'fa fa-sliders fa-icon-mapmark fa-left-icon'
+            value:['10.0.0.0000 alpha']
+          }
+          {
+            name:'病毒库版本'
+            icon:'icon icon-virus fa-icon-virus fa-left-icon'
+            value:['2015.12.21.230(TVL000)']
+          }
+          {
+            name:'主防版本'
+            icon:'icon icon-hips fa-icon-hips fa-left-icon'
+            value:['2015.12.21.230(TVL000)']
+          }
+          {
+            name:'补丁库版本'
+            icon:'icon icon-vul fa-icon-vul fa-left-icon'
+            value:['2015.12.21.230(TVL000)','2015.12.21.230(TVL010)','2015.12.21.230(TVL001)']
+          }
+        ]
+
+    childCenter:
+      name:'子控中心'
+      info:
+        name:'在线状态'
+        value:'2/5'
+        url:'##'
+
 
 
   $scope.topbarServiceStatus =
-    #TODO
-    State:
-      name: '服务状态'
-      URL: '#dropdown-ctl-2'
-      icon: 'fa fa-database'
-      subnodes:
-        elasticsearch:
-          name: 'elasticsearch'
-          icon: 'icon icon-ture fa-icon-check-circle fa-left-icon'
-        redis:
-          name: 'redis'
-          URL: '#'
-          icon: 'icon icon-wrong fa-icon-exclamation-triangle fa-left-icon'
+    name: '服务状态'
+    URL: '#dropdown-ctl-2'
+    klass: 'dropdown dropdown3'
+    icon: 'fa fa-database'
+    subNodes:[
+      {
+        name: 'elasticsearch'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'redis'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'redisCache'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'web'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+    ]
+    privateCloud:
+      name: 'Private Cloud'
+      icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      info: [
+        {
+          name:'病毒库版本'
+          icon:'icon icon-virus fa-icon-virus fa-left-icon'
+          value:['2015.12.21.230(TVL000)']
+        }
+        {
+          name:'主防版本'
+          icon:'icon icon-hips fa-icon-hips fa-left-icon'
+          value:['2015.12.21.230(TVL000)']
+        }
+        {
+          name:'补丁库版本'
+          icon:'icon icon-vul fa-icon-vul fa-left-icon'
+          value:['2015.12.21.230(TVL000)','2015.12.21.230(TVL010)','2015.12.21.230(TVL001)']
+        }
+      ]
+    footer:
+      info:['控制中心版本:  10.0.15770.0 alpha','终端版本:  10.4.3740.3001']
 
 
 
-  $scope.topbarNormal = [
-    tasks:
-      name: '任务'
-      URL: '#dropdown-ctl-3'
-      icon: 'fa fa-tasks'
-      klass: 'dropdown dropdown3'
-      subnodes:
-        TaskNumber:
-          name: 'Dangerous number'
-          URL: '#'
-          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        TaskVersion:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-    vul:
-      name: '漏洞'
-      URL: '#dropdown-ctl-4'
-      icon: 'icon-vul'
-      klass: 'dropdown dropdown4'
-      subnodes:
-        vulNumber:
-          name: 'Dangerous number'
-          URL: '#'
-          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        vulVersion:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-    virus:
-      name: '病毒'
-      URL: '#dropdown-ctl-5'
-      icon: 'icon-virus'
-      klass: 'dropdown dropdown5'
-      subnodes:
-        virusNumber:
-          name: 'Dangerous number'
-          URL: '#'
-          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        virusVersion:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-    hips:
-      name: '异常'
-      URL: '#dropdown-ctl-6'
-      icon: 'icon-hips'
-      klass: 'dropdown dropdown6'
-      subnodes:
-        hipsNumber:
-          name: 'Dangerous number'
-          URL: '#'
-          icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        hipsVersion:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-  ]
+  $scope.topBarTask =
+    name: '任务'
+    URL: '#dropdown-ctl-3'
+    icon: 'fa fa-tasks'
+    klass: 'dropdown dropdown3'
+    subnodes:[
+      {
+        name: '体检'
+        URL: '#'
+        icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        value:10
+      }
+      {
+        name: '升级'
+        URL: '#'
+        icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        value:2
+      }
+      {
+        name: '卸载'
+        URL: '#'
+        icon: 'fa fa-times-circle fa-icon-laptop2 fa-left-icon'
+        value:4
+      }
+    ]
+
+  $scope.topBarVirus =
+    name: '病毒'
+    URL: '#dropdown-ctl-3'
+    icon: 'icon-virus'
+    klass: 'dropdown dropdown3'
+    subnodes:[
+      {
+        name: '危险数'
+        URL: '#'
+        icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        value:22
+      }
+      {
+        name: '被感染终端数'
+        URL: '#'
+        icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        value:2
+      }
+    ]
 
   $scope.topbarItem = [
     user:

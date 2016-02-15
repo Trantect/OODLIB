@@ -1,21 +1,14 @@
-li(ng-repeat="(nId, nObj) in model.rawData", ng-class="nObj.klass")
-  a.nav-item.dropdown-toggle(href="{{nObj.URL}}", ng-click="model.toggle(nId)")
-    i(ng-class="nObj.icon")
-  .dropdown-menu(ng-show="css.expanded(model.states[nId].expansion)",ng-class="css.getExpansion(model.states[nId].expansion)")
+li(ng-class="model.rawData.klass")
+  a.nav-item.dropdown-toggle(href="{{model.rawData.URL}}", ng-click="model.toggle($event)")
+    i(ng-class="model.rawData.icon")
+  .dropdown-menu
     .dropdown-menu-header.li-border-bottom
-      | {{nObj.name}}
+      | {{model.rawData.name}}
     ul.height-control
-      li.li-border-bottom
+      li.li-border-bottom(ng-repeat="child in model.rawData.subnodes")
         .fa-indent
-          i.fa.fa-bolt.fa-icon-bolt.fa-left-icon
+          i(ng-class='child.icon')
           span
-            | {{nObj.subnodes.name}}
+            | {{child.name}}
           a(href="#").is-align-right
-            | 0
-      li
-        .fa-indent
-          i.fa.fa-laptop.fa-icon-laptop2.fa-left-icon
-          span
-            | Terminal version
-          a(href="#").is-align-right
-            | 0
+            | {{child.value}}

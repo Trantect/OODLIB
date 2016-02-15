@@ -49,12 +49,12 @@ class TopBarDirective extends Directive
     scope.subToggleSelect = ->
       scope.subToggle = !scope.subToggle
 
-#    $(document).on 'click', (event) ->
-#      isClickedElementChildOfPopup = element.find(event.target).length > 0
-#      if isClickedElementChildOfPopup
-#        return
-#      scope.$apply ->
-#        scope.isPopupVisible = false
+    $(document).on 'click', (event) ->
+      isClickedElementChildOfPopup = element.find(event.target).length > 0
+      if isClickedElementChildOfPopup
+        return
+      scope.$apply ->
+        scope.isPopupVisible = false
 
 # ---
 

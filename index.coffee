@@ -1,7 +1,7 @@
 #app = angular.module 'app', ['OOD_topBar', 'OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
 app = angular.module 'app', ['OOD_topBar', 'OOD_sidebar']
 
-app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
+app.controller 'appCtrl', ['$scope', '$location', '$timeout', '$window', '$rootScope', ($scope, $location, $timeout, $window, $rootScope) ->
 
   $scope.activeItem = $location.path()[1..]
 
@@ -147,55 +147,44 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
 
   $scope.getFooter()
 
-  $scope.topBar = [$scope.topBar3]
 
-  $scope.topBar1 =
+  $scope.topbarMultiCenter =
     #TODO
     multiCenter:
       name: '多级中心'
       URL: '#dropdown-ctl-1'
       icon: 'fa fa-sitemap'
 
-  $scope.topBar2 =
+
+  $scope.topbarServiceStatus =
     #TODO
     State:
       name: '服务状态'
       URL: '#dropdown-ctl-2'
       icon: 'fa fa-database'
       subnodes:
-        sub1:
+        elasticsearch:
           name: 'elasticsearch'
           icon: 'icon icon-ture fa-icon-check-circle fa-left-icon'
-        sub2:
+        redis:
           name: 'redis'
           URL: '#'
           icon: 'icon icon-wrong fa-icon-exclamation-triangle fa-left-icon'
-        #TODO
-        sub2:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-        sub2:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
-        sub2:
-          name: 'Terminal version'
-          URL: '#'
-          icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
 
-  $scope.topBar3 =
-    #TODO the same
-    Tasks:
+
+
+  $scope.topbarNormal = [
+    tasks:
       name: '任务'
       URL: '#dropdown-ctl-3'
       icon: 'fa fa-tasks'
+      klass: 'dropdown dropdown3'
       subnodes:
-        sub1:
+        TaskNumber:
           name: 'Dangerous number'
           URL: '#'
           icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        sub2:
+        TaskVersion:
           name: 'Terminal version'
           URL: '#'
           icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
@@ -203,12 +192,13 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
       name: '漏洞'
       URL: '#dropdown-ctl-4'
       icon: 'icon-vul'
+      klass: 'dropdown dropdown4'
       subnodes:
-        sub1:
+        vulNumber:
           name: 'Dangerous number'
           URL: '#'
           icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        sub2:
+        vulVersion:
           name: 'Terminal version'
           URL: '#'
           icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
@@ -216,12 +206,13 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
       name: '病毒'
       URL: '#dropdown-ctl-5'
       icon: 'icon-virus'
+      klass: 'dropdown dropdown5'
       subnodes:
-        sub1:
+        virusNumber:
           name: 'Dangerous number'
           URL: '#'
           icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        sub2:
+        virusVersion:
           name: 'Terminal version'
           URL: '#'
           icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
@@ -229,15 +220,32 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
       name: '异常'
       URL: '#dropdown-ctl-6'
       icon: 'icon-hips'
+      klass: 'dropdown dropdown6'
       subnodes:
-        sub1:
+        hipsNumber:
           name: 'Dangerous number'
           URL: '#'
           icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
-        sub2:
+        hipsVersion:
           name: 'Terminal version'
           URL: '#'
           icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+  ]
+
+  $scope.topbarItem = [
+    user:
+      name: 'Edisonqt'
+      icon: 'fa fa-user'
+      style:
+        one: 'user-info'
+    logout:
+      name: 'LOGOUT'
+      icon: 'fa fa-sign-out'
+      URL: '#'
+      style:
+        one: 'header-nav'
+        two: 'user-exit'
+  ]
 
   $scope.aside1 =
     frontpage:
@@ -328,13 +336,14 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
           URL: '#clientConfig'
           icon: ''
 
-  $scope.sidebar = [$scope.aside1, $scope.aside2, $scope.aside3, $scope.aside4]
   $scope.aside5 =
     download:
       name: '下载终端'
       URL: '#download'
       icon: ''
-  
+
+  $scope.sidebar = [$scope.aside1, $scope.aside2, $scope.aside3, $scope.aside4, $scope.aside5]
+
   $scope.wewe =
     xxx:
       name: '你好'

@@ -1,0 +1,7 @@
+li.user(ng-repeat="(nId,nObj) in model.rawData" ng-class="nObj.style.one")
+  a.nav-item(ng-if="nObj.URL == '#'" href="{{nObj.URL}}")
+    i(ng-class="nObj.icon")
+    span(ng-class="nObj.style.two") {{nObj.name}}
+  a.nav-item(ng-if="nObj.URL != '#'")
+    i(ng-class="nObj.icon")
+    span(ng-class="nObj.style.two") {{nObj.name}}

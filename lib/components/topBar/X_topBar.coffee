@@ -1,7 +1,10 @@
 directiveDir = 'lib/components/topBar/'
 
-FOCUS = 0
-UNFOCUS = 0
+ACTIVE = 0
+INACTIVE = 0
+
+COLLAPSED = 0
+EXPANDED = 1
 
 ###
 To convert an array of dict to a dict
@@ -17,24 +20,16 @@ merge = (_L) ->
 To define topBar css manager
 ###
 class TopBarCssManager
-  ###
-  To control active style
-  @param focusnion [enum] FOCUS, UNFOCUS
-  ###
-  @getState: (focusnion) ->
-    switch focusnion
-      when FOCUS then 'aaa'
-      when UNFOCUS then 'adaa'
-      else ''
 
   ###
   To control arrowIcon direction
   @param expansion [enum] COLLAPSED, EXPANDED
   ###
   @getExpansion: (expansion) ->
+    console.log '666 expansion is ::',expansion
     switch expansion
-      when COLLAPSED then 'aa'
-      when EXPANDED then 'cc'
+      when COLLAPSED then 'is-show'
+      when EXPANDED then ''
       else ''
 
   ###
@@ -42,6 +37,7 @@ class TopBarCssManager
   @param expansion [enum] COLLAPSED, EXPANDED
   ###
   @expanded: (expansion) ->
+    console.log 'expansion is ::',expansion
     switch expansion
       when COLLAPSED then false
       when EXPANDED then true
@@ -119,6 +115,7 @@ class TopBar extends Model
         nodes
       _tmp = merge sectionNodes
     @states = merge t
+    @rawData = merge @rawData
 
   ###
   To set states according to their keys
@@ -137,24 +134,24 @@ class TopBar extends Model
     @states[nid].toggle()
 
 
-#TODO copy from siderbar
 ###
 To define topBar directive
 @extend Directive
 ###
-class topBarDirective extends Directive
+class TopBarDirective extends Directive
   ###
   To construct an instance of topBarDirective
   @param params [Dict] parameters of angular directive
   @param cssKlass [Class] css management class for topBar
   ###
-  constructor: (params, cssKlass) ->
+  constructor: (params, cssKlass, templateHtml) ->
     params = params ? {}
     cssKlass = cssKlass ? TopBarCssManager
     asideParams =
-      templateUrl: directiveDir + 'topBar.html'
+      templateUrl: directiveDir + templateHtml
       scope:
         focusItem: "="
+      replace: true
     _.extend params, asideParams
     super params, TopBar, cssKlass
   ###
@@ -168,4 +165,4 @@ class topBarDirective extends Directive
     ###
     scope.model.setStates scope.focusItem
 
-this.topBarDirective = topBarDirective
+this.TopBarDirective = TopBarDirective

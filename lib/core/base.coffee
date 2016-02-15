@@ -83,11 +83,9 @@ class DirectiveSchool
   @param directive [angular.directive] The directive to be registered
   ###
   @register: (app, directiveName, directive) ->
-    app.directive directiveName, ['$document',($document) ->
-#      if directive.scope.onClick
-#        $document.on 'click', scope.onClick
+    app.directive directiveName, () ->
       directive.params
-    ]
+
 
 this.Model = Model
 this.CssManager = CssManager

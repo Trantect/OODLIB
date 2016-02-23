@@ -1,0 +1,38 @@
+li(ng-class='model.rawData.klass')
+  a.nav-item.dropdown-toggle(href="#" ng-click="toggleSelect()")
+    i(ng-class='model.rawData.icon')
+  .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
+    .dropdown-menu-header.li-border-bottom
+      | {{model.rawData.name}}
+    ul.height-control
+      li.sub-header
+        | {{model.rawData.fatherCenter.name}}
+        //a(herf='#')
+        //  .switchBut#switchBut1
+        //    .toggle#toggle1
+        //      .switch#switch1
+      li.li-border-bottom
+        .fa-indent
+          i.fa.fa-circle.fa-icon-circle.fa-left-icon
+          span
+            | {{model.rawData.fatherCenter.info.name}}
+          i#chevron-down-ctrl1.fa.fa-angle-down.is-align-right.fa-icon-angle(ng-click="subToggleSelect()")
+        ul#chevron-down1.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
+          li.li-border-bottom(ng-repeat='info in model.rawData.fatherCenter.info.info')
+            .fa-indent
+              i(ng-class='info.icon')
+              span.title
+                | {{info.name}}
+            .fa-indent(ng-repeat='v in info.value')
+              span
+                | {{v}}
+
+      li.sub-header
+        | {{model.rawData.childCenter.name}}
+      li
+        .fa-indent
+          i.fa.fa-circle.fa-icon-circle.fa-left-icon
+          span
+            | {{model.rawData.childCenter.info.name}}
+          a.is-align-right(ng-href='{{model.rawData.childCenter.info.url}}')
+            | {{model.rawData.childCenter.info.value}}

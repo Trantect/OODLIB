@@ -10,32 +10,51 @@
     </style>
   </head>
   <body ng-app="app" ng-controller="appCtrl">
-    <csidebar info="sidebar" user="user"></csidebar>
-    <content>
+    <header><a class="logo" href="#"><img src="https://trello-attachments.s3.amazonaws.com/5677614ccce6b3d59e4bc9d7/60x30/ad7f1ea7713688a05b95a2dcb7e0d4f4/LOGO..png"></a>
+      <div class="nav">
+        <ul class="nav-toolbar is-align-left nav-clearfix">
+          <li><a class="nav-item"><i class="fa fa-bars"></i></a></li>
+        </ul>
+        <ul class="nav-toolbar is-align-right clearfix">
+          <ctopbar-multi-center info="topbarMultiCenter" css-manager=""></ctopbar-multi-center>
+          <ctopbar-service-status info="topbarServiceStatus" css-manager=""></ctopbar-service-status>
+          <ctopbar-normal info="topBarTask" css-manager=""></ctopbar-normal>
+          <ctopbar-normal info="topBarVirus" css-manager=""></ctopbar-normal>
+          <!--<ctopbar-item info="topbarItem" css-manager=""></ctopbar-item>-->
+        </ul>
+      </div>
+    </header>
+
+
+    <csidebar info="sidebar" user="user" ></csidebar>
+    <!--<content>
       <div class="panel panel-body">
-        <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" num-per-page=2 titles="displayTitles"></ctable>
+        <ctable info="hardware" css-manager="style" c-fields="hardwareBrief" num-per-page=2 titles="displayTitles" d-fields="hardwareBrief"></ctable>
       </div>
       <ddm-header info="user"></ddm-header>
       <ddm-body info="ddmBody"></ddm-body>
       <cfooter info="company" css-manager="style"></cfooter>
-    </content>
+    </content>-->
 
     <script src="./bower_components/jquery/dist/jquery.js"></script>
 	  <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/underscore/underscore.js"></script>
 	  <script src="./bower_components/angular-gettext/dist/angular-gettext.js"></script>
-    <!--
+	  <!--<script src="./bower_components/angular-animate/angular-animate.js"></script>-->
+
+
     <script src="build/core/core.min.js"></script>
 
-    <script src="build/components/dropdownMenu/c_ddmHeader.js"></script>
-    <script src="build/components/footer/c_footer.js"></script>
+    <!--<script src="build/components/dropdownMenu/c_ddmHeader.js"></script>-->
+    <!--<script src="build/components/footer/c_footer.js"></script>-->
 
 
     <script src="build/components/sidebar/c_sidebar.js"></script>
-    <script src="build/components/table/c_table.js"></script>
-    -->
-    <script src="build/dist/ood-omega.min.js"></script>
+    <script src="build/components/topBar/c_topBar.js"></script>
+    <!--<script src="build/components/table/c_table.js"></script>-->
 
+
+    <!--<script src="build/dist/ood-omega.min.js"></script>-->
 	  <script src="index.js"></script>
   </body>
 </html>

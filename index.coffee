@@ -1,6 +1,7 @@
-app = angular.module 'app', ['OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
+#app = angular.module 'app', ['OOD_topBar', 'OOD_dropdownMenu', 'OOD_footer', 'OOD_sidebar', 'OOD_table']
+app = angular.module 'app', ['OOD_topBar', 'OOD_sidebar']
 
-app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location, $timeout) ->
+app.controller 'appCtrl', ['$scope', '$location', '$timeout', '$window', '$rootScope', ($scope, $location, $timeout, $window, $rootScope) ->
 
   $scope.activeItem = $location.path()[1..]
 
@@ -51,7 +52,6 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
   $scope.sortings =
     ip: $scope.ipToString
   setTable = () ->
-    console.log "init table"
     $scope.title = "Hardware Management"
     $scope.hardwareDetail = ['clientName', 'cpuType', 'diskSN', 'pcSN']
     $scope.hardwareBrief = ['nickname', 'ip', 'MACAddr', 'groupName', 'os', 'pcType']
@@ -148,6 +148,161 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
   $scope.getFooter()
 
 
+  $scope.topbarMultiCenter =
+    name: '多级中心'
+    URL: '#dropdown-ctl-1'
+    klass: 'dropdown dropdown3'
+    icon: 'fa fa-sitemap'
+    fatherCenter:
+      name:'父控中心'
+      info:
+        name:'云子可信_581b2a'
+        info:[
+          {
+            name:'IP地址'
+            icon:'fa fa-map-marker fa-icon-mapmark fa-left-icon'
+            value:['192.168.2.160:3621']
+          }
+          {
+            name:'控制中心版本'
+            icon:'fa fa-sliders fa-icon-mapmark fa-left-icon'
+            value:['10.0.0.0000 alpha']
+          }
+          {
+            name:'病毒库版本'
+            icon:'icon icon-virus fa-icon-virus fa-left-icon'
+            value:['2015.12.21.230(TVL000)']
+          }
+          {
+            name:'主防版本'
+            icon:'icon icon-hips fa-icon-hips fa-left-icon'
+            value:['2015.12.21.230(TVL000)']
+          }
+          {
+            name:'补丁库版本'
+            icon:'icon icon-vul fa-icon-vul fa-left-icon'
+            value:['2015.12.21.230(TVL000)','2015.12.21.230(TVL010)','2015.12.21.230(TVL001)']
+          }
+        ]
+
+    childCenter:
+      name:'子控中心'
+      info:
+        name:'在线状态'
+        value:'2/5'
+        url:'##'
+
+
+
+  $scope.topbarServiceStatus =
+    name: '服务状态'
+    URL: '#dropdown-ctl-2'
+    klass: 'dropdown dropdown3'
+    icon: 'fa fa-database'
+    subNodes:[
+      {
+        name: 'elasticsearch'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'redis'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'redisCache'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+      {
+        name: 'web'
+        icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      }
+    ]
+    privateCloud:
+      name: 'Private Cloud'
+      icon: 'icon fa-left-icon icon-ture fa-icon-check-circle'
+      info: [
+        {
+          name:'病毒库版本'
+          icon:'icon icon-virus fa-icon-virus fa-left-icon'
+          value:['2015.12.21.230(TVL000)']
+        }
+        {
+          name:'主防版本'
+          icon:'icon icon-hips fa-icon-hips fa-left-icon'
+          value:['2015.12.21.230(TVL000)']
+        }
+        {
+          name:'补丁库版本'
+          icon:'icon icon-vul fa-icon-vul fa-left-icon'
+          value:['2015.12.21.230(TVL000)','2015.12.21.230(TVL010)','2015.12.21.230(TVL001)']
+        }
+      ]
+    footer:
+      info:['控制中心版本:  10.0.15770.0 alpha','终端版本:  10.4.3740.3001']
+
+
+
+  $scope.topBarTask =
+    name: '任务'
+    URL: '#dropdown-ctl-3'
+    icon: 'fa fa-tasks'
+    klass: 'dropdown dropdown3'
+    subnodes:[
+      {
+        name: '体检'
+        URL: '#'
+        icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        value:10
+      }
+      {
+        name: '升级'
+        URL: '#'
+        icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        value:2
+      }
+      {
+        name: '卸载'
+        URL: '#'
+        icon: 'fa fa-times-circle fa-icon-laptop2 fa-left-icon'
+        value:4
+      }
+    ]
+
+  $scope.topBarVirus =
+    name: '病毒'
+    URL: '#dropdown-ctl-3'
+    icon: 'icon-virus'
+    klass: 'dropdown dropdown3'
+    subnodes:[
+      {
+        name: '危险数'
+        URL: '#'
+        icon: 'fa fa-bolt fa-icon-bolt fa-left-icon'
+        value:22
+      }
+      {
+        name: '被感染终端数'
+        URL: '#'
+        icon: 'fa fa-laptop fa-icon-laptop2 fa-left-icon'
+        value:2
+      }
+    ]
+
+  $scope.topbarItem = [
+    user:
+      name: 'Edisonqt'
+      icon: 'fa fa-user'
+      style:
+        one: 'user-info'
+    logout:
+      name: 'LOGOUT'
+      icon: 'fa fa-sign-out'
+      URL: '#'
+      style:
+        one: 'header-nav'
+        two: 'user-exit'
+  ]
+
   $scope.aside1 =
     frontpage:
       name: '首页'
@@ -221,7 +376,7 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
        name: '定时体检'
        URL: '#scanTimer'
        icon: ''
-  ### 
+
   $scope.aside4 =
     setting:
       name: '设置中心'
@@ -236,15 +391,15 @@ app.controller 'appCtrl', ['$scope', '$location', '$timeout', ($scope, $location
           name: '终端相关设置'
           URL: '#clientConfig'
           icon: ''
-  ###
-  
-  $scope.sidebar = [$scope.aside1, $scope.aside2]
+
   $scope.aside5 =
     download:
       name: '下载终端'
       URL: '#download'
       icon: ''
-  
+
+  $scope.sidebar = [$scope.aside1, $scope.aside2, $scope.aside3, $scope.aside4, $scope.aside5]
+
   $scope.wewe =
     xxx:
       name: '你好'

@@ -1,0 +1,14 @@
+li(ng-class="model.rawData.klass")
+  a.nav-item.dropdown-toggle(href="{{model.rawData.URL}}", ng-click="toggleSelect()")
+    i(ng-class="model.rawData.icon")
+  .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
+    .dropdown-menu-header.li-border-bottom
+      | {{model.rawData.name}}
+    ul.height-control
+      li.li-border-bottom(ng-repeat="child in model.rawData.subnodes")
+        .fa-indent
+          i(ng-class='child.icon')
+          span
+            | {{child.name}}
+          a(href="#").is-align-right
+            | {{child.value}}

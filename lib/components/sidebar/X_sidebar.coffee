@@ -66,7 +66,7 @@ class NodeState
     @activation = INACTIVE
   ###
   To activate node, including setting expansion and activation 
-  retrun an activated node id and expanded node id
+  return an activated node id and expanded node id
   ###
   activate: () ->
     AK = EK = undefined

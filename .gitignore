@@ -7,5 +7,6 @@ apidoc/
 report
 coverage
 lib/components/**/.build/
-build/
+build/components/
+build/core/
 libdocs

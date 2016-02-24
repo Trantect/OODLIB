@@ -12,25 +12,25 @@ li(ng-class='model.rawData.klass')
         //    .toggle#toggle1
         //      .switch#switch1
       li.li-border-bottom
-        .fa-indent
+        .fa-text-indent
           i.fa.fa-circle.fa-icon-circle.fa-left-icon
           span
             | {{model.rawData.fatherCenter.info.name}}
           i#chevron-down-ctrl1.fa.fa-angle-down.is-align-right.fa-icon-angle(ng-click="subToggleSelect()")
         ul#chevron-down1.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
           li.li-border-bottom(ng-repeat='info in model.rawData.fatherCenter.info.info')
-            .fa-indent
+            .fa-text-indent
               i(ng-class='info.icon')
               span.title
                 | {{info.name}}
-            .fa-indent(ng-repeat='v in info.value')
+            .fa-text-indent(ng-repeat='v in info.value')
               span
                 | {{v}}
 
       li.sub-header
         | {{model.rawData.childCenter.name}}
       li
-        .fa-indent
+        .fa-text-indent
           i.fa.fa-circle.fa-icon-circle.fa-left-icon
           span
             | {{model.rawData.childCenter.info.name}}

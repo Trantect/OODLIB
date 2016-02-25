@@ -55,7 +55,7 @@ class TopBarDirective extends Directive
         return
       scope.$apply ->
         scope.isPopupVisible = false
-
+        return
 # ---
 
 this.TopBarDirective = TopBarDirective

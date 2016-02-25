@@ -4,7 +4,7 @@ li(ng-class='model.rawData.klass')
   .dropdown-menu(ng-class="{'is-show':isPopupVisible}")
     .dropdown-menu-header.li-border-bottom
       | {{model.rawData.name}}
-    ul.height-control
+    ul#scroll-container-multiserver.height-control
       li.sub-header
         | {{model.rawData.fatherCenter.name}}
         //a(herf='#')

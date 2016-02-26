@@ -15,6 +15,6 @@ sidebar
             span {{nObj.name}}
           ul.menu(ng-show="css.expanded(model.states[nid].expansion)")
             li(ng-repeat="(subNId, subNObj) in nObj.subnodes", ng-class="css.getState(model.states[subNId].activation)")
-              a(ng-href="{{subNObj.URL}}")
+              a(ng-href="{{subNObj.URL}}" target="_self")
                 i(ng-class="subNObj.icon")
                 span {{subNObj.name}}

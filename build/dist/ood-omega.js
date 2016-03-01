@@ -60,7 +60,9 @@ To define a model
         templateUrl: '',
         scope: {
           storage: "=info",
-          cssManager: "="
+          cssManager: "=",
+          multistate: "=",
+          childCount: "="
         }
       };
       scope = this.params.scope;
@@ -1397,6 +1399,18 @@ angular.module('OOD_table').run(['$templateCache', function ($templateCache) {
        */
       scope.isPopupVisible = false;
       scope.subToggle = false;
+      scope.multiCenterConnectStatus = false;
+      scope.isChildShow = 0;
+      scope.$watch('multistate', (function(_this) {
+        return function(nv, ov) {
+          return scope.multiCenterConnectStatus = nv;
+        };
+      })(this));
+      scope.$watch('childCount', (function(_this) {
+        return function(nv, ov) {
+          return scope.isChildShow = nv;
+        };
+      })(this));
       scope.toggleSelect = function() {
         return scope.isPopupVisible = !scope.isPopupVisible;
       };
@@ -1461,7 +1475,7 @@ Create an angular module called OOD_topBar
 }).call(this);
 
 angular.module('OOD_topBar').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('lib/components/topBar/topBarMultiCenter.html', '<li ng-class="model.rawData.klass"><a href="#" ng-click="toggleSelect()" class="nav-item dropdown-toggle"><i ng-class="model.rawData.icon"></i></a><div ng-class="{\'is-show\':isPopupVisible}" class="dropdown-menu"><div class="dropdown-menu-header li-border-bottom">{{model.rawData.name}}</div><ul id="scroll-container-multiserver" class="height-control"><li class="sub-header">{{model.rawData.fatherCenter.name}}<!-- .switchBut#switchBut1--><!-- .switch#switch1--></li><li class="li-border-bottom"><div class="fa-text-indent"><i class="fa fa-circle fa-icon-circle fa-left-icon"></i><span>{{model.rawData.fatherCenter.info.name}}</span><i id="chevron-down-ctrl1" ng-click="subToggleSelect()" class="fa fa-angle-down is-align-right fa-icon-angle"></i></div><ul id="chevron-down1" ng-class="{\'is-show\':subToggle}" class="dropdown-menu-sub"><li ng-repeat="info in model.rawData.fatherCenter.info.info" class="li-border-bottom"><div class="fa-text-indent"><i ng-class="info.icon"></i><span class="title">{{info.name}}</span></div><div ng-repeat="v in info.value" class="fa-text-indent"><span>{{v}}</span></div></li></ul></li><li class="sub-header">{{model.rawData.childCenter.name}}</li><li><div class="fa-text-indent"><i class="fa fa-circle fa-icon-circle fa-left-icon"></i><span>{{model.rawData.childCenter.info.name}}</span><a ng-href="{{model.rawData.childCenter.info.url}}" class="is-align-right">{{model.rawData.childCenter.info.value}}</a></div></li></ul></div></li>');
+	$templateCache.put('lib/components/topBar/topBarMultiCenter.html', '<li ng-class="model.rawData.klass"><a href="#" ng-click="toggleSelect()" class="nav-item dropdown-toggle"><i ng-class="model.rawData.icon"></i></a><div ng-class="{\'is-show\':isPopupVisible}" class="dropdown-menu"><div class="dropdown-menu-header li-border-bottom">{{model.rawData.name}}</div><ul id="scroll-container-multiserver" class="height-control"><li class="sub-header">{{model.rawData.fatherCenter.name}}<!-- .switchBut#switchBut1--><!-- .switch#switch1--></li><li class="li-border-bottom"><div ng-show="!multiCenterConnectStatus" class="fa-text-indent"><i class="fa fa-exchange fa-left-icon"></i><span>未连接上级控制中心 </span><a href="/serverConfig#MultiCenterConfig" class="is-align-right">连接</a></div><div ng-show="multiCenterConnectStatus" class="fa-text-indent"><i class="fa fa-circle fa-icon-circle fa-left-icon"></i><span>{{model.rawData.fatherCenter.info.name}}</span><i id="chevron-down-ctrl1" ng-click="subToggleSelect()" class="fa fa-angle-down is-align-right fa-icon-angle"></i></div><ul id="chevron-down1" ng-class="{\'is-show\':subToggle}" class="dropdown-menu-sub"><li ng-repeat="info in model.rawData.fatherCenter.info.info" class="li-border-bottom"><div class="fa-text-indent"><i ng-class="info.icon"></i><span class="title">{{info.name}}</span></div><div ng-repeat="v in info.value" class="fa-text-indent"><span>{{v}}</span></div></li></ul></li><li ng-show="isChildShow" class="sub-header">{{model.rawData.childCenter.name}}</li><li ng-show="isChildShow"><div class="fa-text-indent"><i class="fa fa-circle fa-icon-circle fa-left-icon"></i><span>{{model.rawData.childCenter.info.name}}</span><a ng-href="{{model.rawData.childCenter.info.url}}" class="is-align-right">{{model.rawData.childCenter.info.value}}</a></div></li></ul></div></li>');
 	$templateCache.put('lib/components/topBar/topBarNormal.html', '<li ng-class="model.rawData.klass"><a href="{{model.rawData.URL}}" ng-click="toggleSelect()" class="nav-item dropdown-toggle"><i ng-class="model.rawData.icon"></i></a><div ng-class="{\'is-show\':isPopupVisible}" class="dropdown-menu"><div class="dropdown-menu-header li-border-bottom">{{model.rawData.name}}</div><ul class="height-control"><li ng-repeat="child in model.rawData.subnodes" class="li-border-bottom"><div class="fa-text-indent"><i ng-class="child.icon"></i><span>{{child.name}}</span><a href="#" class="is-align-right">{{child.value}}</a></div></li></ul></div></li>');
 	$templateCache.put('lib/components/topBar/topBarServiceStatus.html', '<li ng-class="model.rawData.klass"><a href="#" ng-click="toggleSelect()" class="nav-item dropdown-toggle"><i ng-class="model.rawData.icon"></i></a><div ng-class="{\'is-show\':isPopupVisible}" class="dropdown-menu"><div class="dropdown-menu-header li-border-bottom">{{model.rawData.name}}</div><ul id="scroll-container-serverstatus" class="height-control"><li ng-repeat="child in model.rawData.subNodes" class="li-border-bottom"><div class="fa-text-indent"><i ng-class="child.icon"></i><span>{{child.name}}</span></div></li><li><div class="fa-text-indent"><i ng-class="model.rawData.privateCloud.icon"></i><span>{{model.rawData.privateCloud.name}}</span><i id="chevron-down-ctrl2" ng-click="subToggleSelect()" class="fa fa-angle-down is-align-right fa-icon-angle"></i></div><ul id="chevron-down2" ng-class="{\'is-show\':subToggle}" class="dropdown-menu-sub"><li ng-repeat="info in model.rawData.privateCloud.info" class="li-border-bottom"><div class="fa-text-indent"><i ng-class="info.icon"></i><span class="title">{{info.name}}</span></div><div ng-repeat="v in info.value" class="fa-text-indent"><span>{{v}}</span></div></li></ul><li class="dropdown-menu-footer"><div ng-repeat="info in model.rawData.footer.info" class="fa-text-indent"><i class="fa fa-tag fa-flip-horizontal fa-left-icon"></i><span>{{info}}</span></div></li></li></ul></div></li>');
 }]);

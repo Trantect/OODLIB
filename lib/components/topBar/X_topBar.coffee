@@ -29,6 +29,8 @@ class TopBarDirective extends Directive
     topBarParams =
       templateUrl: directiveDir + templateHtml
       replace: true
+      multistate: "="
+      childCount: "="
     _.extend params, topBarParams
     super params, TopBar, cssKlass
   ###
@@ -42,6 +44,14 @@ class TopBarDirective extends Directive
     ###
     scope.isPopupVisible = false
     scope.subToggle = false
+    scope.multiCenterConnectStatus = false
+    scope.isChildShow = 0
+
+    scope.$watch 'multistate', (nv, ov)=>
+      scope.multiCenterConnectStatus = nv
+
+    scope.$watch 'childCount', (nv, ov)=>
+      scope.isChildShow = nv
 
     scope.toggleSelect = ->
       scope.isPopupVisible = !scope.isPopupVisible

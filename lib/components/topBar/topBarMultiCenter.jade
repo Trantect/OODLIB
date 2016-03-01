@@ -12,7 +12,16 @@ li(ng-class='model.rawData.klass')
         //    .toggle#toggle1
         //      .switch#switch1
       li.li-border-bottom
-        .fa-text-indent
+        
+        .fa-text-indent(ng-show="!multiCenterConnectStatus")
+          i.fa.fa-exchange.fa-left-icon
+          span
+            | 未连接上级控制中心 
+          a.is-align-right(href="/serverConfig#MultiCenterConfig")
+            | 连接
+
+
+        .fa-text-indent(ng-show="multiCenterConnectStatus")
           i.fa.fa-circle.fa-icon-circle.fa-left-icon
           span
             | {{model.rawData.fatherCenter.info.name}}
@@ -27,9 +36,9 @@ li(ng-class='model.rawData.klass')
               span
                 | {{v}}
 
-      li.sub-header
+      li.sub-header(ng-show="isChildShow")
         | {{model.rawData.childCenter.name}}
-      li
+      li(ng-show="isChildShow")
         .fa-text-indent
           i.fa.fa-circle.fa-icon-circle.fa-left-icon
           span

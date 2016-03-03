@@ -15,14 +15,14 @@ li(ng-class='model.rawData.klass')
           i(ng-class="model.rawData.privateCloud.icon")
           span
             | {{model.rawData.privateCloud.name}}
-          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl2.fa-icon-angle(ng-click="subToggleSelect()")
-        ul#chevron-down2.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
+          i.fa.fa-angle-down.is-align-right#chevron-down-ctrl-serverstatus.fa-icon-angle(ng-click="subToggleSelect()")
+        ul#chevron-down-serverstatus.dropdown-menu-sub(ng-class="{'is-show':subToggle}")
           li.li-border-bottom(ng-repeat="info in model.rawData.privateCloud.info")
             .fa-text-indent
               i(ng-class="info.icon")
               span.title
                 | {{info.name}}
-            .fa-text-indent(ng-repeat="v in info.value")
+            .fa-text-indent(ng-repeat="v in info.value track by $index")
               span
                 | {{v}}
         li.dropdown-menu-footer

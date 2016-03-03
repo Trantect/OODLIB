@@ -187,4 +187,12 @@ class SidebarDirective extends Directive
       scope.model.setStates scope.activeItem
     ###
 
+    ###
+    To let the sidebar don't sort by default, use raw data
+    ###
+    scope.notSorted = (obj) =>
+        if !obj 
+          []
+        Object.keys obj;
+
 this.SidebarDirective = SidebarDirective
